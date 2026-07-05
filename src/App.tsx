@@ -15,7 +15,6 @@ import { EVENTS_DATA, VENDOR_CATEGORIES, FAQS_DATA, FOUNDER_DATA } from './data'
 import {
   Sparkles,
   ArrowRight,
-  Download,
   Mail,
   Phone,
   DollarSign,
@@ -61,10 +60,6 @@ export default function App() {
     triggerToast(`Applying for ${eventName}. Form pre-filled.`, 'info');
     // Scroll smoothly to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleDownloadKit = (kitName: string) => {
-    triggerToast(`"${kitName}" download started. Blueprints and schedules included.`, 'success');
   };
 
   // Filtered Events
@@ -434,23 +429,16 @@ export default function App() {
                 <div className="space-y-2 max-w-lg">
                   <h3 className="font-serif text-xl font-bold text-forest">Don't miss your chance to exhibit at our next premium event</h3>
                   <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-                    Download our comprehensive event organizer deck containing demographic profiles, layout schematics, historical revenue sheets, and marketing reach metrics.
+                    Partner with Valerian Events and gain direct access to over 12,000+ local culinary enthusiasts per weekend.
                   </p>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto">
-                  <button
-                    onClick={() => handleDownloadKit('Media Deck & Blueprints')}
-                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-gold/35 bg-transparent text-forest hover:bg-neutral-50 font-sans text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center space-x-2 cursor-pointer"
-                  >
-                    <Download className="h-4 w-4 text-gold" />
-                    <span>DOWNLOAD MEDIA KIT</span>
-                  </button>
+                <div className="shrink-0 w-full md:w-auto">
                   <button
                     onClick={() => {
                       setCurrentPage('contact');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all cursor-pointer"
+                    className="w-full md:w-auto px-8 py-3.5 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all cursor-pointer"
                   >
                     BECOME A VENDOR
                   </button>
@@ -549,13 +537,15 @@ export default function App() {
                 </div>
 
                 <div className="pt-4 border-t border-gold/10 space-y-4">
-                  <p className="text-xs text-charcoal/40 font-light">Ready to review physical layout templates, load-in guidelines, and food permit codes?</p>
+                  <p className="text-xs text-charcoal/40 font-light">Ready to lock in your placement, review guidelines, or speak with our planning concierge?</p>
                   <button
-                    onClick={() => handleDownloadKit('Exhibitor Guidelines PDF')}
-                    className="w-full py-3.5 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-colors shadow-sm cursor-pointer"
+                    onClick={() => {
+                      setCurrentPage('contact');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full py-3.5 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-colors shadow-sm cursor-pointer flex items-center justify-center"
                   >
-                    <Download className="h-4 w-4" />
-                    <span>DOWNLOAD EXHIBITOR KIT</span>
+                    <span>CONTACT CONCIERGE</span>
                   </button>
                 </div>
               </div>
@@ -669,7 +659,7 @@ export default function App() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
                   <a
-                    href="mailto:alexsilver3896@gmail.com"
+                    href="mailto:vendors@valerianevents.com"
                     className="w-full sm:w-auto px-6 py-3 rounded-xl border border-gold text-forest hover:bg-neutral-50 text-xs font-bold tracking-widest uppercase transition-colors flex items-center justify-center space-x-2"
                   >
                     <Mail className="h-4 w-4 text-gold" />
@@ -763,7 +753,7 @@ export default function App() {
                 <div className="p-6 rounded-2xl bg-gold/10 border border-gold/25 space-y-3 text-left">
                   <h4 className="font-serif font-bold text-sm text-forest uppercase tracking-wider">Prefer to reach us directly?</h4>
                   <p className="text-xs text-charcoal/70 leading-relaxed font-light">
-                    For corporate sponsorships, food truck associations, or media passes, connect directly via phone at <a href="tel:+17278996434" className="text-forest hover:text-gold font-bold underline">(727) 899-6434</a> or email <a href="mailto:alexsilver3896@gmail.com" className="text-forest hover:text-gold font-bold underline">alexsilver3896@gmail.com</a>.
+                    For corporate sponsorships, food truck associations, or media passes, connect directly via phone at <a href="tel:+17278996434" className="text-forest hover:text-gold font-bold underline">(727) 899-6434</a> or email <a href="mailto:vendors@valerianevents.com" className="text-forest hover:text-gold font-bold underline">vendors@valerianevents.com</a>.
                   </p>
                 </div>
 

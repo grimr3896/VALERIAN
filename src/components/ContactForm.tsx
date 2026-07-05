@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { EVENTS_DATA } from '../data';
-import { Send, CheckCircle2, RefreshCw, CalendarDays, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, CheckCircle2, RefreshCw, CalendarDays } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 interface ContactFormProps {
   prefilledEventName?: string;
@@ -8,11 +8,13 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ prefilledEventName, onSuccess }: ContactFormProps) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    from_name: '',
+    business_name: '',
+    from_email: '',
     phone: '',
-    eventInterest: '',
+    event: '',
     message: '',
   });
 
@@ -23,7 +25,16 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
   // Handle prefilling if an event was selected
   useEffect(() => {
     if (prefilledEventName) {
-      setFormData((prev) => ({ ...prev, eventInterest: prefilledEventName }));
+      const nameLower = prefilledEventName.toLowerCase();
+      if (nameLower.includes('taco') || nameLower.includes('tequila')) {
+        setFormData((prev) => ({ ...prev, event: 'Taco & Tequila Street Fiesta — Los Angeles, CA' }));
+      } else if (nameLower.includes('whiskey') || nameLower.includes('bbq')) {
+        setFormData((prev) => ({ ...prev, event: 'Whiskey & BBQ Fest — Miami, FL' }));
+      } else if (nameLower.includes('sauce') || nameLower.includes('spicy') || nameLower.includes('hot')) {
+        setFormData((prev) => ({ ...prev, event: 'American Hot Sauce & Spicy Food Expo — Austin, TX' }));
+      } else {
+        setFormData((prev) => ({ ...prev, event: '' }));
+      }
     }
   }, [prefilledEventName]);
 
@@ -37,29 +48,55 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
     setError('');
 
     // Client-side validation
-    if (!formData.name || !formData.email || !formData.message) {
-      setError('Please fill in all required fields (Name, Email, and Message).');
+    if (!formData.from_name || !formData.from_email || !formData.message) {
+      setError('Please fill in all required fields (Full Name, Email Address, and Message).');
+      return;
+    }
+
+    if (!formRef.current) {
+      setError('Form reference is not available.');
       return;
     }
 
     setLoading(true);
 
-    // Simulate elegant API request
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-      if (onSuccess) {
-        onSuccess();
-      }
-    }, 1500);
+    // Wire to EmailJS
+    emailjs.sendForm(
+      'service_j7a181v',
+      'template_uwd0or8',
+      formRef.current,
+      'dUpRmObSvyywLE_u_'
+    )
+      .then(() => {
+        setLoading(false);
+        setSubmitted(true);
+        if (onSuccess) {
+          onSuccess();
+        }
+        // Clear the form
+        setFormData({
+          from_name: '',
+          business_name: '',
+          from_email: '',
+          phone: '',
+          event: '',
+          message: '',
+        });
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.error('EmailJS Error:', err);
+        setError('Something went wrong. Please email us directly at vendors@valerianevents.com');
+      });
   };
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      email: '',
+      from_name: '',
+      business_name: '',
+      from_email: '',
       phone: '',
-      eventInterest: prefilledEventName || '',
+      event: prefilledEventName ? formData.event : '',
       message: '',
     });
     setSubmitted(false);
@@ -69,21 +106,23 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
     return (
       <div className="p-8 md:p-12 text-center bg-white border border-gold/30 rounded-2xl space-y-6 fade-in shadow-xl shadow-forest/5" id="contact-success-panel">
         <div className="inline-flex p-4 bg-forest/10 text-forest rounded-full border border-forest/20 shadow-[0_0_20px_rgba(27,77,62,0.1)]">
-          <CheckCircle2 className="h-10 w-10" />
+          <CheckCircle2 className="h-10 w-10 text-gold" />
         </div>
         <div className="space-y-2">
-          <h3 className="font-serif text-2xl font-bold tracking-tight text-forest">Application Received</h3>
-          <p className="text-charcoal/80 text-sm max-w-md mx-auto leading-relaxed">
-            Thank you, <span className="text-forest font-bold">{formData.name}</span>! Your interest in <span className="text-gold font-bold">{formData.eventInterest || 'our upcoming events'}</span> is successfully logged in our concierge portal.
+          <h3 className="font-serif text-2xl font-bold tracking-tight text-forest">Inquiry Received</h3>
+          <p className="text-charcoal/80 text-sm max-w-md mx-auto leading-relaxed font-light">
+            Thank you! We'll be in touch within 24 hours.
           </p>
         </div>
         <div className="p-5 rounded-xl bg-cream border border-gold/20 max-w-sm mx-auto text-xs text-charcoal/80 space-y-2">
           <span className="block font-bold text-forest tracking-wider uppercase text-[10px]">Next Steps</span>
-          <span>Our Lead Organizer, <span className="font-bold text-forest">Valerian</span>, will personally review your profile and respond to <span className="text-forest font-medium">{formData.email}</span> within 24 hours.</span>
+          <p className="font-light leading-relaxed">
+            Our team will personally review your profile and respond to your email within 24 hours.
+          </p>
         </div>
         <button
           onClick={resetForm}
-          className="px-5 py-2.5 rounded-xl border border-gold/20 bg-transparent text-forest hover:bg-neutral-50 text-xs font-bold tracking-wider uppercase transition-all"
+          className="px-6 py-3 rounded-full border border-gold/30 bg-transparent text-forest hover:bg-neutral-50 text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer"
         >
           Submit Another Inquiry
         </button>
@@ -98,26 +137,42 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
         <p className="text-xs text-charcoal/65 mt-1 font-light">Complete the secure portal form below to receive priority placement evaluation.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5" id="concierge-contact-form">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" id="concierge-contact-form">
         {error && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-semibold">
+          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-semibold leading-relaxed">
             {error}
           </div>
         )}
 
         {/* Name Input */}
         <div className="space-y-1.5">
-          <label htmlFor="name" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
-            Your Name / Brand Representative <span className="text-red-500">*</span>
+          <label htmlFor="from_name" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+            Full Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
+            id="from_name"
+            name="from_name"
             required
-            value={formData.name}
+            value={formData.from_name}
             onChange={handleChange}
             placeholder="e.g. Sophia Vance"
+            className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
+          />
+        </div>
+
+        {/* Business Name Input */}
+        <div className="space-y-1.5">
+          <label htmlFor="business_name" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+            Business Name
+          </label>
+          <input
+            type="text"
+            id="business_name"
+            name="business_name"
+            value={formData.business_name}
+            onChange={handleChange}
+            placeholder="e.g. Vance Culinary Brands"
             className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
           />
         </div>
@@ -125,15 +180,15 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
         {/* Email & Phone grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label htmlFor="email" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+            <label htmlFor="from_email" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
-              id="email"
-              name="email"
+              id="from_email"
+              name="from_email"
               required
-              value={formData.email}
+              value={formData.from_email}
               onChange={handleChange}
               placeholder="e.g. sophia@brand.com"
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
@@ -156,26 +211,23 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
           </div>
         </div>
 
-        {/* Event Interest Dropdown */}
+        {/* Event Dropdown with exact requested option values */}
         <div className="space-y-1.5">
-          <label htmlFor="eventInterest" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
-            Event Interest / Target Festival
+          <label htmlFor="event" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+            Which event are you interested in?
           </label>
           <div className="relative">
             <select
-              id="eventInterest"
-              name="eventInterest"
-              value={formData.eventInterest}
+              id="event"
+              name="event"
+              value={formData.event}
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal text-sm outline-none appearance-none transition-all duration-200"
             >
               <option value="" className="text-charcoal/45">Select an event or general inquiry...</option>
-              <option value="General Collaboration">General Collaboration Inquiry</option>
-              {EVENTS_DATA.map((ev) => (
-                <option key={ev.id} value={ev.title} disabled={ev.spotsLeft === 0}>
-                  {ev.title} ({ev.date.split(',')[0]} - {ev.location.split(',')[1].trim()}){ev.spotsLeft === 0 ? ' [SOLD OUT]' : ''}
-                </option>
-              ))}
+              <option value="Taco & Tequila Street Fiesta — Los Angeles, CA">Taco & Tequila Street Fiesta — Los Angeles, CA</option>
+              <option value="Whiskey & BBQ Fest — Miami, FL">Whiskey & BBQ Fest — Miami, FL</option>
+              <option value="American Hot Sauce & Spicy Food Expo — Austin, TX">American Hot Sauce & Spicy Food Expo — Austin, TX</option>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gold">
               <CalendarDays className="h-4 w-4" />
@@ -186,7 +238,7 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
         {/* Message Textarea */}
         <div className="space-y-1.5">
           <label htmlFor="message" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
-            Tell Us About Your Brand / Menu <span className="text-red-500">*</span>
+            Message / Tell us about your business <span className="text-red-500">*</span>
           </label>
           <textarea
             id="message"
@@ -200,12 +252,12 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
           ></textarea>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit Button - Pill-shaped */}
         <button
           type="submit"
           id="contact-submit-btn"
           disabled={loading}
-          className="w-full py-4 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-md shadow-forest/10 flex items-center justify-center space-x-2 cursor-pointer"
+          className="w-full py-4 rounded-full bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-md shadow-forest/10 flex items-center justify-center space-x-2 cursor-pointer"
         >
           {loading ? (
             <>
@@ -215,7 +267,7 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
           ) : (
             <>
               <Send className="h-4 w-4" />
-              <span>SUBMIT SECURE APPLICATION</span>
+              <span>SUBMIT APPLICATION</span>
             </>
           )}
         </button>

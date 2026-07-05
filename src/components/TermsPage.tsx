@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Scale, ArrowLeft, Calendar, FileText, Download, HelpCircle, CheckCircle2 } from 'lucide-react';
+import { ShieldAlert, Scale, ArrowLeft, Calendar, FileText, HelpCircle, CheckCircle2 } from 'lucide-react';
 
 interface TermsPageProps {
   onBack: () => void;
@@ -56,7 +56,7 @@ export default function TermsPage({ onBack }: TermsPageProps) {
             1.2 Complete transactional balances must be cleared no less than fourteen (14) calendar days prior to physical festival open. If balances remain pending, Valerian Events reserves the right to void booking agreements and transfer coordinates to waitlisted operators.
           </p>
           <p className="text-xs sm:text-sm leading-relaxed text-charcoal/75">
-            1.3 We authorize payments via Zelle (<span className="font-mono text-forest">alexsilver3896@gmail.com</span>), secure PayPal invoices, and digital Square register links. Alternative methods must be approved in writing by operations coordinators.
+            1.3 We authorize payments via Zelle (<span className="font-mono text-forest">vendors@valerianevents.com</span>), secure PayPal invoices, and digital Square register links. Alternative methods must be approved in writing by operations coordinators.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function TermsPage({ onBack }: TermsPageProps) {
           If your legal counsel, compliance officer, or insurance agency requires custom clauses, please send your inquiry to our lead operations office.
         </p>
         <div className="pt-2 text-xs font-mono text-gold font-medium">
-          alexsilver3896@gmail.com • (727) 899-6434
+          vendors@valerianevents.com • (727) 899-6434
         </div>
       </div>
     </div>

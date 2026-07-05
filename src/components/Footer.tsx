@@ -105,8 +105,8 @@ export default function Footer({ onPageChange }: FooterProps) {
                 <Mail className="h-5 w-5 text-gold shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-xs text-cream/40 font-medium uppercase tracking-wider">Email Us</span>
-                  <a href="mailto:alexsilver3896@gmail.com" className="text-cream hover:text-gold transition-colors font-medium">
-                    alexsilver3896@gmail.com
+                  <a href="mailto:vendors@valerianevents.com" className="text-cream hover:text-gold transition-colors font-medium">
+                    vendors@valerianevents.com
                   </a>
                 </div>
               </li>
