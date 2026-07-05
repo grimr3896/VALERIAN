@@ -60,11 +60,18 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
 
     setLoading(true);
 
-    // Wire to EmailJS
-    emailjs.sendForm(
+    // Wire to EmailJS using send() with explicit parameters to prevent empty/blank template variables
+    emailjs.send(
       'service_j7a181v',
       'template_uwd0or8',
-      formRef.current,
+      {
+        from_name: formData.from_name,
+        business_name: formData.business_name,
+        from_email: formData.from_email,
+        phone: formData.phone,
+        event: formData.event,
+        message: formData.message,
+      },
       'dUpRmObSvyywLE_u_'
     )
       .then(() => {
