@@ -211,7 +211,19 @@ export default function App() {
               {/* Grid of 3 highlighted concept cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Card 1: Tacos & Tequila */}
-                <div className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300">
+                <div 
+                  onClick={() => handleViewDetails('ev-07')}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleViewDetails('ev-07');
+                    }
+                  }}
+                  className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/50"
+                  id="pillar-card-tacos"
+                >
                   <div className="h-48 overflow-hidden relative bg-neutral-100">
                     <img
                       src="https://i.pinimg.com/736x/09/a1/19/09a11959c7b5fd731c50f3f4c2c6adca.jpg"
@@ -227,11 +239,27 @@ export default function App() {
                     <p className="text-xs text-charcoal/70 font-light leading-relaxed">
                       Highlighting gourmet street taco concepts, local artisanal salsa makers, mezcal masters, and high-energy music.
                     </p>
+                    <div className="pt-2 flex items-center text-xs font-bold text-forest group-hover:text-gold transition-colors space-x-1">
+                      <span>Explore Event Details</span>
+                      <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
                   </div>
                 </div>
 
                 {/* Card 2: Whiskey & BBQ */}
-                <div className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300">
+                <div 
+                  onClick={() => handleViewDetails('ev-02')}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleViewDetails('ev-02');
+                    }
+                  }}
+                  className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/50"
+                  id="pillar-card-whiskey"
+                >
                   <div className="h-48 overflow-hidden relative bg-neutral-100">
                     <img
                       src="https://i.pinimg.com/1200x/90/7e/7d/907e7d060e7408ed7dcce2c4eab50699.jpg"
@@ -247,11 +275,27 @@ export default function App() {
                     <p className="text-xs text-charcoal/70 font-light leading-relaxed">
                       Mouthwatering low-and-slow barbecue pitmasters paired with elite single-barrel whiskey distillers under glowing lights.
                     </p>
+                    <div className="pt-2 flex items-center text-xs font-bold text-forest group-hover:text-gold transition-colors space-x-1">
+                      <span>Explore Event Details</span>
+                      <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
                   </div>
                 </div>
 
                 {/* Card 3: Hot Sauce & Spicy Food */}
-                <div className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300">
+                <div 
+                  onClick={() => handleViewDetails('ev-09')}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleViewDetails('ev-09');
+                    }
+                  }}
+                  className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/50"
+                  id="pillar-card-hotsauce"
+                >
                   <div className="h-48 overflow-hidden relative bg-neutral-100">
                     <img
                       src="https://i.pinimg.com/736x/d5/09/8c/d5098c3328cb6a33ba5ce88b5522d308.jpg"
@@ -267,6 +311,10 @@ export default function App() {
                     <p className="text-xs text-charcoal/70 font-light leading-relaxed">
                       Celebrating small-batch hot sauce innovators, high-heat street gastronomy, and specialty heirloom pepper growers.
                     </p>
+                    <div className="pt-2 flex items-center text-xs font-bold text-forest group-hover:text-gold transition-colors space-x-1">
+                      <span>Explore Event Details</span>
+                      <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
                   </div>
                 </div>
               </div>
