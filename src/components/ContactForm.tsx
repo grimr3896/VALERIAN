@@ -46,7 +46,7 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -58,7 +58,6 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
 
     setLoading(true);
 
-    // Prepare template parameters exactly as mapped in the requirements
     const templateParams = {
       from_name: formData.name,
       business_name: formData.business,
@@ -68,29 +67,32 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
       message: formData.message
     };
 
-    // Wire to EmailJS send
-    emailjs.send('service_j7a181v', 'template_uwd0or8', templateParams)
-      .then(() => {
-        setLoading(false);
-        setSubmitted(true);
-        if (onSuccess) {
-          onSuccess();
-        }
-        // Clear the form
-        setFormData({
-          name: '',
-          business: '',
-          email: '',
-          phone: '',
-          event: '',
-          message: '',
-        });
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.error('EmailJS Error:', err);
-        setError('Something went wrong. Please email us directly at vendors@valerianevents.com');
+    try {
+      await emailjs.send(
+        'service_j7a181v',
+        'template_uwd0or8',
+        templateParams,
+        'dUpRmObSvyywLE_u_'
+      );
+      setLoading(false);
+      setSubmitted(true);
+      if (onSuccess) {
+        onSuccess();
+      }
+      // Clear the form
+      setFormData({
+        name: '',
+        business: '',
+        email: '',
+        phone: '',
+        event: '',
+        message: '',
       });
+    } catch (error) {
+      setLoading(false);
+      console.error('EmailJS error:', error);
+      setError('Something went wrong. Please email us at alex@valerianevents.com');
+    }
   };
 
   const resetForm = () => {
