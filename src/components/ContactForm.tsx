@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle2, RefreshCw, CalendarDays } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
+// Initialize EmailJS immediately so it is configured before any send call
+emailjs.init('dUpRmObSvyywLE_u_');
+
 interface ContactFormProps {
   prefilledEventName?: string;
   onSuccess?: () => void;
@@ -10,9 +13,9 @@ interface ContactFormProps {
 export default function ContactForm({ prefilledEventName, onSuccess }: ContactFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
-    from_name: '',
-    business_name: '',
-    from_email: '',
+    name: '',
+    business: '',
+    email: '',
     phone: '',
     event: '',
     message: '',
@@ -48,32 +51,25 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
     setError('');
 
     // Client-side validation
-    if (!formData.from_name || !formData.from_email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.message) {
       setError('Please fill in all required fields (Full Name, Email Address, and Message).');
-      return;
-    }
-
-    if (!formRef.current) {
-      setError('Form reference is not available.');
       return;
     }
 
     setLoading(true);
 
-    // Wire to EmailJS using send() with explicit parameters to prevent empty/blank template variables
-    emailjs.send(
-      'service_j7a181v',
-      'template_uwd0or8',
-      {
-        from_name: formData.from_name,
-        business_name: formData.business_name,
-        from_email: formData.from_email,
-        phone: formData.phone,
-        event: formData.event,
-        message: formData.message,
-      },
-      'dUpRmObSvyywLE_u_'
-    )
+    // Prepare template parameters exactly as mapped in the requirements
+    const templateParams = {
+      from_name: formData.name,
+      business_name: formData.business,
+      from_email: formData.email,
+      phone: formData.phone,
+      event: formData.event,
+      message: formData.message
+    };
+
+    // Wire to EmailJS send
+    emailjs.send('service_j7a181v', 'template_uwd0or8', templateParams)
       .then(() => {
         setLoading(false);
         setSubmitted(true);
@@ -82,9 +78,9 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
         }
         // Clear the form
         setFormData({
-          from_name: '',
-          business_name: '',
-          from_email: '',
+          name: '',
+          business: '',
+          email: '',
           phone: '',
           event: '',
           message: '',
@@ -99,9 +95,9 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
 
   const resetForm = () => {
     setFormData({
-      from_name: '',
-      business_name: '',
-      from_email: '',
+      name: '',
+      business: '',
+      email: '',
       phone: '',
       event: prefilledEventName ? formData.event : '',
       message: '',
@@ -153,15 +149,15 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
 
         {/* Name Input */}
         <div className="space-y-1.5">
-          <label htmlFor="from_name" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+          <label htmlFor="name" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
             Full Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            id="from_name"
-            name="from_name"
+            id="name"
+            name="name"
             required
-            value={formData.from_name}
+            value={formData.name}
             onChange={handleChange}
             placeholder="e.g. Sophia Vance"
             className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
@@ -170,14 +166,14 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
 
         {/* Business Name Input */}
         <div className="space-y-1.5">
-          <label htmlFor="business_name" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+          <label htmlFor="business" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
             Business Name
           </label>
           <input
             type="text"
-            id="business_name"
-            name="business_name"
-            value={formData.business_name}
+            id="business"
+            name="business"
+            value={formData.business}
             onChange={handleChange}
             placeholder="e.g. Vance Culinary Brands"
             className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
@@ -187,15 +183,15 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
         {/* Email & Phone grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label htmlFor="from_email" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+            <label htmlFor="email" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
-              id="from_email"
-              name="from_email"
+              id="email"
+              name="email"
               required
-              value={formData.from_email}
+              value={formData.email}
               onChange={handleChange}
               placeholder="e.g. sophia@brand.com"
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
