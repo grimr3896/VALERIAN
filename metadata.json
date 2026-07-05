@@ -1,0 +1,6 @@
+{
+  "name": "valerianevents",
+  "description": "A premium culinary and artisanal event platform connecting vendors with high-end festivals across the USA, featuring elegant showcases, interactive schedules, and a streamlined application concierge.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
