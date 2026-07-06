@@ -213,7 +213,7 @@ export const FOUNDER_DATA = {
   bio: 'Valerian is the founder and driving force behind Valerian Events, an independent event organization company based in the United States specializing in food and spirits festivals.',
   email: 'vendors@valerianevents.com',
   phone: '(727) 633-6611',
-  avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&h=300&q=80',
+  avatar: 'https://i.pinimg.com/736x/3c/2b/ad/3c2badd0b9688bcb810ef699afc3f7c1.jpg',
   paymentMethod: 'Zelle (vendors@valerianevents.com)',
   commitment: '24h response time guaranteed for all approved vendor inquiries.'
 };
