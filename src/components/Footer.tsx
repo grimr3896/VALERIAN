@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageType } from '../types';
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Globe } from 'lucide-react';
+import { Mail, Phone, Instagram, Facebook, Twitter, Globe } from 'lucide-react';
 import Logo from './Logo';
 
 interface FooterProps {
@@ -119,13 +119,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   </a>
                 </div>
               </li>
-              <li className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-gold shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-xs text-cream/40 font-medium uppercase tracking-wider">HQ Location</span>
-                  <span className="text-cream/80">Tampa Bay, Florida, USA</span>
-                </div>
-              </li>
+
             </ul>
           </div>
         </div>
