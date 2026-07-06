@@ -206,7 +206,7 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
               <div className="p-4 border border-gold/15 rounded-xl bg-[#FAF6F0]/40 space-y-2">
                 <span className="font-serif text-sm font-bold text-forest block">Zelle Secure (Preferred)</span>
                 <p className="text-xs font-mono text-charcoal/60 font-light">
-                  Send to: <strong className="font-semibold text-forest">vendors@valerianevents.com</strong>
+                  Send to: <strong className="font-semibold text-forest">alex@valerianevents.com</strong>
                 </p>
                 <p className="text-[10px] text-charcoal/40 font-light leading-snug">Instant confirmation with zero added fees. Ideal for rapid lock-in.</p>
               </div>
@@ -316,8 +316,8 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
               For custom power installations, double booth spaces, or sponsorship integrations, consult with our operations concierge:
             </p>
             <div className="pt-2 border-t border-gold/10 text-xs font-mono text-forest/80 space-y-1">
-              <div>Email: vendors@valerianevents.com</div>
-              <div>Phone: (727) 899-6434</div>
+              <div>Email: alex@valerianevents.com</div>
+              <div>Phone: (727) 633-6611</div>
             </div>
           </div>
 

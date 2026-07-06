@@ -659,7 +659,7 @@ export default function App() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
                   <a
-                    href="mailto:vendors@valerianevents.com"
+                    href="mailto:alex@valerianevents.com"
                     className="w-full sm:w-auto px-6 py-3 rounded-xl border border-gold text-forest hover:bg-neutral-50 text-xs font-bold tracking-widest uppercase transition-colors flex items-center justify-center space-x-2"
                   >
                     <Mail className="h-4 w-4 text-gold" />
@@ -737,11 +737,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Payment Details */}
-                  <div className="p-4 rounded-xl bg-cream border border-gold/20 space-y-1.5 text-left">
-                    <span className="block text-[9px] font-bold text-forest/70 tracking-widest uppercase">Booth Dues Payment</span>
-                    <p className="text-xs text-forest font-bold font-mono">{FOUNDER_DATA.paymentMethod}</p>
-                  </div>
+
 
                   {/* Commitment */}
                   <p className="text-[10px] text-charcoal/40 italic font-light text-left">
@@ -753,7 +749,7 @@ export default function App() {
                 <div className="p-6 rounded-2xl bg-gold/10 border border-gold/25 space-y-3 text-left">
                   <h4 className="font-serif font-bold text-sm text-forest uppercase tracking-wider">Prefer to reach us directly?</h4>
                   <p className="text-xs text-charcoal/70 leading-relaxed font-light">
-                    For corporate sponsorships, food truck associations, or media passes, connect directly via phone at <a href="tel:+17278996434" className="text-forest hover:text-gold font-bold underline">(727) 899-6434</a> or email <a href="mailto:vendors@valerianevents.com" className="text-forest hover:text-gold font-bold underline">vendors@valerianevents.com</a>.
+                    For corporate sponsorships, food truck associations, or media passes, connect directly via phone at <a href="tel:+17276336611" className="text-forest hover:text-gold font-bold underline">(727) 633-6611</a> or email <a href="mailto:alex@valerianevents.com" className="text-forest hover:text-gold font-bold underline">alex@valerianevents.com</a>.
                   </p>
                 </div>
 

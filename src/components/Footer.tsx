@@ -105,8 +105,8 @@ export default function Footer({ onPageChange }: FooterProps) {
                 <Mail className="h-5 w-5 text-gold shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-xs text-cream/40 font-medium uppercase tracking-wider">Email Us</span>
-                  <a href="mailto:vendors@valerianevents.com" className="text-cream hover:text-gold transition-colors font-medium">
-                    vendors@valerianevents.com
+                  <a href="mailto:alex@valerianevents.com" className="text-cream hover:text-gold transition-colors font-medium">
+                    alex@valerianevents.com
                   </a>
                 </div>
               </li>
@@ -114,8 +114,8 @@ export default function Footer({ onPageChange }: FooterProps) {
                 <Phone className="h-5 w-5 text-gold shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-xs text-cream/40 font-medium uppercase tracking-wider">Direct Line</span>
-                  <a href="tel:+17278996434" className="text-cream hover:text-gold transition-colors font-medium">
-                    (727) 899-6434
+                  <a href="tel:+17276336611" className="text-cream hover:text-gold transition-colors font-medium">
+                    (727) 633-6611
                   </a>
                 </div>
               </li>

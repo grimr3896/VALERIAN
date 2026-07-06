@@ -128,7 +128,7 @@ export default function PrivacyPage({ onBack }: PrivacyPageProps) {
           If you have questions about how we manage your brand details, or if you wish to remove your files from our email roster, reach out directly.
         </p>
         <div className="pt-2 text-xs font-mono text-gold font-medium">
-          vendors@valerianevents.com • (727) 899-6434
+          alex@valerianevents.com • (727) 633-6611
         </div>
       </div>
     </div>

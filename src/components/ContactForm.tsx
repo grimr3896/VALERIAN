@@ -210,7 +210,7 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="e.g. (727) 899-6434"
+              placeholder="e.g. (727) 633-6611"
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
             />
           </div>
