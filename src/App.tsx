@@ -34,7 +34,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedEventForApplication, setSelectedEventForApplication] = useState<string>('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin'>('All');
+  const [activeFilter, setActiveFilter] = useState<'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
   
   // Custom Toast State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -74,6 +74,7 @@ export default function App() {
     'New York City': EVENTS_DATA.filter(e => e.tag === 'New York City').length,
     Miami: EVENTS_DATA.filter(e => e.tag === 'Miami').length,
     Austin: EVENTS_DATA.filter(e => e.tag === 'Austin').length,
+    'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas').length,
   };
 
   return (
@@ -177,7 +178,7 @@ export default function App() {
               {/* Decorative side margins indicators */}
               <div className="absolute bottom-6 left-6 right-6 hidden md:flex items-center justify-between text-[10px] text-forest/40 font-mono tracking-widest uppercase">
                 <span>[ AMBIENT CULINARY EXHIBITIONS ]</span>
-                <span>COI REQUIRED · FLAT BOOTH FEE</span>
+                <span>COI REQUIRED · CURATED ROSTER</span>
               </div>
             </section>
 
@@ -374,7 +375,7 @@ export default function App() {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-gold/15">
                 <div className="flex flex-wrap gap-2 justify-center sm:justify-start" id="city-filters">
-                  {(['All', 'Los Angeles', 'New York City', 'Miami', 'Austin'] as const).map((city) => {
+                  {(['All', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
                     const isActive = activeFilter === city;
                     return (
                       <button

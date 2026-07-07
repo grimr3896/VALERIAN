@@ -94,17 +94,17 @@ export const EVENTS_DATA: Event[] = [
   {
     id: 'ev-07',
     title: 'Taco & Tequila Street Fiesta',
-    date: 'Mar 13-14, 2027',
-    location: 'Arts District, Los Angeles',
+    date: 'Aug 16, 2026',
+    location: '7101 S Buffalo Dr, Las Vegas',
     image: 'https://i.pinimg.com/736x/09/a1/19/09a11959c7b5fd731c50f3f4c2c6adca.jpg',
     spotsLeft: 14,
     totalSpots: 40,
-    tag: 'Los Angeles',
+    tag: 'Las Vegas',
     category: 'Tequila & Tacos',
-    description: 'An electric street fiesta celebrating the rich heritage of handcrafted tacos and artisanal tequila. Bringing together top-tier craft mezcal makers and innovative culinary vendors under the vibrant California sun.',
-    cost: '$500 / Weekend',
+    description: 'Get ready to fiesta with spicy tacos, bold tequila, and good vibes at the Taco & Tequila Street Fiesta!',
+    cost: '$500 / Day',
     attendance: '16,000+ expected',
-    highlight: 'Includes premium tent space, certified tequila sampling permitting support, and ice-supply concierge.',
+    highlight: 'Includes premium booth space, certified tequila sampling permitting support, and direct ice-supply concierge.',
     ticketLink: 'https://www.eventbrite.com/e/taco-tequila-street-fiesta-tickets-1992705609119'
   },
   {
@@ -126,18 +126,34 @@ export const EVENTS_DATA: Event[] = [
   {
     id: 'ev-09',
     title: 'American Hot Sauce and Spicy Food Expo',
-    date: 'May 08-09, 2027',
-    location: 'Downtown, Austin',
+    date: 'Jul 11, 2026',
+    location: 'Austin Event Center, Austin',
     image: 'https://i.pinimg.com/736x/d5/09/8c/d5098c3328cb6a33ba5ce88b5522d308.jpg',
     spotsLeft: 22,
     totalSpots: 50,
     tag: 'Austin',
     category: 'Gourmet Culinary',
-    description: "A high-heat gathering of the nation's boldest hot sauce brands, artisan spice makers, and fiery food innovators. Featuring live hot sauce competitions, culinary panels, and tasting tours.",
-    cost: '$550 / Weekend',
+    description: 'The largest celebration of fire, flavor, and heat in the South — Austin, TX',
+    cost: '$550 / Day',
     attendance: '20,000+ expected',
     highlight: 'Includes custom fire safety compliance, shared cold storage access, and featured showcase in the main mainstage heat contest.',
     ticketLink: 'https://www.eventbrite.com/e/american-hot-sauce-and-spicy-food-expo-tickets-1993070825491'
+  },
+  {
+    id: 'ev-10',
+    title: 'USA Street Eats & Craft Drinks Festival',
+    date: 'Aug 21-23, 2026',
+    location: 'Nevada Brew Works, Las Vegas',
+    image: 'https://i.pinimg.com/736x/13/99/57/1399579283e193e65c8f13cf15e478da.jpg',
+    spotsLeft: 25,
+    totalSpots: 60,
+    tag: 'Las Vegas',
+    category: 'Street Food & Craft Beer',
+    description: 'Dive into awesome street eats and craft drinks at the USA Street Eats & Craft Drinks Festival—foodie fun guaranteed!',
+    cost: '$550 / Weekend',
+    attendance: '25,000+ expected',
+    highlight: 'Includes premium vendor space at Nevada Brew Works, high-amperage electrical hookups, direct ice access, and prominent digital mapping promotion.',
+    ticketLink: 'https://www.eventbrite.com/e/usa-street-eats-craft-drinks-festival-tickets-1993339100910?aff=oddtdtcreator'
   }
 ];
 

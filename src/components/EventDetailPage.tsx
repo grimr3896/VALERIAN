@@ -63,7 +63,7 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
           </div>
 
           {/* Quick Specifications Deck */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="p-5 bg-white border border-gold/15 rounded-2xl shadow-sm space-y-1.5 hover:border-gold/30 transition-all duration-300">
               <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Date & Schedule</span>
               <div className="flex items-center space-x-2 text-forest">
@@ -77,14 +77,6 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               <div className="flex items-center space-x-2 text-forest">
                 <MapPin className="h-4 w-4 text-gold shrink-0" />
                 <span className="text-sm font-bold truncate">{event.location}</span>
-              </div>
-            </div>
-
-            <div className="p-5 bg-white border border-gold/15 rounded-2xl shadow-sm space-y-1.5 hover:border-gold/30 transition-all duration-300">
-              <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Flat Booth Fee</span>
-              <div className="flex items-center space-x-2 text-forest">
-                <DollarSign className="h-4 w-4 text-gold shrink-0" />
-                <span className="text-sm font-bold">{event.cost}</span>
               </div>
             </div>
 

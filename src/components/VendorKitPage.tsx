@@ -62,9 +62,9 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/10">
-                  <span className="block text-xs text-charcoal/40 font-mono">Booths start at</span>
-                  <span className="text-2xl font-bold text-forest font-serif">$350</span>
-                  <span className="text-xs text-charcoal/50"> / flat fee</span>
+                  <span className="block text-xs text-charcoal/40 font-mono">Booths</span>
+                  <span className="text-lg font-bold text-forest font-serif uppercase tracking-wide">Inquire for Rates</span>
+                  <span className="block text-[10px] text-charcoal/50">Flat fee structure applies</span>
                 </div>
               </div>
 
@@ -81,9 +81,9 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/15">
-                  <span className="block text-xs text-cream/40 font-mono">Booths start at</span>
-                  <span className="text-2xl font-bold text-gold font-serif">$550</span>
-                  <span className="text-xs text-cream/50"> / flat fee</span>
+                  <span className="block text-xs text-cream/40 font-mono">Booths</span>
+                  <span className="text-lg font-bold text-gold font-serif uppercase tracking-wide">Inquire for Rates</span>
+                  <span className="block text-[10px] text-cream/50">Flat fee structure applies</span>
                 </div>
               </div>
 
@@ -97,9 +97,9 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/10">
-                  <span className="block text-xs text-charcoal/40 font-mono">Spots start at</span>
-                  <span className="text-2xl font-bold text-forest font-serif">$750</span>
-                  <span className="text-xs text-charcoal/50"> / flat fee</span>
+                  <span className="block text-xs text-charcoal/40 font-mono">Spots</span>
+                  <span className="text-lg font-bold text-forest font-serif uppercase tracking-wide">Inquire for Rates</span>
+                  <span className="block text-[10px] text-charcoal/50">Flat fee structure applies</span>
                 </div>
               </div>
             </div>
