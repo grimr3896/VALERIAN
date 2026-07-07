@@ -14,8 +14,7 @@ export const EVENTS_DATA: Event[] = [
     description: 'A curated showcase of premier craft makers, organic purveyors, and boutique local brands. Situated in the heart of LA’s cultural hub, attracting affluent design and culinary enthusiasts.',
     cost: '$450 / Weekend',
     attendance: '15,000+ expected',
-    highlight: 'Includes 10x10 premium tent space, professional lighting canopy, and spotlight promotions.',
-    ticketLink: 'https://www.eventbrite.com/e/artisanal-heritage-market-tickets-1992490000010'
+    highlight: 'Includes 10x10 premium tent space, professional lighting canopy, and spotlight promotions.'
   },
   {
     id: 'ev-02',
@@ -30,8 +29,7 @@ export const EVENTS_DATA: Event[] = [
     description: 'An exclusive single-day pairing event. Highlighting craft distilleries, premium barrel-aged whiskey, and artisanal smoked meats under the coastal night breeze.',
     cost: '$600 / Day',
     attendance: '8,000+ expected',
-    highlight: 'Includes heavy-duty 20A electricity, private waste service, and ice-supply concierge.',
-    ticketLink: 'https://www.eventbrite.com/e/smoke-oak-spirits-fest-tickets-1992590000020'
+    highlight: 'Includes heavy-duty 20A electricity, private waste service, and ice-supply concierge.'
   },
   {
     id: 'ev-03',
@@ -46,8 +44,7 @@ export const EVENTS_DATA: Event[] = [
     description: 'Texas’ ultimate high-heat food festival. Celebrating regional pitmasters, hot sauce pioneers, and bold street food entrepreneurs. Known for lively music and fierce competition.',
     cost: '$500 / Weekend',
     attendance: '22,000+ expected',
-    highlight: 'Includes water-hookup access, shared cold-storage lockers, and fire safety compliance support.',
-    ticketLink: 'https://www.eventbrite.com/e/ember-spice-street-fair-tickets-1992690000030'
+    highlight: 'Includes water-hookup access, shared cold-storage lockers, and fire safety compliance support.'
   },
   {
     id: 'ev-04',
@@ -62,8 +59,7 @@ export const EVENTS_DATA: Event[] = [
     description: 'An upscale winter-themed indoor food and luxury maker market. Perfect for premium gifting brands, gourmet chocolates, fine wines, and custom home lifestyle crafts.',
     cost: '$750 / Weekend',
     attendance: '18,000+ expected',
-    highlight: 'Heated indoor environment, custom display booths, luxury concierge, and 24/7 security patrol.',
-    ticketLink: 'https://www.eventbrite.com/e/harvest-gala-market-tickets-1992790000040'
+    highlight: 'Heated indoor environment, custom display booths, luxury concierge, and 24/7 security patrol.'
   },
   {
     id: 'ev-05',
@@ -78,8 +74,7 @@ export const EVENTS_DATA: Event[] = [
     description: 'An elite culinary gathering for dry-aged steak houses, charcoal chefs, and knife makers. Heavily attended by restaurateurs and gourmet culinary buyers looking for new partnerships.',
     cost: '$550 / Day',
     attendance: '6,500+ expected',
-    highlight: 'Access to high-capacity waste disposal, commercial-grade grease removal, and premium ash-bins.',
-    ticketLink: 'https://www.eventbrite.com/e/the-butchers-block-tickets-1992890000050'
+    highlight: 'Access to high-capacity waste disposal, commercial-grade grease removal, and premium ash-bins.'
   },
   {
     id: 'ev-06',
@@ -94,8 +89,7 @@ export const EVENTS_DATA: Event[] = [
     description: 'A prestige waterfront beachside seafood festival. Pairing the finest catch with sustainable vineyard wines, boutique desserts, and ambient beachside live acoustic performance.',
     cost: '$650 / Weekend',
     attendance: '14,000+ expected',
-    highlight: 'Ice-delivery service, shared refrigeration containers, waterfront guest seating, and overnight site security.',
-    ticketLink: 'https://www.eventbrite.com/e/coastal-crustacean-wine-tickets-1992990000060'
+    highlight: 'Ice-delivery service, shared refrigeration containers, waterfront guest seating, and overnight site security.'
   },
   {
     id: 'ev-07',
