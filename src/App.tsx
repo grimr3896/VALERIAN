@@ -35,6 +35,7 @@ export default function App() {
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedEventForApplication, setSelectedEventForApplication] = useState<string>('');
   const [activeFilter, setActiveFilter] = useState<'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
+  const [timeFilter, setTimeFilter] = useState<'upcoming' | 'past'>('upcoming');
   
   // Custom Toast State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -63,18 +64,19 @@ export default function App() {
   };
 
   // Filtered Events
-  const filteredEvents = activeFilter === 'All'
+  const filteredEvents = (activeFilter === 'All'
     ? EVENTS_DATA
-    : EVENTS_DATA.filter(e => e.tag === activeFilter);
+    : EVENTS_DATA.filter(e => e.tag === activeFilter)
+  ).filter(e => timeFilter === 'upcoming' ? !e.isPast : !!e.isPast);
 
   // Filter Counts
   const filterCounts = {
-    All: EVENTS_DATA.length,
-    'Los Angeles': EVENTS_DATA.filter(e => e.tag === 'Los Angeles').length,
-    'New York City': EVENTS_DATA.filter(e => e.tag === 'New York City').length,
-    Miami: EVENTS_DATA.filter(e => e.tag === 'Miami').length,
-    Austin: EVENTS_DATA.filter(e => e.tag === 'Austin').length,
-    'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas').length,
+    All: EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !e.isPast : !!e.isPast).length,
+    'Los Angeles': EVENTS_DATA.filter(e => e.tag === 'Los Angeles' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    'New York City': EVENTS_DATA.filter(e => e.tag === 'New York City' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    Miami: EVENTS_DATA.filter(e => e.tag === 'Miami' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
   };
 
   return (
@@ -363,18 +365,57 @@ export default function App() {
                 />
               </div>
               <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-                <span className="text-xs font-bold text-gold uppercase tracking-widest font-sans block">Active Lineup</span>
-                <h1 className="font-serif text-4xl sm:text-5xl font-bold text-forest">Upcoming Events & Festivals</h1>
+                <span className="text-xs font-bold text-gold uppercase tracking-widest font-sans block">
+                  {timeFilter === 'upcoming' ? 'Active Lineup' : 'Exhibition History'}
+                </span>
+                <h1 className="font-serif text-4xl sm:text-5xl font-bold text-forest">
+                  {timeFilter === 'upcoming' ? 'Upcoming Events & Festivals' : 'Past Exhibition Archive'}
+                </h1>
                 <p className="text-charcoal/75 text-xs md:text-sm font-light max-w-lg mx-auto leading-relaxed">
-                  Filter by city to browse available booth spaces, event statistics, and upcoming weekend schedules. Apply immediately to guarantee spot reservation.
+                  {timeFilter === 'upcoming'
+                    ? 'Filter by city to browse available booth spaces, event statistics, and upcoming weekend schedules. Apply immediately to guarantee spot reservation.'
+                    : 'Browse our complete history of past exhibitions. Review attendee statistics and previous events held in major metropolitan hubs.'}
                 </p>
               </div>
             </section>
 
             {/* Event List with City Filter Chips */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-gold/15">
-                <div className="flex flex-wrap gap-2 justify-center sm:justify-start" id="city-filters">
+              <div className="flex flex-col gap-6 pb-6 border-b border-gold/15">
+                {/* Time range selector (Upcoming vs Past) */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="inline-flex p-1 bg-cream/70 rounded-xl border border-gold/20 shadow-sm" id="time-filters">
+                    <button
+                      onClick={() => { setTimeFilter('upcoming'); setActiveFilter('All'); }}
+                      id="time-filter-upcoming"
+                      className={`px-4.5 py-2 rounded-lg font-sans text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                        timeFilter === 'upcoming'
+                          ? 'bg-forest text-cream shadow-sm'
+                          : 'text-charcoal/60 hover:text-charcoal'
+                      }`}
+                    >
+                      Upcoming Lineup ({EVENTS_DATA.filter(e => !e.isPast).length})
+                    </button>
+                    <button
+                      onClick={() => { setTimeFilter('past'); setActiveFilter('All'); }}
+                      id="time-filter-past"
+                      className={`px-4.5 py-2 rounded-lg font-sans text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                        timeFilter === 'past'
+                          ? 'bg-forest text-cream shadow-sm'
+                          : 'text-charcoal/60 hover:text-charcoal'
+                      }`}
+                    >
+                      Past Showcase ({EVENTS_DATA.filter(e => e.isPast).length})
+                    </button>
+                  </div>
+
+                  <div className="text-xs text-charcoal/40 font-mono tracking-wider">
+                    SHOWING {filteredEvents.length} OF {EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !e.isPast : !!e.isPast).length} {timeFilter === 'upcoming' ? 'ACTIVE' : 'PAST'} EXHIBITIONS
+                  </div>
+                </div>
+
+                {/* City Filters */}
+                <div className="flex flex-wrap gap-2" id="city-filters">
                   {(['All', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
                     const isActive = activeFilter === city;
                     return (
@@ -392,10 +433,6 @@ export default function App() {
                       </button>
                     );
                   })}
-                </div>
-                
-                <div className="text-xs text-charcoal/40 font-mono tracking-wider">
-                  SHOWING {filteredEvents.length} OF {EVENTS_DATA.length} PLANNED EXHIBITIONS
                 </div>
               </div>
 

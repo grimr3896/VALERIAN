@@ -144,7 +144,11 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             <div className="space-y-1">
               <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Availability Status</span>
               <div>
-                {isSoldOut ? (
+                {event.isPast ? (
+                  <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-neutral-200 text-neutral-700 border border-neutral-300">
+                    Concluded
+                  </span>
+                ) : isSoldOut ? (
                   <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-red-100 text-red-800 border border-red-200">
                     Fully Booked
                   </span>
@@ -200,14 +204,15 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             <button
               onClick={() => onApply(event.title)}
               id={`event-detail-action-btn-${event.id}`}
+              disabled={isSoldOut || event.isPast}
               className={`w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer ${
-                isSoldOut
+                event.isPast || isSoldOut
                   ? 'bg-neutral-100 border border-neutral-200 text-neutral-400 cursor-not-allowed hover:shadow-none'
                   : 'bg-forest text-cream hover:bg-forest/95 hover:shadow-md hover:shadow-forest/20'
               }`}
             >
               <Ticket className="h-4 w-4 text-gold shrink-0" />
-              <span>{isSoldOut ? 'Join Vendor Waitlist' : 'Apply for this Event'}</span>
+              <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : 'Apply for this Event'}</span>
             </button>
 
             {/* Eventbrite Ticket Button for Attendees */}

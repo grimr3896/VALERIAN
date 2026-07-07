@@ -13,6 +13,7 @@ export interface Event {
   attendance: string;
   highlight: string;
   ticketLink?: string;
+  isPast?: boolean;
 }
 
 export interface FAQ {

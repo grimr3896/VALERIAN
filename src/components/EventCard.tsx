@@ -36,7 +36,11 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
         </div>
 
         <div className="absolute top-4 right-4">
-          {isSoldOut ? (
+          {event.isPast ? (
+            <span className="px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full bg-neutral-200 text-neutral-700 border border-neutral-300">
+              Concluded
+            </span>
+          ) : isSoldOut ? (
             <span className="px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full bg-red-100 text-red-800 border border-red-200">
               Sold Out
             </span>
@@ -90,14 +94,14 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
           <button
             onClick={() => onApply(event.title)}
             id={`event-action-btn-${event.id}`}
-            disabled={isSoldOut}
+            disabled={isSoldOut || event.isPast}
             className={`flex-1 py-2.5 px-4 rounded-xl font-sans text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${
-              isSoldOut
-                ? 'bg-neutral-100 border border-neutral-200 text-neutral-400 cursor-not-allowed'
+              event.isPast || isSoldOut
+                ? 'bg-neutral-100 border border-neutral-200 text-neutral-400 cursor-not-allowed shadow-none hover:shadow-none'
                 : 'bg-forest text-cream hover:bg-forest/90 hover:shadow-md hover:shadow-forest/10'
             }`}
           >
-            {isSoldOut ? 'Join Waitlist' : 'Apply Now'}
+            {event.isPast ? 'Concluded' : isSoldOut ? 'Join Waitlist' : 'Apply Now'}
           </button>
         </div>
       </div>
