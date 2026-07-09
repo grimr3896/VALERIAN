@@ -156,6 +156,22 @@ export const EVENTS_DATA: Event[] = [
     ticketLink: 'https://www.eventbrite.com/e/usa-street-eats-craft-drinks-festival-tickets-1993339100910?aff=oddtdtcreator'
   },
   {
+    id: 'ev-31',
+    title: 'Miami Summer Vendor Market & Food Truck Festival',
+    date: 'Jul 25-26, 2026',
+    location: 'Regatta Grove, Coconut Grove, Miami',
+    image: 'https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?auto=format&fit=crop&w=800&q=80',
+    spotsLeft: 15,
+    totalSpots: 40,
+    tag: 'Miami',
+    category: 'Street Food & Artisanal Crafts',
+    description: 'The ultimate summer culinary and artisanal gathering at Regatta Grove. Explore Miami’s premier food trucks serving gourmet street eats, alongside curated local vendor booths displaying custom handcrafted jewelry, coastal crafts, and boutique summer apparel.',
+    cost: '$450 / Weekend',
+    attendance: '12,000+ expected',
+    highlight: 'Includes 10x10 premium tent space or food truck docking spot, high-amperage electrical hookups, overnight site security, and digital map placement.',
+    ticketLink: 'https://www.eventbrite.com/e/miami-summer-vendor-market-food-truck-festival-tickets-1991583813799?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=wsa&aff=ebdsshwebmobile'
+  },
+  {
     id: 'ev-11',
     title: 'L.A. Food Truck Extravaganza',
     date: 'Jun 20-21, 2026',
