@@ -1,4 +1,6 @@
 import { Event, FAQ, VendorCategory } from './types';
+// @ts-ignore
+import miamiFestivalMarket from './assets/images/miami_festival_market_1783630573468.jpg';
 
 export const EVENTS_DATA: Event[] = [
   {
@@ -160,7 +162,7 @@ export const EVENTS_DATA: Event[] = [
     title: 'Miami Summer Vendor Market & Food Truck Festival',
     date: 'Jul 25-26, 2026',
     location: 'Regatta Grove, Coconut Grove, Miami',
-    image: 'https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?auto=format&fit=crop&w=800&q=80',
+    image: miamiFestivalMarket,
     spotsLeft: 15,
     totalSpots: 40,
     tag: 'Miami',
