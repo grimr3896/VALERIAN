@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import EventCard from './components/EventCard';
 import EventDetailPage from './components/EventDetailPage';
 import VendorKitPage from './components/VendorKitPage';
+import VendorsPage from './components/VendorsPage';
 import TermsPage from './components/TermsPage';
 import PrivacyPage from './components/PrivacyPage';
 import SponsorshipPage from './components/SponsorshipPage';
@@ -318,7 +319,41 @@ export default function App() {
               </div>
             </section>
 
-
+            {/* Homepage Vendor Recruitment CTA Banner */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in" id="home-vendor-cta">
+              <div className="relative overflow-hidden rounded-3xl bg-forest border border-gold/30 px-8 py-10 md:py-12 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+                {/* Visual background accents to match atmospheric design */}
+                <div className="absolute inset-0 opacity-15 pointer-events-none">
+                  <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gold/20 blur-3xl"></div>
+                  <div className="absolute -bottom-10 -left-10 w-64 h-64 rounded-full bg-cream/10 blur-3xl"></div>
+                </div>
+                
+                <div className="relative z-10 space-y-4 text-left max-w-2xl">
+                  <span className="px-3 py-1.5 text-[9px] font-mono font-bold tracking-widest uppercase rounded-full bg-gold/15 text-gold border border-gold/30 inline-block">
+                    Vendor Recruitment
+                  </span>
+                  <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-cream tracking-tight leading-tight uppercase">
+                    Reach Thousands of High-Intent <br className="hidden sm:inline" />
+                    <span className="text-gold">Festival Attendees</span> in One Afternoon
+                  </h2>
+                  <p className="text-cream/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
+                    With high-volume foot traffic, zero ticket barriers for attendees, and professional utility infrastructures, we set up our curated merchant partners for historic sales records.
+                  </p>
+                </div>
+                <div className="relative z-10 shrink-0 w-full md:w-auto">
+                  <button
+                    onClick={() => {
+                      setCurrentPage('vendors');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full md:w-auto px-8 py-4 rounded-xl bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
+                  >
+                    <span>APPLY TO EXHIBIT</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </section>
 
             {/* Bottom Call to Action */}
             <section className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -708,6 +743,22 @@ export default function App() {
             </section>
 
           </div>
+        )}
+
+        {/* ==================================== */}
+        {/* VENDORS RECRUITMENT PAGE             */}
+        {/* ==================================== */}
+        {currentPage === 'vendors' && (
+          <VendorsPage 
+            onBack={() => {
+              setCurrentPage('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onPageChange={(page) => {
+              setCurrentPage(page as any);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
         )}
 
         {/* ==================================== */}

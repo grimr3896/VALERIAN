@@ -14,7 +14,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
   const navItems = [
     { id: 'home' as PageType, label: 'Home', icon: ChefHat },
     { id: 'events' as PageType, label: 'Events', icon: Calendar },
-    { id: 'vendor-info' as PageType, label: 'Vendor Info', icon: Users },
+    { id: 'vendors' as PageType, label: 'Vendors', icon: Users },
     { id: 'about' as PageType, label: 'About Us', icon: Info },
     { id: 'contact' as PageType, label: 'Contact', icon: MessageSquare },
   ];

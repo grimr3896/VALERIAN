@@ -29,7 +29,7 @@ export interface VendorCategory {
   image: string;
 }
 
-export type PageType = 'home' | 'events' | 'vendor-info' | 'contact' | 'event-detail' | 'vendor-kit' | 'terms-of-service' | 'privacy-policy' | 'sponsorship-deck' | 'about';
+export type PageType = 'home' | 'events' | 'vendor-info' | 'vendors' | 'contact' | 'event-detail' | 'vendor-kit' | 'terms-of-service' | 'privacy-policy' | 'sponsorship-deck' | 'about';
 
 export interface ContactSubmission {
   name: string;

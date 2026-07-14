@@ -52,6 +52,48 @@ export default function Footer({ onPageChange }: FooterProps) {
             <h3 className="font-serif text-sm font-bold tracking-widest text-gold uppercase mb-6">
               Navigation
             </h3>
+            <ul className="space-y-3.5 text-sm flex flex-col items-start">
+              <li>
+                <button
+                  onClick={() => onPageChange('home')}
+                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
+                >
+                  Home
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onPageChange('events')}
+                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
+                >
+                  Events
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onPageChange('vendors')}
+                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
+                >
+                  Vendors
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onPageChange('about')}
+                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
+                >
+                  About Us
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onPageChange('contact')}
+                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
+                >
+                  Contact
+                </button>
+              </li>
+            </ul>
           </div>
 
           {/* Column 3: Legal & Resources */}
