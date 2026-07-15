@@ -58,10 +58,8 @@ export default function App() {
 
   const handleApplyForEvent = (eventName: string) => {
     setSelectedEventForApplication(eventName);
-    setCurrentPage('contact');
-    triggerToast(`Applying for ${eventName}. Form pre-filled.`, 'info');
-    // Scroll smoothly to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setCurrentPage('vendors');
+    triggerToast(`Applying for ${eventName}. Form pre-filled below.`, 'info');
   };
 
   // Filtered Events
@@ -110,8 +108,8 @@ export default function App() {
       {/* Navigation */}
       <Navbar currentPage={currentPage} onPageChange={(page) => {
         setCurrentPage(page);
-        if (page !== 'contact') {
-          // Clear any event selection if they leave the contact page manually
+        if (page !== 'contact' && page !== 'vendors') {
+          // Clear any event selection if they leave the application pages manually
           setSelectedEventForApplication('');
         }
         if (page !== 'event-detail') {
@@ -758,6 +756,7 @@ export default function App() {
               setCurrentPage(page as any);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
+            prefilledEventName={selectedEventForApplication}
           />
         )}
 
@@ -956,7 +955,7 @@ export default function App() {
       {/* Footer */}
       <Footer onPageChange={(page) => {
         setCurrentPage(page);
-        if (page !== 'contact') {
+        if (page !== 'contact' && page !== 'vendors') {
           setSelectedEventForApplication('');
         }
         if (page !== 'event-detail') {

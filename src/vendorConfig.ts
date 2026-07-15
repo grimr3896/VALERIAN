@@ -34,7 +34,7 @@ export const VENDOR_CONFIG: VendorConfig = {
     {
       id: 'standard',
       name: 'Standard Booth',
-      price: '[EDIT PRICE] $250/event',
+      price: '$250/event',
       description: 'Ideal for small-batch spice makers, hot sauce brands, pantry labels, and artisanal lifestyle goods.',
       features: [
         '10x10 Reserved Event Space Canopy',
@@ -47,7 +47,7 @@ export const VENDOR_CONFIG: VendorConfig = {
     {
       id: 'premium',
       name: 'Premium Spot',
-      price: '[EDIT PRICE] $450/event',
+      price: '$450/event',
       description: 'Designed for active hot-food preparation, experiential showcases, or brands seeking high-visibility corner setups.',
       features: [
         'High-visibility 10x15 Corner Booth placement',
@@ -60,7 +60,7 @@ export const VENDOR_CONFIG: VendorConfig = {
     {
       id: 'anchor',
       name: 'Anchor Vendor / Food Truck',
-      price: '[EDIT PRICE] $750/event',
+      price: '$750/event',
       description: 'Reserved for premium food trucks, mobile beverage lounges, and prominent anchor culinary brands.',
       features: [
         'Prime Food Truck Lane spot or full 10x20 footprint',
@@ -75,8 +75,8 @@ export const VENDOR_CONFIG: VendorConfig = {
     {
       id: 'late-night-bites',
       name: 'Late Night Bites & Spirits Market',
-      date: 'Fall 2026 (TBD)',
-      location: 'Los Angeles, CA'
+      date: 'Sep 4, 2026',
+      location: 'North Miami, FL'
     },
     {
       id: 'taco-tequila',

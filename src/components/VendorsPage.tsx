@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   ArrowLeft, 
   Flame, 
@@ -25,9 +25,10 @@ emailjs.init('dUpRmObSvyywLE_u_');
 interface VendorsPageProps {
   onBack: () => void;
   onPageChange: (page: string) => void;
+  prefilledEventName?: string;
 }
 
-export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) {
+export default function VendorsPage({ onBack, onPageChange, prefilledEventName }: VendorsPageProps) {
   const formRef = useRef<HTMLFormElement>(null);
   
   // State for Form fields
@@ -41,6 +42,31 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
     event: 'late-night-bites', // default to Late Night Bites & Spirits Market
     message: '',
   });
+
+  // Handle prefilled event name on mount or when it changes
+  useEffect(() => {
+    if (prefilledEventName) {
+      const normalizedPrefilled = prefilledEventName.toLowerCase();
+      const matched = VENDOR_CONFIG.upcomingEvents.find(evt => 
+        normalizedPrefilled.includes(evt.name.toLowerCase()) || 
+        evt.name.toLowerCase().includes(normalizedPrefilled)
+      );
+      if (matched) {
+        setFormData(prev => ({ ...prev, event: matched.id }));
+      } else {
+        setFormData(prev => ({ ...prev, event: 'general' }));
+      }
+
+      // Smooth scroll to the form section
+      const timer = setTimeout(() => {
+        const formElement = document.getElementById('vendor-application-section');
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [prefilledEventName]);
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -225,10 +251,10 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
                 </h2>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-cream/80">
                   <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
-                    📍 Los Angeles, CA (TBD)
+                    📍 12351 NW 7th Ave, North Miami, FL
                   </span>
                   <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
-                    🗓️ Fall 2026 (TBD)
+                    🗓️ September 4, 2026
                   </span>
                   <span className="flex items-center gap-1.5 bg-gold/15 text-gold px-2.5 py-1 rounded border border-gold/20 font-bold">
                     🎟️ FREE ENTRY (21+ Skew)
@@ -658,7 +684,7 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
                     >
                       {VENDOR_CONFIG.tiers.map((t) => (
                         <option key={t.id} value={t.id}>
-                          {t.name} — {t.price.replace('[EDIT PRICE] ', '')}
+                          {t.name} — {t.price}
                         </option>
                       ))}
                     </select>

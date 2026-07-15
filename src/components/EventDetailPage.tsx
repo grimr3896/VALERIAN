@@ -15,39 +15,74 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
   const spotsSecured = event.totalSpots - event.spotsLeft;
   const percentFull = Math.round((spotsSecured / event.totalSpots) * 100);
 
+  const isNightMarket = event.id === 'ev-32';
+
   return (
-    <div className="fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10" id={`event-detail-${event.id}`}>
+    <div 
+      className={`fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 transition-all duration-500 relative ${
+        isNightMarket 
+          ? 'bg-gradient-to-b from-[#091512] to-[#12221C] rounded-3xl p-6 sm:p-8 md:p-10 border border-gold/20 text-cream my-8 shadow-2xl' 
+          : ''
+      }`} 
+      id={`event-detail-${event.id}`}
+    >
+      {/* Night Market Soft Glowing Ambient String Lights (background decorative elements) */}
+      {isNightMarket && (
+        <div className="absolute inset-x-0 top-0 pointer-events-none h-44 overflow-hidden opacity-30 select-none">
+          <div className="absolute top-2 left-6 w-1.5 h-1.5 rounded-full bg-gold animate-pulse shadow-[0_0_8px_#D4AF37]"></div>
+          <div className="absolute top-4 left-16 w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-150 shadow-[0_0_10px_#D4AF37]"></div>
+          <div className="absolute top-3 left-32 w-1.5 h-1.5 rounded-full bg-gold/80 animate-pulse delay-300 shadow-[0_0_8px_#D4AF37]"></div>
+          <div className="absolute top-5 left-56 w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-500 shadow-[0_0_12px_#D4AF37]"></div>
+          <div className="absolute top-2 left-80 w-1.5 h-1.5 rounded-full bg-gold/70 animate-pulse delay-200 shadow-[0_0_8px_#D4AF37]"></div>
+          <div className="absolute top-4 left-[40%] w-2.5 h-2.5 rounded-full bg-gold/90 animate-pulse delay-75 shadow-[0_0_14px_#D4AF37]"></div>
+          <div className="absolute top-3 left-[60%] w-1.5 h-1.5 rounded-full bg-gold/80 animate-pulse delay-450 shadow-[0_0_8px_#D4AF37]"></div>
+          <div className="absolute top-5 left-[75%] w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-150 shadow-[0_0_12px_#D4AF37]"></div>
+          <div className="absolute top-3 right-16 w-2.5 h-2.5 rounded-full bg-gold animate-pulse delay-300 shadow-[0_0_14px_#D4AF37]"></div>
+          <div className="absolute top-4 right-6 w-1.5 h-1.5 rounded-full bg-gold/80 animate-pulse delay-200 shadow-[0_0_8px_#D4AF37]"></div>
+        </div>
+      )}
+
       {/* Navigation Breadcrumb & Back button */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative z-10">
         <button
           onClick={onBack}
-          className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-gold/30 bg-white hover:bg-forest/5 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer"
+          className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer ${
+            isNightMarket
+              ? 'border-gold/40 bg-gold/5 hover:bg-gold/15 text-cream hover:text-gold'
+              : 'border-gold/30 bg-white hover:bg-forest/5 text-forest'
+          }`}
           id="event-detail-back-btn"
         >
           <ArrowLeft className="h-4 w-4 text-gold" />
           <span>Back to Lineup</span>
         </button>
 
-        <div className="hidden sm:flex items-center space-x-2 text-xs text-charcoal/50 font-mono tracking-wider">
+        <div className={`hidden sm:flex items-center space-x-2 text-xs font-mono tracking-wider ${isNightMarket ? 'text-cream/50' : 'text-charcoal/50'}`}>
           <span className="hover:text-forest transition-colors cursor-pointer" onClick={onBack}>EVENTS</span>
           <ChevronRight className="h-3.5 w-3.5 text-gold/65" />
-          <span className="text-forest font-medium uppercase">{event.title}</span>
+          <span className={`font-medium uppercase ${isNightMarket ? 'text-gold' : 'text-forest'}`}>{event.title}</span>
         </div>
       </div>
 
       {/* Main Layout Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
         {/* Left column - main image and info (8 cols) */}
         <div className="lg:col-span-8 space-y-8">
           {/* Main Visual Banner with floating status */}
-          <div className="relative rounded-2xl border border-gold/20 overflow-hidden shadow-xl bg-neutral-100 aspect-video max-h-[500px]">
+          <div className={`relative rounded-2xl overflow-hidden shadow-xl aspect-video max-h-[500px] transition-all duration-300 ${
+            isNightMarket 
+              ? 'border-2 border-gold/40 shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-forest/30' 
+              : 'border border-gold/20 bg-neutral-100'
+          }`}>
             <img
               src={event.image}
               alt={event.title}
-              className="w-full h-full object-cover"
+              className={`w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02] ${
+                isNightMarket ? 'brightness-[1.05]' : ''
+              }`}
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-charcoal/10 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/15 to-transparent"></div>
 
             {/* Float tags */}
             <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-3 items-end justify-between">
@@ -64,25 +99,37 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
 
           {/* Quick Specifications Deck */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-5 bg-white border border-gold/15 rounded-2xl shadow-sm space-y-1.5 hover:border-gold/30 transition-all duration-300">
-              <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Date & Schedule</span>
-              <div className="flex items-center space-x-2 text-forest">
+            <div className={`p-5 rounded-2xl shadow-sm space-y-1.5 transition-all duration-300 ${
+              isNightMarket
+                ? 'bg-white/5 border border-gold/25 text-cream hover:border-gold/40'
+                : 'bg-white border border-gold/15 text-forest hover:border-gold/30'
+            }`}>
+              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/80' : 'text-charcoal/50'}`}>Date & Schedule</span>
+              <div className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4 text-gold shrink-0" />
                 <span className="text-sm font-bold">{event.date}</span>
               </div>
             </div>
 
-            <div className="p-5 bg-white border border-gold/15 rounded-2xl shadow-sm space-y-1.5 hover:border-gold/30 transition-all duration-300">
-              <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Venue City</span>
-              <div className="flex items-center space-x-2 text-forest">
+            <div className={`p-5 rounded-2xl shadow-sm space-y-1.5 transition-all duration-300 ${
+              isNightMarket
+                ? 'bg-white/5 border border-gold/25 text-cream hover:border-gold/40'
+                : 'bg-white border border-gold/15 text-forest hover:border-gold/30'
+            }`}>
+              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/80' : 'text-charcoal/50'}`}>Venue City</span>
+              <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-gold shrink-0" />
                 <span className="text-sm font-bold truncate">{event.location}</span>
               </div>
             </div>
 
-            <div className="p-5 bg-white border border-gold/15 rounded-2xl shadow-sm space-y-1.5 hover:border-gold/30 transition-all duration-300">
-              <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Est. Foot Traffic</span>
-              <div className="flex items-center space-x-2 text-forest">
+            <div className={`p-5 rounded-2xl shadow-sm space-y-1.5 transition-all duration-300 ${
+              isNightMarket
+                ? 'bg-white/5 border border-gold/25 text-cream hover:border-gold/40'
+                : 'bg-white border border-gold/15 text-forest hover:border-gold/30'
+            }`}>
+              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/80' : 'text-charcoal/50'}`}>Est. Foot Traffic</span>
+              <div className="flex items-center space-x-2">
                 <Users className="h-4 w-4 text-gold shrink-0" />
                 <span className="text-sm font-bold">{event.attendance}</span>
               </div>
@@ -90,29 +137,37 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
           </div>
 
           {/* About description */}
-          <div className="p-8 bg-white border border-gold/15 rounded-2xl shadow-sm space-y-4">
-            <h2 className="font-serif text-xl font-bold text-forest border-b border-gold/10 pb-3">Festival Curation Profile</h2>
-            <p className="text-charcoal/80 text-sm md:text-base leading-relaxed font-light">
+          <div className={`p-8 rounded-2xl shadow-sm space-y-4 ${
+            isNightMarket
+              ? 'bg-white/5 border border-gold/20 text-cream'
+              : 'bg-white border border-gold/15 text-charcoal/80'
+          }`}>
+            <h2 className={`font-serif text-xl font-bold border-b pb-3 ${isNightMarket ? 'text-gold border-gold/20' : 'text-forest border-gold/10'}`}>Festival Curation Profile</h2>
+            <p className={`text-sm md:text-base leading-relaxed font-light ${isNightMarket ? 'text-cream/90' : 'text-charcoal/80'}`}>
               {event.description}
             </p>
           </div>
 
           {/* Inclusion benefits */}
-          <div className="p-8 bg-gradient-to-br from-white to-cream/30 border border-gold/25 rounded-2xl shadow-sm space-y-5 relative overflow-hidden">
+          <div className={`p-8 border rounded-2xl shadow-sm space-y-5 relative overflow-hidden ${
+            isNightMarket
+              ? 'bg-gradient-to-br from-[#122c23] to-[#0c1e18] border-gold/35'
+              : 'bg-gradient-to-br from-white to-cream/30 border-gold/25'
+          }`}>
             <div className="absolute top-0 right-0 p-6 opacity-5">
               <Sparkles className="h-24 w-24 text-gold" />
             </div>
 
             <div className="flex items-center space-x-3 text-gold">
               <Sparkles className="h-5 w-5" />
-              <h3 className="font-serif text-lg font-bold uppercase tracking-wider text-forest">Exhibitor Inclusion package</h3>
+              <h3 className={`font-serif text-lg font-bold uppercase tracking-wider ${isNightMarket ? 'text-gold' : 'text-forest'}`}>Exhibitor Inclusion package</h3>
             </div>
             
-            <p className="text-charcoal/85 text-xs md:text-sm leading-relaxed font-light">
+            <p className={`text-xs md:text-sm leading-relaxed font-light ${isNightMarket ? 'text-cream/90' : 'text-charcoal/85'}`}>
               {event.highlight}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-gold/10 text-xs text-charcoal/70">
+            <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t text-xs ${isNightMarket ? 'border-gold/20 text-cream/80' : 'border-gold/10 text-charcoal/70'}`}>
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
                 <span>COI verification assistance and guidelines provided.</span>
@@ -137,12 +192,16 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
         <div className="lg:col-span-4 space-y-6">
           
           {/* Capacity and application ticket container */}
-          <div className="p-6 bg-white border-2 border-gold/30 rounded-2xl shadow-md space-y-6 relative overflow-hidden">
+          <div className={`p-6 border-2 rounded-2xl shadow-md space-y-6 relative overflow-hidden ${
+            isNightMarket
+              ? 'bg-[#122a21] border-gold/40 text-cream'
+              : 'bg-white border-gold/30 text-charcoal'
+          }`}>
             {/* Background pattern */}
             <div className="absolute top-0 right-0 w-24 h-24 bg-forest/5 rounded-bl-full pointer-events-none" />
 
             <div className="space-y-1">
-              <span className="block text-[10px] text-charcoal/50 font-bold tracking-wider uppercase font-sans">Availability Status</span>
+              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/85' : 'text-charcoal/50'}`}>Availability Status</span>
               <div>
                 {event.isPast ? (
                   <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-neutral-200 text-neutral-700 border border-neutral-300">
@@ -167,24 +226,28 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             {/* Booking progress */}
             <div className="space-y-2.5">
               <div className="flex justify-between text-xs font-semibold">
-                <span className="text-charcoal/70">Booth Allocation</span>
-                <span className="text-forest font-bold">{spotsSecured} / {event.totalSpots} Secured ({percentFull}%)</span>
+                <span className={isNightMarket ? 'text-cream/85' : 'text-charcoal/70'}>Booth Allocation</span>
+                <span className={`font-bold ${isNightMarket ? 'text-gold' : 'text-forest'}`}>{spotsSecured} / {event.totalSpots} Secured ({percentFull}%)</span>
               </div>
-              <div className="h-2.5 w-full rounded-full bg-neutral-100 border border-gold/15 overflow-hidden">
+              <div className={`h-2.5 w-full rounded-full overflow-hidden ${isNightMarket ? 'bg-black/25 border border-gold/20' : 'bg-neutral-100 border border-gold/15'}`}>
                 <div
-                  className="h-full bg-forest transition-all duration-700 rounded-full"
+                  className={`h-full transition-all duration-700 rounded-full ${isNightMarket ? 'bg-gold' : 'bg-forest'}`}
                   style={{ width: `${percentFull}%` }}
                 ></div>
               </div>
             </div>
 
             {/* Application checklist */}
-            <div className="p-4 rounded-xl bg-cream/35 border border-gold/15 space-y-3">
-              <h4 className="font-serif text-xs font-bold tracking-wide uppercase text-forest flex items-center space-x-1.5">
+            <div className={`p-4 rounded-xl border space-y-3 ${
+              isNightMarket
+                ? 'bg-black/20 border-gold/20'
+                : 'bg-cream/35 border-gold/15'
+            }`}>
+              <h4 className={`font-serif text-xs font-bold tracking-wide uppercase flex items-center space-x-1.5 ${isNightMarket ? 'text-gold' : 'text-forest'}`}>
                 <ShieldCheck className="h-4 w-4 text-gold" />
                 <span>Guaranteed Curation Standards</span>
               </h4>
-              <ul className="space-y-2 text-xs text-charcoal/75 font-light">
+              <ul className={`space-y-2 text-xs font-light ${isNightMarket ? 'text-cream/80' : 'text-charcoal/75'}`}>
                 <li className="flex items-center space-x-2">
                   <span className="h-1 w-1 rounded-full bg-gold shrink-0"></span>
                   <span>Flat fee - 100% retail sales kept</span>
@@ -208,10 +271,12 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               className={`w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer ${
                 event.isPast || isSoldOut
                   ? 'bg-neutral-100 border border-neutral-200 text-neutral-400 cursor-not-allowed hover:shadow-none'
-                  : 'bg-forest text-cream hover:bg-forest/95 hover:shadow-md hover:shadow-forest/20'
+                  : isNightMarket
+                    ? 'bg-gold text-forest hover:bg-gold/90 hover:shadow-gold/10'
+                    : 'bg-forest text-cream hover:bg-forest/95 hover:shadow-forest/20'
               }`}
             >
-              <Ticket className="h-4 w-4 text-gold shrink-0" />
+              <Ticket className={`h-4 w-4 shrink-0 ${isNightMarket ? 'text-forest' : 'text-gold'}`} />
               <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : 'Apply for this Event'}</span>
             </button>
 
