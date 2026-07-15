@@ -6,10 +6,18 @@ export interface VendorTier {
   features: string[];
 }
 
+export interface UpcomingVendorEvent {
+  id: string;
+  name: string;
+  date: string;
+  location: string;
+}
+
 export interface VendorConfig {
   spotsRemaining: number;
   totalSpots: number;
   tiers: VendorTier[];
+  upcomingEvents: UpcomingVendorEvent[];
   confirmedVendors: { name: string; logo?: string }[];
   contact: {
     email: string;
@@ -61,6 +69,44 @@ export const VENDOR_CONFIG: VendorConfig = {
         'Priority load-in/load-out concierge services',
         '4x VIP Event Credentials for team access'
       ]
+    }
+  ],
+  upcomingEvents: [
+    {
+      id: 'late-night-bites',
+      name: 'Late Night Bites & Spirits Market',
+      date: 'Fall 2026 (TBD)',
+      location: 'Los Angeles, CA'
+    },
+    {
+      id: 'taco-tequila',
+      name: 'Taco & Tequila Street Fiesta',
+      date: 'Aug 16, 2026',
+      location: 'Las Vegas, NV'
+    },
+    {
+      id: 'whiskey-bbq',
+      name: 'Whiskey & BBQ Fest',
+      date: 'Apr 10-11, 2027',
+      location: 'Miami, FL'
+    },
+    {
+      id: 'hot-sauce-expo',
+      name: 'American Hot Sauce & Spicy Food Expo',
+      date: 'Jul 11, 2026',
+      location: 'Austin, TX'
+    },
+    {
+      id: 'street-eats',
+      name: 'USA Street Eats & Craft Drinks Festival',
+      date: 'Aug 21-23, 2026',
+      location: 'Las Vegas, NV'
+    },
+    {
+      id: 'miami-summer',
+      name: 'Miami Summer Vendor Market & Food Truck Festival',
+      date: 'Jul 25-26, 2026',
+      location: 'Miami, FL'
     }
   ],
   /* 

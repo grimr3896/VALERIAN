@@ -38,6 +38,7 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
     phone: '',
     category: '',
     tier: 'standard', // default to standard
+    event: 'late-night-bites', // default to Late Night Bites & Spirits Market
     message: '',
   });
 
@@ -54,6 +55,15 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
   // Helper to select a tier and scroll smoothly to the application form
   const handleSelectTier = (tierId: string) => {
     setFormData((prev) => ({ ...prev, tier: tierId }));
+    const formElement = document.getElementById('vendor-application-section');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Helper to select an event and scroll smoothly to the application form
+  const handleSelectEvent = (eventId: string) => {
+    setFormData((prev) => ({ ...prev, event: eventId }));
     const formElement = document.getElementById('vendor-application-section');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
@@ -77,15 +87,19 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
     const selectedTierObj = VENDOR_CONFIG.tiers.find(t => t.id === formData.tier);
     const readableTier = selectedTierObj ? selectedTierObj.name : formData.tier;
 
+    // Map event ID to readable name
+    const selectedEventObj = VENDOR_CONFIG.upcomingEvents.find(evt => evt.id === formData.event);
+    const readableEvent = selectedEventObj ? selectedEventObj.name : 'General Exhibitor Inquiry';
+
     // Map template params using our zero-change mapping strategy
     const templateParams = {
       from_name: formData.name,
       business_name: `${formData.business} (Category: ${formData.category})`,
       from_email: formData.email,
       phone: formData.phone || 'N/A',
-      event: `Vendors Page - ${readableTier} Application`,
+      event: `${readableEvent} — ${readableTier} Application`,
       message: formData.message,
-      // Pass category separately too in case they add custom variables in EmailJS later
+      // Pass category and tier interest separately too in case they add custom variables in EmailJS later
       category: formData.category,
       tier_interest: readableTier
     };
@@ -108,6 +122,7 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
         phone: '',
         category: '',
         tier: 'standard',
+        event: 'late-night-bites',
         message: '',
       });
     } catch (error) {
@@ -176,6 +191,110 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
           >
             Lock In Your Spot
           </button>
+        </div>
+      </section>
+
+      {/* Featured Event Focus: Late Night Bites & Spirits Market */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative overflow-hidden rounded-3xl bg-[#11241E] border border-gold/30 p-8 md:p-12 text-cream shadow-xl">
+          {/* Subtle night-market atmospheric glow effects */}
+          <div className="absolute inset-0 pointer-events-none opacity-20">
+            <div className="absolute top-0 left-1/4 w-80 h-80 rounded-full bg-gold/20 blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-forest/30 blur-3xl"></div>
+            {/* Soft string light glowing points */}
+            <div className="absolute top-4 left-10 w-2 h-2 rounded-full bg-gold animate-pulse shadow-[0_0_8px_#D4AF37]"></div>
+            <div className="absolute top-3 left-28 w-2.5 h-2.5 rounded-full bg-gold/80 animate-pulse delay-100 shadow-[0_0_10px_#D4AF37]"></div>
+            <div className="absolute top-5 left-48 w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-300 shadow-[0_0_8px_#D4AF37]"></div>
+            <div className="absolute top-4 left-64 w-2.5 h-2.5 rounded-full bg-gold/70 animate-pulse delay-500 shadow-[0_0_10px_#D4AF37]"></div>
+            <div className="absolute top-6 left-80 w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-200 shadow-[0_0_8px_#D4AF37]"></div>
+            <div className="absolute top-3 right-10 w-2 h-2 rounded-full bg-gold animate-pulse delay-400 shadow-[0_0_8px_#D4AF37]"></div>
+          </div>
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Details Left */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span className="text-[10px] font-mono font-bold tracking-widest uppercase">FEATURED LAUNCH</span>
+              </div>
+              
+              <div className="space-y-3">
+                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-cream tracking-tight uppercase leading-tight">
+                  Late Night Bites <br />
+                  <span className="text-gold">& Spirits Market</span>
+                </h2>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-cream/80">
+                  <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
+                    📍 Los Angeles, CA (TBD)
+                  </span>
+                  <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
+                    🗓️ Fall 2026 (TBD)
+                  </span>
+                  <span className="flex items-center gap-1.5 bg-gold/15 text-gold px-2.5 py-1 rounded border border-gold/20 font-bold">
+                    🎟️ FREE ENTRY (21+ Skew)
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-cream/80 text-xs sm:text-sm font-light leading-relaxed max-w-2xl">
+                Differentiating from typical daytime family festivals, this evening open-air night market skews toward a 21+ audience of high-value spenders. Framed by warm overhead string lights, an active live DJ, and sophisticated beverage pairings, we create a high-vibe social space for active buying.
+              </p>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <span className="block text-[10px] font-mono font-bold text-gold tracking-widest uppercase">TARGET VENDOR MIX WE ARE RECRUITING:</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs text-cream/90">
+                  <div className="flex items-start space-x-2">
+                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                    <span><strong className="font-semibold text-cream">Night Food Trucks & Stalls</strong> (Gourmet street eats, active grills)</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                    <span><strong className="font-semibold text-cream">Spirits & Cocktail Brands</strong> (Mezcal, tequila, craft tasting stalls)</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                    <span><strong className="font-semibold text-cream">Small-Batch Condiments</strong> (Hot sauce, spices, pantry makers)</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                    <span><strong className="font-semibold text-cream">Dessert & Artisan Makers</strong> (Gourmet treats, unique crafts)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Application Right Card */}
+            <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 text-center space-y-6">
+              <span className="text-[10px] font-mono font-bold tracking-widest text-gold uppercase block">Exhibitor Benefits</span>
+              <ul className="space-y-4 text-xs text-left text-cream/80">
+                <li className="flex items-center space-x-3">
+                  <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  <span>High-converting 21+ evening foodie demographic</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
+                    <Sparkles className="h-4 w-4" />
+                    </div>
+                  <span>Sampling & direct-to-consumer bottle sales access</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
+                    <Layers className="h-4 w-4" />
+                  </div>
+                  <span>Full utility backing (20A power, ash/ice concierge)</span>
+                </li>
+              </ul>
+              
+              <button
+                onClick={() => handleSelectEvent('late-night-bites')}
+                className="w-full py-3.5 bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase rounded-xl transition-all shadow-md cursor-pointer"
+              >
+                Apply for Late Night Bites
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -494,10 +613,40 @@ export default function VendorsPage({ onBack, onPageChange }: VendorsPageProps) 
                   />
                 </div>
 
+                {/* Event Preference */}
+                <div className="space-y-1.5">
+                  <label htmlFor="event" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
+                    Event Preference <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="event"
+                      name="event"
+                      value={formData.event}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal text-sm outline-none transition-all duration-200 appearance-none cursor-pointer"
+                    >
+                      {VENDOR_CONFIG.upcomingEvents.map((evt) => (
+                        <option key={evt.id} value={evt.id}>
+                          {evt.name} ({evt.location})
+                        </option>
+                      ))}
+                      <option value="general">General Exhibitor Roster (All Events)</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gold">
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Tier Interest */}
                 <div className="space-y-1.5">
                   <label htmlFor="tier" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
-                    Tier Interest
+                    Tier Interest <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <select

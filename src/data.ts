@@ -4,6 +4,21 @@ import miamiFestivalMarket from './assets/images/miami_festival_market_178363057
 
 export const EVENTS_DATA: Event[] = [
   {
+    id: 'ev-32',
+    title: 'Late Night Bites & Spirits Market',
+    date: 'Fall 2026 (TBD)',
+    location: 'Downtown, Los Angeles',
+    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+    spotsLeft: 12,
+    totalSpots: 30,
+    tag: 'Los Angeles',
+    category: 'Street Food & Spirits',
+    description: "An evening open-air street-market style food & drink festival featuring the city's premier night food trucks, small-batch hot sauce and spice makers, craft tequila/mezcal brands, and boutique local artisans. Designed for an energetic 21+ crowd with string lights, a live DJ, and curated beverage setups.",
+    cost: '$450 / Weekend',
+    attendance: '10,000+ expected',
+    highlight: 'Includes heavy-duty 20A electricity, private waste service, premium string-lit market space, and active ice supply concierge.'
+  },
+  {
     id: 'ev-01',
     title: 'Artisanal Heritage Market',
     date: 'Oct 14-15, 2026',
