@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Event } from '../types';
-import { Calendar, MapPin, Users, DollarSign, Sparkles, ArrowLeft, Ticket, CheckCircle2, ChevronRight, Shield, ShieldCheck } from 'lucide-react';
+import { 
+  Calendar, 
+  MapPin, 
+  Users, 
+  DollarSign, 
+  Sparkles, 
+  ArrowLeft, 
+  Ticket, 
+  CheckCircle2, 
+  ChevronRight, 
+  Shield, 
+  ShieldCheck,
+  Share2,
+  Copy,
+  Check,
+  ExternalLink
+} from 'lucide-react';
 import { FOUNDER_DATA } from '../data';
+import { getEventSlug, getEventShareUrl } from '../utils/urlRouter';
 
 interface EventDetailPageProps {
   event: Event;
@@ -10,12 +27,52 @@ interface EventDetailPageProps {
 }
 
 export default function EventDetailPage({ event, onApply, onBack }: EventDetailPageProps) {
+  const [copied, setCopied] = useState(false);
   const isSoldOut = event.spotsLeft === 0;
   const isAlmostFull = event.spotsLeft > 0 && event.spotsLeft <= 5;
   const spotsSecured = event.totalSpots - event.spotsLeft;
   const percentFull = Math.round((spotsSecured / event.totalSpots) * 100);
 
   const isNightMarket = event.id === 'ev-32';
+  const eventSlug = getEventSlug(event);
+  const shareUrl = getEventShareUrl(event);
+
+  const handleCopyLink = async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        // Fallback
+        const el = document.createElement('textarea');
+        el.value = shareUrl;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (err) {
+      console.error('Failed to copy link', err);
+    }
+  };
+
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: event.title,
+          text: `Check out ${event.title} on Valerian Events!`,
+          url: shareUrl,
+        });
+      } catch (err) {
+        // User cancelled or share failed, fallback to copy
+        handleCopyLink();
+      }
+    } else {
+      handleCopyLink();
+    }
+  };
 
   return (
     <div 
@@ -42,25 +99,50 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
         </div>
       )}
 
-      {/* Navigation Breadcrumb & Back button */}
-      <div className="flex items-center justify-between relative z-10">
-        <button
-          onClick={onBack}
-          className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer ${
-            isNightMarket
-              ? 'border-gold/40 bg-gold/5 hover:bg-gold/15 text-cream hover:text-gold'
-              : 'border-gold/30 bg-white hover:bg-forest/5 text-forest'
-          }`}
-          id="event-detail-back-btn"
-        >
-          <ArrowLeft className="h-4 w-4 text-gold" />
-          <span>Back to Lineup</span>
-        </button>
+      {/* Navigation Breadcrumb & Back button & Share */}
+      <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={onBack}
+            className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer ${
+              isNightMarket
+                ? 'border-gold/40 bg-gold/5 hover:bg-gold/15 text-cream hover:text-gold'
+                : 'border-gold/30 bg-white hover:bg-forest/5 text-forest'
+            }`}
+            id="event-detail-back-btn"
+          >
+            <ArrowLeft className="h-4 w-4 text-gold" />
+            <span>Back to Lineup</span>
+          </button>
+
+          <button
+            onClick={handleNativeShare}
+            id="event-detail-share-btn"
+            className={`inline-flex items-center space-x-2 px-3.5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer text-xs font-semibold ${
+              isNightMarket
+                ? 'border-gold/30 bg-gold/10 hover:bg-gold/20 text-gold'
+                : 'border-gold/30 bg-white hover:bg-gold/10 text-forest'
+            }`}
+            title="Share this event page link"
+          >
+            {copied ? (
+              <>
+                <Check className="h-4 w-4 text-emerald-500" />
+                <span className="text-emerald-500 font-bold">Link Copied!</span>
+              </>
+            ) : (
+              <>
+                <Share2 className="h-4 w-4 text-gold" />
+                <span className="hidden sm:inline">Share Event URL</span>
+              </>
+            )}
+          </button>
+        </div>
 
         <div className={`hidden sm:flex items-center space-x-2 text-xs font-mono tracking-wider ${isNightMarket ? 'text-cream/50' : 'text-charcoal/50'}`}>
           <span className="hover:text-forest transition-colors cursor-pointer" onClick={onBack}>EVENTS</span>
           <ChevronRight className="h-3.5 w-3.5 text-gold/65" />
-          <span className={`font-medium uppercase ${isNightMarket ? 'text-gold' : 'text-forest'}`}>{event.title}</span>
+          <span className={`font-medium uppercase truncate max-w-xs ${isNightMarket ? 'text-gold' : 'text-forest'}`}>{event.title}</span>
         </div>
       </div>
 
@@ -291,8 +373,49 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               >
                 <span className="text-sm">🎟️</span>
                 <span>Get Eventbrite Tickets</span>
+                <ExternalLink className="h-3 w-3 ml-1" />
               </a>
             )}
+
+            {/* Direct URL Share Box */}
+            <div className={`p-3.5 rounded-xl border space-y-2 ${
+              isNightMarket ? 'bg-black/30 border-gold/20' : 'bg-neutral-50 border-gold/15'
+            }`}>
+              <div className="flex items-center justify-between text-[11px] font-mono">
+                <span className={`uppercase font-bold tracking-wider ${isNightMarket ? 'text-gold/80' : 'text-charcoal/60'}`}>
+                  Direct Event URL
+                </span>
+                {copied && (
+                  <span className="text-emerald-500 font-bold flex items-center space-x-1">
+                    <Check className="h-3 w-3" />
+                    <span>Copied!</span>
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className={`flex-1 px-2.5 py-1.5 rounded-lg border font-mono text-[11px] truncate select-all ${
+                  isNightMarket 
+                    ? 'bg-forest/50 border-gold/20 text-cream/80' 
+                    : 'bg-white border-neutral-200 text-charcoal/70'
+                }`}>
+                  ?event={eventSlug}
+                </div>
+                <button
+                  onClick={handleCopyLink}
+                  id="event-detail-copy-url-btn"
+                  className={`p-2 rounded-lg border transition-all cursor-pointer ${
+                    copied
+                      ? 'bg-emerald-500/10 border-emerald-500 text-emerald-500'
+                      : isNightMarket
+                        ? 'bg-gold/10 border-gold/30 text-gold hover:bg-gold/20'
+                        : 'bg-white border-gold/30 text-forest hover:bg-gold/10'
+                  }`}
+                  title="Copy direct event link"
+                >
+                  {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                </button>
+              </div>
+            </div>
           </div>
  
           {/* Quick Support Deck */}

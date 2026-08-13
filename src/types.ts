@@ -1,12 +1,13 @@
 export interface Event {
   id: string;
+  slug?: string;
   title: string;
   date: string;
   location: string;
   image: string;
   spotsLeft: number;
   totalSpots: number;
-  tag: 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'All';
+  tag: 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'All';
   category: string;
   description: string;
   cost: string;

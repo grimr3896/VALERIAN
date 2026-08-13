@@ -1,10 +1,30 @@
 import { Event, FAQ, VendorCategory } from './types';
 // @ts-ignore
 import miamiFestivalMarket from './assets/images/miami_festival_market_1783630573468.jpg';
+// @ts-ignore
+import regeneratedTacosImage from './assets/images/regenerated_image_1784153031598.jpg';
 
 export const EVENTS_DATA: Event[] = [
   {
+    id: 'ev-33',
+    slug: 'taste-shop-usa-the-ultimate-food-shopping-festival',
+    title: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
+    date: 'Aug 21-23, 2026',
+    location: '285 Andrew Young International Blvd NW, Atlanta, GA 30313',
+    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191022569%2F3010748336193%2F1%2Foriginal.20260813-231102?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=fdaae3c17e84a5a3a830a66fd5d54d1a',
+    spotsLeft: 18,
+    totalSpots: 50,
+    tag: 'Atlanta',
+    category: 'Food & Shopping Festival',
+    description: 'Dive into delicious bites and hot deals at Taste & Shop USA, the ultimate foodie and shopping fest! Taking place August 21–23, 2026 in downtown Atlanta at 285 Andrew Young International Blvd NW. Features curated culinary creators, open-air boutique shopping, specialty beverage tasting stations, and live festival entertainment.',
+    cost: 'Free Admission / Vendor Packages from $450',
+    attendance: '15,000+ expected',
+    highlight: 'Includes 3-day weekend festival footprint (Aug 21–23, 2026) at 285 Andrew Young International Blvd NW in Atlanta, prime foot traffic exposure, curated gourmet food sampling lanes, and direct Eventbrite ticket integration.',
+    ticketLink: 'https://www.eventbrite.com/e/taste-shop-usa-the-ultimate-food-shopping-festival-tickets-1997926883090?aff=oddtdtcreator'
+  },
+  {
     id: 'ev-32',
+    slug: 'late-night-bites-spirits-market',
     title: 'Late Night Bites & Spirits Market',
     date: 'Sep 4, 2026',
     location: '12351 NW 7th Ave, North Miami, FL 33168',
@@ -20,6 +40,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-01',
+    slug: 'artisanal-heritage-market',
     title: 'Artisanal Heritage Market',
     date: 'Oct 14-15, 2026',
     location: 'Arts District, Los Angeles',
@@ -35,6 +56,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-02',
+    slug: 'smoke-oak-spirits-fest',
     title: 'Smoke & Oak Spirits Fest',
     date: 'Nov 02, 2026',
     location: 'Coconut Grove, Miami',
@@ -50,6 +72,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-03',
+    slug: 'ember-spice-street-fair',
     title: 'Ember & Spice Street Fair',
     date: 'Nov 22, 2026',
     location: 'Downtown, Austin',
@@ -65,6 +88,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-04',
+    slug: 'harvest-gala-market',
     title: 'Harvest Gala & Market',
     date: 'Dec 05-06, 2026',
     location: 'Chelsea Walk, New York City',
@@ -80,6 +104,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-05',
+    slug: 'the-butchers-block',
     title: "The Butcher's Block",
     date: 'Jan 12, 2027',
     location: 'East Side, Austin',
@@ -95,6 +120,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-06',
+    slug: 'coastal-crustacean-wine',
     title: 'Coastal Crustacean & Wine',
     date: 'Feb 20-21, 2027',
     location: 'South Beach, Miami',
@@ -110,10 +136,11 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-07',
+    slug: 'taco-tequila-street-fiesta',
     title: 'Taco & Tequila Street Fiesta',
     date: 'Aug 16, 2026',
     location: '7101 S Buffalo Dr, Las Vegas',
-    image: 'https://i.pinimg.com/736x/09/a1/19/09a11959c7b5fd731c50f3f4c2c6adca.jpg',
+    image: regeneratedTacosImage,
     spotsLeft: 14,
     totalSpots: 40,
     tag: 'Las Vegas',
@@ -126,6 +153,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-08',
+    slug: 'whiskey-bbq-fest-miami',
     title: 'Whiskey & BBQ Fest Miami',
     date: 'Apr 10-11, 2027',
     location: 'Coconut Grove, Miami',
@@ -142,6 +170,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-09',
+    slug: 'american-hot-sauce-spicy-food-expo',
     title: 'American Hot Sauce and Spicy Food Expo',
     date: 'Jul 11, 2026',
     location: 'Austin Event Center, Austin',
@@ -158,6 +187,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-10',
+    slug: 'usa-street-eats-craft-drinks-festival',
     title: 'USA Street Eats & Craft Drinks Festival',
     date: 'Aug 21-23, 2026',
     location: 'Nevada Brew Works, Las Vegas',
@@ -174,6 +204,7 @@ export const EVENTS_DATA: Event[] = [
   },
   {
     id: 'ev-31',
+    slug: 'miami-summer-vendor-market-food-truck-festival',
     title: 'Miami Summer Vendor Market & Food Truck Festival',
     date: 'Jul 25-26, 2026',
     location: 'Regatta Grove, Coconut Grove, Miami',

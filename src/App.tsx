@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PageType } from './types';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -12,7 +12,15 @@ import SponsorshipPage from './components/SponsorshipPage';
 import AboutPage from './components/AboutPage';
 import Accordion from './components/Accordion';
 import ContactForm from './components/ContactForm';
+// @ts-ignore
+import regeneratedTacosImage from './assets/images/regenerated_image_1784153031598.jpg';
 import { EVENTS_DATA, VENDOR_CATEGORIES, FAQS_DATA, FOUNDER_DATA } from './data';
+import { 
+  parseInitialUrlState, 
+  updateBrowserUrl, 
+  getEventSlug, 
+  findEventInList 
+} from './utils/urlRouter';
 import {
   Sparkles,
   ArrowRight,
@@ -28,15 +36,17 @@ import {
   Calendar,
   X,
   FileText,
-  AlertCircle
+  AlertCircle,
+  Search
 } from 'lucide-react';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedEventForApplication, setSelectedEventForApplication] = useState<string>('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
+  const [activeFilter, setActiveFilter] = useState<'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta'>('All');
   const [timeFilter, setTimeFilter] = useState<'upcoming' | 'past'>('upcoming');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   
   // Custom Toast State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -50,23 +60,98 @@ export default function App() {
     }, 4000);
   };
 
+  // URL state synchronization on mount & browser back/forward buttons
+  useEffect(() => {
+    const handleUrlStateChange = () => {
+      const parsed = parseInitialUrlState(EVENTS_DATA);
+      setCurrentPage(parsed.page);
+      setSelectedEventId(parsed.selectedEventId);
+      if (parsed.searchQuery) {
+        setSearchQuery(parsed.searchQuery);
+      }
+      if (parsed.activeFilter) {
+        setActiveFilter(parsed.activeFilter);
+      }
+    };
+
+    // Parse initial URL on load
+    handleUrlStateChange();
+
+    window.addEventListener('popstate', handleUrlStateChange);
+    window.addEventListener('hashchange', handleUrlStateChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleUrlStateChange);
+      window.removeEventListener('hashchange', handleUrlStateChange);
+    };
+  }, []);
+
   const handleViewDetails = (eventId: string) => {
     setSelectedEventId(eventId);
     setCurrentPage('event-detail');
+    updateBrowserUrl('event-detail', eventId, EVENTS_DATA);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePageChange = (page: PageType) => {
+    setCurrentPage(page);
+    if (page !== 'contact' && page !== 'vendors') {
+      setSelectedEventForApplication('');
+    }
+    if (page !== 'event-detail') {
+      setSelectedEventId(null);
+    }
+    updateBrowserUrl(page, null, EVENTS_DATA, false, page === 'events' ? searchQuery : undefined);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleApplyForEvent = (eventName: string) => {
     setSelectedEventForApplication(eventName);
     setCurrentPage('vendors');
+    updateBrowserUrl('vendors', null, EVENTS_DATA);
     triggerToast(`Applying for ${eventName}. Form pre-filled below.`, 'info');
   };
 
-  // Filtered Events
-  const filteredEvents = (activeFilter === 'All'
-    ? EVENTS_DATA
-    : EVENTS_DATA.filter(e => e.tag === activeFilter)
-  ).filter(e => timeFilter === 'upcoming' ? !e.isPast : !!e.isPast);
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    updateBrowserUrl(currentPage, selectedEventId, EVENTS_DATA, true, query);
+  };
+
+  // Filtered Events with multi-criteria search
+  const filteredEvents = EVENTS_DATA.filter((event) => {
+    // 1. Time filter
+    const matchesTime = timeFilter === 'upcoming' ? !event.isPast : !!event.isPast;
+    if (!matchesTime) return false;
+
+    // 2. City filter
+    const matchesCity = activeFilter === 'All' || event.tag === activeFilter;
+    if (!matchesCity) return false;
+
+    // 3. Search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      const slug = getEventSlug(event);
+      const matchesTitle = event.title.toLowerCase().includes(q);
+      const matchesLocation = event.location.toLowerCase().includes(q);
+      const matchesCategory = event.category.toLowerCase().includes(q);
+      const matchesDescription = event.description.toLowerCase().includes(q);
+      const matchesSlug = slug.includes(q);
+      const matchesId = event.id.toLowerCase().includes(q);
+      const matchesTickets = event.ticketLink ? event.ticketLink.toLowerCase().includes(q) : false;
+
+      return (
+        matchesTitle || 
+        matchesLocation || 
+        matchesCategory || 
+        matchesDescription || 
+        matchesSlug || 
+        matchesId || 
+        matchesTickets
+      );
+    }
+
+    return true;
+  });
 
   // Filter Counts
   const filterCounts = {
@@ -76,6 +161,7 @@ export default function App() {
     Miami: EVENTS_DATA.filter(e => e.tag === 'Miami' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
     Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
     'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    Atlanta: EVENTS_DATA.filter(e => e.tag === 'Atlanta' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
   };
 
   return (
@@ -106,17 +192,7 @@ export default function App() {
       )}
 
       {/* Navigation */}
-      <Navbar currentPage={currentPage} onPageChange={(page) => {
-        setCurrentPage(page);
-        if (page !== 'contact' && page !== 'vendors') {
-          // Clear any event selection if they leave the application pages manually
-          setSelectedEventForApplication('');
-        }
-        if (page !== 'event-detail') {
-          setSelectedEventId(null);
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }} />
+      <Navbar currentPage={currentPage} onPageChange={handlePageChange} />
 
       {/* Main Page Routing */}
       <main className="flex-grow">
@@ -223,7 +299,7 @@ export default function App() {
                 >
                   <div className="h-48 overflow-hidden relative bg-neutral-100">
                     <img
-                      src="https://i.pinimg.com/736x/09/a1/19/09a11959c7b5fd731c50f3f4c2c6adca.jpg"
+                      src={regeneratedTacosImage}
                       alt="Tacos & Tequila Street Fiesta"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
                       referrerPolicy="no-referrer"
@@ -231,7 +307,7 @@ export default function App() {
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
                   </div>
                   <div className="p-6 space-y-3">
-                    <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-sans">LOS ANGELES & MIAMI</span>
+                    <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-sans">LAS VEGAS</span>
                     <h3 className="font-serif text-lg font-bold text-forest group-hover:text-gold transition-colors">Tacos & Tequila Street Fiesta</h3>
                     <p className="text-xs text-charcoal/70 font-light leading-relaxed">
                       Highlighting gourmet street taco concepts, local artisanal salsa makers, mezcal masters, and high-energy music.
@@ -412,9 +488,44 @@ export default function App() {
               </div>
             </section>
 
-            {/* Event List with City Filter Chips */}
+            {/* Event List with Search & City Filter Chips */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
               <div className="flex flex-col gap-6 pb-6 border-b border-gold/15">
+                {/* Search Bar for Events & Direct URL Search */}
+                <div className="relative max-w-xl w-full" id="event-search-container">
+                  <div className="relative flex items-center">
+                    <Search className="absolute left-4 h-4 w-4 text-gold shrink-0 pointer-events-none" />
+                    <input
+                      type="text"
+                      id="event-search-input"
+                      value={searchQuery}
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                      placeholder="Search events by name, city, concept (e.g. 'Taste & Shop', 'Miami', 'Tacos')..."
+                      className="w-full pl-11 pr-10 py-3 rounded-xl border border-gold/30 bg-white text-xs text-charcoal placeholder-charcoal/40 focus:outline-none focus:ring-2 focus:ring-gold/50 shadow-sm"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => handleSearchChange('')}
+                        className="absolute right-3 p-1 rounded-full text-charcoal/40 hover:text-charcoal hover:bg-neutral-100"
+                        title="Clear search"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+                  {searchQuery && (
+                    <div className="mt-2 flex items-center justify-between text-[11px] text-charcoal/60 px-1 font-mono">
+                      <span>Matching "{searchQuery}"</span>
+                      <button
+                        onClick={() => handleSearchChange('')}
+                        className="text-gold font-bold hover:underline"
+                      >
+                        Clear search
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 {/* Time range selector (Upcoming vs Past) */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="inline-flex p-1 bg-cream/70 rounded-xl border border-gold/20 shadow-sm" id="time-filters">
@@ -449,7 +560,7 @@ export default function App() {
 
                 {/* City Filters */}
                 <div className="flex flex-wrap gap-2" id="city-filters">
-                  {(['All', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
+                  {(['All', 'Atlanta', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
                     const isActive = activeFilter === city;
                     return (
                       <button
@@ -868,10 +979,7 @@ export default function App() {
             <EventDetailPage
               event={matchedEvent}
               onApply={handleApplyForEvent}
-              onBack={() => {
-                setCurrentPage('events');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onBack={() => handlePageChange('events')}
             />
           );
         })()}
@@ -881,14 +989,10 @@ export default function App() {
         {/* ==================================== */}
         {currentPage === 'vendor-kit' && (
           <VendorKitPage
-            onBack={() => {
-              setCurrentPage('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onBack={() => handlePageChange('home')}
             onApply={() => {
               setSelectedEventForApplication('General Vendor Inquiry');
-              setCurrentPage('contact');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              handlePageChange('contact');
             }}
           />
         )}
@@ -898,10 +1002,7 @@ export default function App() {
         {/* ==================================== */}
         {currentPage === 'terms-of-service' && (
           <TermsPage
-            onBack={() => {
-              setCurrentPage('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onBack={() => handlePageChange('home')}
           />
         )}
 
@@ -910,10 +1011,7 @@ export default function App() {
         {/* ==================================== */}
         {currentPage === 'privacy-policy' && (
           <PrivacyPage
-            onBack={() => {
-              setCurrentPage('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onBack={() => handlePageChange('home')}
           />
         )}
 
@@ -922,14 +1020,8 @@ export default function App() {
         {/* ==================================== */}
         {currentPage === 'about' && (
           <AboutPage
-            onBack={() => {
-              setCurrentPage('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onContact={() => {
-              setCurrentPage('contact');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onBack={() => handlePageChange('home')}
+            onContact={() => handlePageChange('contact')}
           />
         )}
 
@@ -938,14 +1030,10 @@ export default function App() {
         {/* ==================================== */}
         {currentPage === 'sponsorship-deck' && (
           <SponsorshipPage
-            onBack={() => {
-              setCurrentPage('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onBack={() => handlePageChange('home')}
             onApplyForSponsorship={(tierName) => {
               setSelectedEventForApplication(`Sponsorship: ${tierName}`);
-              setCurrentPage('contact');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              handlePageChange('contact');
             }}
           />
         )}
@@ -953,16 +1041,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer onPageChange={(page) => {
-        setCurrentPage(page);
-        if (page !== 'contact' && page !== 'vendors') {
-          setSelectedEventForApplication('');
-        }
-        if (page !== 'event-detail') {
-          setSelectedEventId(null);
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }} />
+      <Footer onPageChange={handlePageChange} />
 
     </div>
   );

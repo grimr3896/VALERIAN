@@ -73,6 +73,12 @@ export const VENDOR_CONFIG: VendorConfig = {
   ],
   upcomingEvents: [
     {
+      id: 'taste-shop-usa',
+      name: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
+      date: 'Aug 21-23, 2026',
+      location: 'Atlanta, GA'
+    },
+    {
       id: 'late-night-bites',
       name: 'Late Night Bites & Spirits Market',
       date: 'Sep 4, 2026',
