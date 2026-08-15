@@ -8,51 +8,51 @@ interface SponsorshipPageProps {
 
 export default function SponsorshipPage({ onBack, onApplyForSponsorship }: SponsorshipPageProps) {
   // Calculator state
-  const [selectedTier, setSelectedTier] = useState<'bronze' | 'silver' | 'gold' | 'title'>('silver');
+  const [selectedTier, setSelectedTier] = useState<'community' | 'supporting' | 'featured' | 'presenting'>('supporting');
   const [addElectricPremium, setAddElectricPremium] = useState<boolean>(false);
   const [addDedicatedPost, setAddDedicatedPost] = useState<boolean>(false);
   const [addStageShoutout, setAddStageShoutout] = useState<boolean>(false);
 
   // Constants for tiers
   const tierDetails = {
-    bronze: {
-      name: 'Bronze Patron',
-      price: 1500,
-      impressions: '15,000+',
-      boothSize: '10x10 space',
-      socials: 'Logo in general sponsor feed',
-      flyers: 'General listing in festival map',
+    community: {
+      name: 'Community Sponsor',
+      price: 2500,
+      impressions: '35,000+',
+      boothSize: '10x10 space included',
+      socials: 'Official sponsor billing on website & directory',
+      flyers: 'Logo on festival entrance portals & printed maps',
       stage: 'N/A',
       colorClass: 'border-amber-700/30 bg-amber-500/5 text-amber-800'
     },
-    silver: {
-      name: 'Silver Partner',
-      price: 3500,
-      impressions: '45,000+',
-      boothSize: '10x20 premium corner',
-      socials: '2 dedicated brand showcase posts',
-      flyers: 'Featured logo in physical directories',
-      stage: 'Logo on general sponsor banner',
+    supporting: {
+      name: 'Supporting Sponsor',
+      price: 5000,
+      impressions: '85,000+',
+      boothSize: '10x20 prime activation space',
+      socials: 'Dedicated newsletter feature to 45k+ subscribers',
+      flyers: 'Prominent logo on main perimeter fencing & guides',
+      stage: '2x Live stage announcements during peak hours',
       colorClass: 'border-slate-400/35 bg-slate-300/5 text-slate-700'
     },
-    gold: {
-      name: 'Gold Presenter',
-      price: 7500,
-      impressions: '120,000+',
-      boothSize: '20x20 central hub',
-      socials: '4 dedicated posts + inclusion in all press releases',
-      flyers: 'Premium banner placement + VIP lounge branding',
-      stage: 'Live brand shoutouts from the host stage',
+    featured: {
+      name: 'Featured Sponsor',
+      price: 10000,
+      impressions: '180,000+',
+      boothSize: '20x20 central hub pavilion',
+      socials: 'Co-branded marketing campaigns & PR syndication',
+      flyers: 'Category exclusivity & VIP lounge branding',
+      stage: 'Stage branding + keynote brand introduction slot',
       colorClass: 'border-gold/45 bg-[#FAF6F0] text-gold'
     },
-    title: {
-      name: 'Title Presenting Sponsor',
-      price: 15000,
-      impressions: '350,000+',
-      boothSize: 'Double flagship pavilions + VIP lounge branding',
-      socials: 'Complete digital & physical co-branding (e.g. "Valerian Events in partnership with [Your Brand]")',
-      flyers: 'Dedicated logo on all media passes & entrance banners',
-      stage: 'Official naming rights for the main stage',
+    presenting: {
+      name: 'Presenting Sponsor',
+      price: 20000,
+      impressions: '450,000+',
+      boothSize: 'Flagship Turnkey VIP Activation Lounge',
+      socials: 'Complete marquee co-branding ("Presented by [Your Brand]")',
+      flyers: 'Official branding on all media credentials & festival gates',
+      stage: 'Main Stage exclusive naming rights & VIP host access',
       colorClass: 'border-[#1b4d3e]/55 bg-[#1b4d3e]/5 text-[#1b4d3e]'
     }
   };
@@ -176,9 +176,9 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
                 <div className="space-y-1.5">
                   <div className="flex items-center space-x-2">
                     <span className={`w-2.5 h-2.5 rounded-full ${
-                      key === 'bronze' ? 'bg-amber-700' :
-                      key === 'silver' ? 'bg-slate-400' :
-                      key === 'gold' ? 'bg-gold' : 'bg-forest'
+                      key === 'community' ? 'bg-amber-700' :
+                      key === 'supporting' ? 'bg-slate-400' :
+                      key === 'featured' ? 'bg-gold' : 'bg-forest'
                     }`}></span>
                     <h3 className="font-serif text-base font-bold text-forest">{details.name}</h3>
                   </div>

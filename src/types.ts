@@ -7,7 +7,7 @@ export interface Event {
   image: string;
   spotsLeft: number;
   totalSpots: number;
-  tag: 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'All';
+  tag: 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'Houston' | 'All';
   category: string;
   description: string;
   cost: string;

@@ -44,7 +44,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedEventForApplication, setSelectedEventForApplication] = useState<string>('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta'>('All');
+  const [activeFilter, setActiveFilter] = useState<'All' | 'Atlanta' | 'Houston' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
   const [timeFilter, setTimeFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
@@ -162,6 +162,7 @@ export default function App() {
     Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
     'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
     Atlanta: EVENTS_DATA.filter(e => e.tag === 'Atlanta' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    Houston: EVENTS_DATA.filter(e => e.tag === 'Houston' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
   };
 
   return (
@@ -560,7 +561,7 @@ export default function App() {
 
                 {/* City Filters */}
                 <div className="flex flex-wrap gap-2" id="city-filters">
-                  {(['All', 'Atlanta', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
+                  {(['All', 'Atlanta', 'Houston', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
                     const isActive = activeFilter === city;
                     return (
                       <button

@@ -78,7 +78,7 @@ export function parseInitialUrlState(events: Event[]): {
   page: PageType;
   selectedEventId: string | null;
   searchQuery: string;
-  activeFilter?: 'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta';
+  activeFilter?: 'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'Houston';
 } {
   try {
     const searchParams = new URLSearchParams(window.location.search);
@@ -168,7 +168,7 @@ export function parseInitialUrlState(events: Event[]): {
     // Check for city filter param: ?city=Miami or ?tag=Las Vegas
     const cityParam = searchParams.get('city') || searchParams.get('tag');
     if (cityParam) {
-      const validCities = ['Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas', 'Atlanta'] as const;
+      const validCities = ['Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas', 'Atlanta', 'Houston'] as const;
       const matchedCity = validCities.find(c => c.toLowerCase() === cityParam.toLowerCase());
       if (matchedCity) {
         return {

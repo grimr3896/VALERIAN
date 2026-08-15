@@ -362,17 +362,23 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : 'Apply for this Event'}</span>
             </button>
 
-            {/* Eventbrite Ticket Button for Attendees */}
+            {/* Eventbrite / VendorsMap External Link for Attendees & Vendors */}
             {event.ticketLink && (
               <a
                 href={event.ticketLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 id={`event-detail-ticket-btn-${event.id}`}
-                className="w-full py-3 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase border border-[#F05537] text-[#F05537] hover:bg-[#F05537]/5 transition-all flex items-center justify-center space-x-2 cursor-pointer"
+                className={`w-full py-3 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase border transition-all flex items-center justify-center space-x-2 cursor-pointer ${
+                  event.ticketLink.includes('vendorsmap')
+                    ? isNightMarket
+                      ? 'border-gold/40 text-gold hover:bg-gold/10'
+                      : 'border-emerald-600/40 text-emerald-700 hover:bg-emerald-50'
+                    : 'border-[#F05537] text-[#F05537] hover:bg-[#F05537]/5'
+                }`}
               >
-                <span className="text-sm">🎟️</span>
-                <span>Get Eventbrite Tickets</span>
+                <span className="text-sm">{event.ticketLink.includes('vendorsmap') ? '🗺️' : '🎟️'}</span>
+                <span>{event.ticketLink.includes('vendorsmap') ? 'View on VendorsMap' : 'Get Eventbrite Tickets'}</span>
                 <ExternalLink className="h-3 w-3 ml-1" />
               </a>
             )}

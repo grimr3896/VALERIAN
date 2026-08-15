@@ -48,58 +48,89 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
             </div>
 
             <p className="text-charcoal/70 text-sm leading-relaxed font-light">
-              We offer three premium booth options engineered to showcase culinary artistry and luxury artisanal craft. All configurations are fully integrated into our standard visitor pathways.
+              From an affordable marketplace booth to a full experiential brand activation or corporate sponsorship, Valerian Events offers opportunities for businesses of different sizes and budgets.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Card 1: Standard Craft */}
-              <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Artisan Booth</span>
-                  <h3 className="font-serif text-lg font-bold text-forest">Standard Craft</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Pillar 1: Marketplace */}
+              <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-3">
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 1 • Retail & Crafts</span>
+                  <h3 className="font-serif text-base font-bold text-forest">Marketplace Booths</h3>
                   <p className="text-xs text-charcoal/65 font-light leading-relaxed">
-                    Ideal for small-batch spice makers, hot sauce brands, pantry labels, and culinary lifestyle goods.
+                    Small businesses, handmade makers, jewelry, fashion, beauty, and independent retail products.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/10">
-                  <span className="block text-xs text-charcoal/40 font-mono">Booths</span>
-                  <span className="text-lg font-bold text-forest font-serif uppercase tracking-wide">Inquire for Rates</span>
-                  <span className="block text-[10px] text-charcoal/50">Flat fee structure applies</span>
+                  <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
+                  <span className="text-lg font-bold text-forest font-serif">$250 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
                 </div>
               </div>
 
-              {/* Card 2: Culinary Pro */}
-              <div className="p-5 rounded-xl bg-forest text-cream border border-gold/30 flex flex-col justify-between space-y-4 shadow-lg relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-3 bg-gold/15 rounded-bl-xl text-[8px] font-bold tracking-widest text-gold uppercase font-mono">
-                  Most Requested
+              {/* Pillar 2: Food & Beverage */}
+              <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-3">
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 2 • Culinary & Drinks</span>
+                  <h3 className="font-serif text-base font-bold text-forest">Food & Beverage</h3>
+                  <p className="text-xs text-charcoal/65 font-light leading-relaxed">
+                    Packaged food, baked goods, artisan treats, hot food prep, food trucks, and prime anchor kitchens.
+                  </p>
                 </div>
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Gourmet Space</span>
-                  <h3 className="font-serif text-lg font-bold text-cream">Culinary Master</h3>
+                <div className="pt-3 border-t border-gold/10">
+                  <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
+                  <span className="text-lg font-bold text-forest font-serif">$300 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
+                </div>
+              </div>
+
+              {/* Pillar 3: Business & Service */}
+              <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-3">
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 3 • Lead Generation</span>
+                  <h3 className="font-serif text-base font-bold text-forest">Business & Commercial</h3>
+                  <p className="text-xs text-charcoal/65 font-light leading-relaxed">
+                    Home improvement, wellness clinics, financial services, auto, real estate, and consumer lead gen.
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-gold/10">
+                  <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
+                  <span className="text-lg font-bold text-forest font-serif">$500 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
+                </div>
+              </div>
+
+              {/* Pillar 4: Brand Activations */}
+              <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-3">
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 4 • Experiential</span>
+                  <h3 className="font-serif text-base font-bold text-forest">Brand Activations</h3>
+                  <p className="text-xs text-charcoal/65 font-light leading-relaxed">
+                    Photo booths, custom lounges, vehicle displays, gaming zones, and interactive experiential spaces.
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-gold/10">
+                  <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
+                  <span className="text-lg font-bold text-forest font-serif">$1,000 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
+                </div>
+              </div>
+
+              {/* Pillar 5: Sponsorships */}
+              <div className="p-5 rounded-xl bg-forest text-cream border border-gold/30 flex flex-col justify-between space-y-3 shadow-sm sm:col-span-2 lg:col-span-2">
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 5 • Marquee Visibility</span>
+                  <h3 className="font-serif text-base font-bold text-cream">Sponsorship & Brand Integration</h3>
                   <p className="text-xs text-cream/70 font-light leading-relaxed">
-                    Designed for active hot food preparation, BBQ smoking setups, premium food trailers, and experiential displays.
+                    Stage naming rights, entrance arch branding, VIP lounge hostings, and multi-channel marketing campaigns reaching tens of thousands of attendees.
                   </p>
                 </div>
-                <div className="pt-3 border-t border-gold/15">
-                  <span className="block text-xs text-cream/40 font-mono">Booths</span>
-                  <span className="text-lg font-bold text-gold font-serif uppercase tracking-wide">Inquire for Rates</span>
-                  <span className="block text-[10px] text-cream/50">Flat fee structure applies</span>
-                </div>
-              </div>
-
-              {/* Card 3: Mobile Fleet */}
-              <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Mobile Unit</span>
-                  <h3 className="font-serif text-lg font-bold text-forest">Food Truck Elite</h3>
-                  <p className="text-xs text-charcoal/65 font-light leading-relaxed">
-                    Specialized space allocated for luxury food trucks, mobile beverage lounges, and fully equipped vehicle kitchens.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-gold/10">
-                  <span className="block text-xs text-charcoal/40 font-mono">Spots</span>
-                  <span className="text-lg font-bold text-forest font-serif uppercase tracking-wide">Inquire for Rates</span>
-                  <span className="block text-[10px] text-charcoal/50">Flat fee structure applies</span>
+                <div className="pt-3 border-t border-gold/20 flex items-center justify-between">
+                  <div>
+                    <span className="block text-[10px] text-cream/50 font-mono">From</span>
+                    <span className="text-lg font-bold text-gold font-serif">$2,500 <span className="text-xs font-normal text-cream/60">to $20,000+</span></span>
+                  </div>
+                  <span className="text-xs font-mono text-gold px-2.5 py-1 rounded bg-gold/15 border border-gold/30">Tiered Packages</span>
                 </div>
               </div>
             </div>

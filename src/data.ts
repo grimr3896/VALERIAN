@@ -3,8 +3,44 @@ import { Event, FAQ, VendorCategory } from './types';
 import miamiFestivalMarket from './assets/images/miami_festival_market_1783630573468.jpg';
 // @ts-ignore
 import regeneratedTacosImage from './assets/images/regenerated_image_1784153031598.jpg';
+// @ts-ignore
+import lasVegasFoodArtsFest from './assets/images/las_vegas_food_arts_fest_1786824750976.jpg';
 
 export const EVENTS_DATA: Event[] = [
+  {
+    id: 'ev-35',
+    slug: 'las-vegas-food-arts-street-market-festival',
+    title: 'Las Vegas Food, Arts & Street Market Festival',
+    date: 'Aug 28, 2026',
+    location: '200 South 3rd Street, Las Vegas, NV 89101',
+    image: lasVegasFoodArtsFest,
+    spotsLeft: 65,
+    totalSpots: 65,
+    tag: 'Las Vegas',
+    category: 'Food, Arts & Street Market',
+    description: 'Las Vegas Food, Arts & Street Market Festival brings together food lovers, food trucks, local vendors, artists, makers, businesses, brands and entertainers for a vibrant weekend of food, shopping, live entertainment and family-friendly experiences. Taking place Friday, August 28, 2026 (9:00 AM – 1:00 PM) at 200 South 3rd Street in downtown Las Vegas. Guests can discover unique flavors, shop local, enjoy live music, explore arts and crafts, and participate in exciting activities.',
+    cost: 'Free Admission / Booths from $250',
+    attendance: '10,000+ expected',
+    highlight: 'Comprehensive amenities including electricity, water, tables/tents, weather cover, and free parking. Standard booths from $250, Food vendors $350, Food trucks $450, and Premium exhibitor spaces $500.',
+    ticketLink: 'https://vendorsmap.com/events/las-vegas-food-arts-street-market-festival#event-28943'
+  },
+  {
+    id: 'ev-34',
+    slug: 'houston-food-shopping-entertainment-festival',
+    title: 'Houston Food, Shopping & Entertainment Festival',
+    date: 'Aug 21-23, 2026',
+    location: '1 NRG Pkwy, Houston, TX 77054',
+    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191025956%2F3010760393004%2F1%2Foriginal.20260814-001340?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=c4721e0f095c579003158fb1f06c9aae',
+    spotsLeft: 15,
+    totalSpots: 50,
+    tag: 'Houston',
+    category: 'Food, Shopping & Entertainment',
+    description: 'FREE Houston festival featuring amazing food, shopping, live entertainment, family fun, vendors, giveaways, and unforgettable experiences! Taking place August 21–23, 2026 at 1 NRG Parkway in Houston. Discover a high-energy gathering of gourmet food trucks, artisan makers, boutique shopping stalls, interactive games, and live stage performances.',
+    cost: 'Free Admission / Vendor Packages from $450',
+    attendance: '25,000+ expected',
+    highlight: 'Prime outdoor and covered festival exhibition placement at NRG Park in Houston, dedicated vendor load-in concierge, live stage entertainment, and direct Eventbrite ticket integration.',
+    ticketLink: 'https://www.eventbrite.com/e/houston-food-shopping-entertainment-festival-tickets-1997932770700'
+  },
   {
     id: 'ev-33',
     slug: 'taste-shop-usa-the-ultimate-food-shopping-festival',
