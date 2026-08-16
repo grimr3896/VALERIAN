@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle2, RefreshCw, CalendarDays } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { EVENTS_DATA } from '../data';
 
 // Initialize EmailJS immediately so it is configured before any send call
 emailjs.init('dUpRmObSvyywLE_u_');
@@ -28,15 +29,17 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
   // Handle prefilling if an event was selected
   useEffect(() => {
     if (prefilledEventName) {
-      const nameLower = prefilledEventName.toLowerCase();
-      if (nameLower.includes('taco') || nameLower.includes('tequila')) {
-        setFormData((prev) => ({ ...prev, event: 'Taco & Tequila Street Fiesta — Los Angeles, CA' }));
-      } else if (nameLower.includes('whiskey') || nameLower.includes('bbq')) {
-        setFormData((prev) => ({ ...prev, event: 'Whiskey & BBQ Fest — Miami, FL' }));
-      } else if (nameLower.includes('sauce') || nameLower.includes('spicy') || nameLower.includes('hot')) {
-        setFormData((prev) => ({ ...prev, event: 'American Hot Sauce & Spicy Food Expo — Austin, TX' }));
+      const match = EVENTS_DATA.find(
+        (e) =>
+          e.title.toLowerCase() === prefilledEventName.toLowerCase() ||
+          e.id.toLowerCase() === prefilledEventName.toLowerCase() ||
+          prefilledEventName.toLowerCase().includes(e.title.toLowerCase()) ||
+          e.title.toLowerCase().includes(prefilledEventName.toLowerCase())
+      );
+      if (match) {
+        setFormData((prev) => ({ ...prev, event: `${match.title} (${match.date} • ${match.location})` }));
       } else {
-        setFormData((prev) => ({ ...prev, event: '' }));
+        setFormData((prev) => ({ ...prev, event: prefilledEventName }));
       }
     }
   }, [prefilledEventName]);
@@ -210,13 +213,13 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="e.g. (727) 633-6611"
+              placeholder="e.g. (555) 123-4567"
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
             />
           </div>
         </div>
 
-        {/* Event Dropdown with exact requested option values */}
+        {/* Event Dropdown with all events */}
         <div className="space-y-1.5">
           <label htmlFor="event" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
             Which event are you interested in?
@@ -230,9 +233,12 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal text-sm outline-none appearance-none transition-all duration-200"
             >
               <option value="" className="text-charcoal/45">Select an event or general inquiry...</option>
-              <option value="Taco & Tequila Street Fiesta — Los Angeles, CA">Taco & Tequila Street Fiesta — Los Angeles, CA</option>
-              <option value="Whiskey & BBQ Fest — Miami, FL">Whiskey & BBQ Fest — Miami, FL</option>
-              <option value="American Hot Sauce & Spicy Food Expo — Austin, TX">American Hot Sauce & Spicy Food Expo — Austin, TX</option>
+              {EVENTS_DATA.map((evt) => (
+                <option key={evt.id} value={`${evt.title} (${evt.date} • ${evt.location})`}>
+                  {evt.title} — {evt.date} ({evt.tag || evt.location})
+                </option>
+              ))}
+              <option value="Multi-City Tour / General Inquiries">Multi-City Tour / General Inquiries</option>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gold">
               <CalendarDays className="h-4 w-4" />

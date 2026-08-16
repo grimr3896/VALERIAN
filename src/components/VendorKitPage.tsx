@@ -63,7 +63,7 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                 </div>
                 <div className="pt-3 border-t border-gold/10">
                   <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
-                  <span className="text-lg font-bold text-forest font-serif">$250 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="text-lg font-bold text-forest font-serif">$100 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
                   <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
                 </div>
               </div>
@@ -348,7 +348,6 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
             </p>
             <div className="pt-2 border-t border-gold/10 text-xs font-mono text-forest/80 space-y-1">
               <div>Email: alex@valerianevents.com</div>
-              <div>Phone: (727) 633-6611</div>
             </div>
           </div>
 

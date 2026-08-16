@@ -4,7 +4,7 @@ import miamiFestivalMarket from './assets/images/miami_festival_market_178363057
 // @ts-ignore
 import regeneratedTacosImage from './assets/images/regenerated_image_1784153031598.jpg';
 // @ts-ignore
-import lasVegasFoodArtsFest from './assets/images/las_vegas_food_arts_fest_1786824750976.jpg';
+import lasVegasFoodArtsFest from './assets/images/regenerated_image_1786825872575.png';
 
 export const EVENTS_DATA: Event[] = [
   {
@@ -648,7 +648,7 @@ export const FOUNDER_DATA = {
   title: 'Founder & Lead Organizer',
   bio: 'Valerian is the founder and driving force behind Valerian Events, an independent event organization company based in the United States specializing in food and spirits festivals.',
   email: 'alex@valerianevents.com',
-  phone: '(727) 633-6611',
+  phone: '',
   avatar: 'https://i.pinimg.com/736x/3c/2b/ad/3c2badd0b9688bcb810ef699afc3f7c1.jpg',
   paymentMethod: 'Zelle (alex@valerianevents.com)',
   commitment: '24h response time guaranteed for all approved vendor inquiries.'

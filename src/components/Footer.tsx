@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageType } from '../types';
-import { Mail, Phone, Instagram, Facebook, Twitter, Globe } from 'lucide-react';
+import { Mail, Instagram, Facebook, Twitter, Globe } from 'lucide-react';
 import Logo from './Logo';
 
 interface FooterProps {
@@ -152,16 +152,6 @@ export default function Footer({ onPageChange }: FooterProps) {
                   </a>
                 </div>
               </li>
-              <li className="flex items-start space-x-3">
-                <Phone className="h-5 w-5 text-gold shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-xs text-cream/40 font-medium uppercase tracking-wider">Direct Line</span>
-                  <a href="tel:+17276336611" className="text-cream hover:text-gold transition-colors font-medium">
-                    (727) 633-6611
-                  </a>
-                </div>
-              </li>
-
             </ul>
           </div>
         </div>

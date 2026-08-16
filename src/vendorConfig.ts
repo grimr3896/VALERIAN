@@ -53,6 +53,25 @@ export const VENDOR_CONFIG: VendorConfig = {
   tiers: [
     // 🛍️ MARKETPLACE BOOTHS
     {
+      id: 'artisan-table',
+      name: 'Artisan Table / Micro Booth',
+      size: "6' Table Space",
+      price: '$100 / event',
+      rawPrice: 100,
+      pillar: 'marketplace',
+      pillarLabel: 'Marketplace Booths',
+      icon: '🛍️',
+      description: 'Accessible space designed for emerging artisans, solo makers, and independent sellers.',
+      bestFor: 'Handmade crafts, prints, jewelry, specialty goods, art, and first-time festival sellers.',
+      features: [
+        "6' Dedicated Table / Micro Space Footprint",
+        'Inclusion in the Festival digital directory & site map',
+        'Standard waste disposal & overnight site security',
+        'Low-barrier launchpad for new and local crafters',
+        'Flexible payment options available'
+      ]
+    },
+    {
       id: 'starter-booth',
       name: 'Starter Booth',
       size: "10' × 10'",
@@ -478,6 +497,42 @@ export const VENDOR_CONFIG: VendorConfig = {
       location: 'North Miami, FL'
     },
     {
+      id: 'artisanal-heritage',
+      name: 'Artisanal Heritage Market',
+      date: 'Oct 14-15, 2026',
+      location: 'Los Angeles, CA'
+    },
+    {
+      id: 'smoke-oak',
+      name: 'Smoke & Oak Spirits Fest',
+      date: 'Nov 02, 2026',
+      location: 'Miami, FL'
+    },
+    {
+      id: 'ember-spice',
+      name: 'Ember & Spice Street Fair',
+      date: 'Nov 22, 2026',
+      location: 'Austin, TX'
+    },
+    {
+      id: 'harvest-gala',
+      name: 'Harvest Gala & Market',
+      date: 'Dec 05-06, 2026',
+      location: 'New York City, NY'
+    },
+    {
+      id: 'butchers-block',
+      name: "The Butcher's Block",
+      date: 'Jan 12, 2027',
+      location: 'Austin, TX'
+    },
+    {
+      id: 'coastal-crustacean',
+      name: 'Coastal Crustacean & Wine',
+      date: 'Feb 20-21, 2027',
+      location: 'Miami, FL'
+    },
+    {
       id: 'taco-tequila',
       name: 'Taco & Tequila Street Fiesta',
       date: 'Aug 16, 2026',
@@ -515,9 +570,9 @@ export const VENDOR_CONFIG: VendorConfig = {
   confirmedVendors: [],
   contact: {
     email: 'alex@valerianevents.com',
-    phone: '+17276336611',
-    whatsapp: 'https://wa.me/17276336611',
-    formattedPhone: '(727) 633-6611'
+    phone: '',
+    whatsapp: '',
+    formattedPhone: ''
   }
 };
 

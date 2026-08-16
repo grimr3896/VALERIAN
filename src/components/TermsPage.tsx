@@ -129,7 +129,7 @@ export default function TermsPage({ onBack }: TermsPageProps) {
           If your legal counsel, compliance officer, or insurance agency requires custom clauses, please send your inquiry to our lead operations office.
         </p>
         <div className="pt-2 text-xs font-mono text-gold font-medium">
-          alex@valerianevents.com • (727) 633-6611
+          alex@valerianevents.com
         </div>
       </div>
     </div>
