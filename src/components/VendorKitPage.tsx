@@ -128,7 +128,7 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                 <div className="pt-3 border-t border-gold/20 flex items-center justify-between">
                   <div>
                     <span className="block text-[10px] text-cream/50 font-mono">From</span>
-                    <span className="text-lg font-bold text-gold font-serif">$2,500 <span className="text-xs font-normal text-cream/60">to Custom</span></span>
+                    <span className="text-lg font-bold text-gold font-serif">$250 <span className="text-xs font-normal text-cream/60">to $2,500+</span></span>
                   </div>
                   <span className="text-xs font-mono text-gold px-2.5 py-1 rounded bg-gold/15 border border-gold/30">Tiered Packages</span>
                 </div>

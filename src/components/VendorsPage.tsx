@@ -291,7 +291,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           {filteredTiers.map((tier) => {
             const isFeatured = tier.highlightBadge !== undefined;
-            const isTopSponsor = tier.pillar === 'sponsorship' && tier.rawPrice >= 10000;
+            const isTopSponsor = tier.pillar === 'sponsorship' && (tier.rawPrice >= 2500 || tier.id === 'presenting-sponsor');
 
             return (
               <div 
@@ -331,6 +331,14 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
                     }`}>
                       {tier.name}
                     </h3>
+
+                    {tier.tagline && (
+                      <p className={`text-xs italic font-medium ${
+                        isTopSponsor ? 'text-gold' : 'text-forest/80'
+                      }`}>
+                        "{tier.tagline}"
+                      </p>
+                    )}
 
                     {/* Size & Footprint badge */}
                     <div className="pt-0.5">

@@ -10,6 +10,7 @@ export interface VendorTier {
   pillarLabel: string;
   icon: string;
   description: string;
+  tagline?: string;
   bestFor?: string;
   highlightBadge?: string;
   features: string[];
@@ -35,6 +36,7 @@ export interface VendorConfig {
   spotsRemaining: number;
   totalSpots: number;
   tiers: VendorTier[];
+  customSponsorshipOpportunities?: string[];
   paymentOptions: PaymentOption[];
   paymentPolicyNotes: string[];
   upcomingEvents: UpcomingVendorEvent[];
@@ -316,84 +318,103 @@ export const VENDOR_CONFIG: VendorConfig = {
 
     // 🤝 SPONSORSHIPS
     {
-      id: 'community-sponsor',
-      name: 'Community Sponsor',
-      size: "10' × 10' Space + Logo Rights",
-      price: '$2,500',
-      rawPrice: 2500,
+      id: 'community-partner',
+      name: 'Community Partner',
+      size: "10' × 10' Space",
+      price: '$250',
+      rawPrice: 250,
       pillar: 'sponsorship',
       pillarLabel: 'Sponsorship Packages',
       icon: '🤝',
-      description: 'For businesses wanting event-level recognition and community goodwill.',
-      bestFor: 'Local champions, civic partners, community banks, and established regional leaders.',
+      tagline: 'Get your name in front of the crowd.',
+      description: 'Get your name in front of the crowd with direct attendee engagement and brand exposure.',
+      bestFor: 'Local businesses, community organizations, and emerging regional partners.',
       features: [
-        'Official Community Sponsor billing across printed & digital guides',
-        'Complimentary 10x10 booth space for brand engagement',
-        'Logo placement on festival welcome portals & entrance signage',
-        '4x VIP Festival Badges & Hospitality access',
-        'Custom corporate terms available'
+        '10×10 vendor space to meet attendees face-to-face',
+        'Name listed among official event sponsors',
+        'Logo/name featured on select promotional materials',
+        'Social media shoutout to our festival audience',
+        'Distribute your own approved flyers, cards, or samples'
       ]
     },
     {
       id: 'supporting-sponsor',
       name: 'Supporting Sponsor',
-      size: "10' × 20' Space + Broad Reach",
-      price: '$5,000',
-      rawPrice: 5000,
+      size: "10' × 10' Space + Signage",
+      price: '$500',
+      rawPrice: 500,
       pillar: 'sponsorship',
       pillarLabel: 'Sponsorship Packages',
       icon: '🤝',
       highlightBadge: 'High Reach',
-      description: 'Greater visibility across event materials and promotional channels.',
-      bestFor: 'Growing regional brands and statewide institutions seeking dominant market share.',
+      tagline: 'Everything above, plus a bigger spotlight.',
+      description: 'Everything in Community Partner, plus a bigger spotlight and live event recognition.',
+      bestFor: 'Growing regional brands and local businesses seeking elevated visibility.',
       features: [
-        'Prominent logo on main stage banners & perimeter fencing',
-        'Dedicated 10x20 prime activation space included',
-        'Dedicated email newsletter feature to 45,000+ culinary subscribers',
-        '2x Live stage mentions during peak festival hours',
-        '8x VIP passes with backstage hospitality privileges'
+        'Prominent logo placement across event materials',
+        'A dedicated social media feature (not just a mention)',
+        'Live shoutout from the host/MC on event day',
+        '10×10 vendor space plus room to display signage',
+        'Freedom to hand out your own promotional materials'
       ]
     },
     {
-      id: 'featured-sponsor',
-      name: 'Featured Sponsor',
-      size: "20' × 20' Premium Area + Media",
-      price: '$10,000',
-      rawPrice: 10000,
+      id: 'gold-sponsor',
+      name: 'Gold Sponsor',
+      size: 'Premium Activation Space',
+      price: '$1,000',
+      rawPrice: 1000,
       pillar: 'sponsorship',
       pillarLabel: 'Sponsorship Packages',
       icon: '🤝',
-      highlightBadge: 'Premium Sponsor',
-      description: 'For brands seeking significant event presence, lead generation, and audience engagement.',
-      bestFor: 'Major consumer packaged goods, tech platforms, and regional powerhouses.',
+      highlightBadge: 'Headline Supporter',
+      tagline: 'Stand out as a headline supporter.',
+      description: 'Stand out as a headline supporter with repeated stage announcements and premium activation space.',
+      bestFor: 'Headline supporters, established companies, and leading regional institutions.',
       features: [
-        'Co-branded festival collateral (e.g. "Festival Features presented by [Brand]")',
-        '20x20 central hub pavilion placement',
-        'Comprehensive digital campaign (120,000+ estimated impressions)',
-        'Stage branding & keynote brand introduction slot',
-        'Category exclusivity within your primary business sector'
+        'Premium sponsor billing with a larger logo footprint',
+        'Multiple social media mentions in the run-up to the event',
+        'Repeated shoutouts throughout event day',
+        'Premium activation space for a bigger presence',
+        'Bring branded giveaways attendees actually take home',
+        '"Gold Sponsor" recognition woven throughout the event'
       ]
     },
     {
       id: 'presenting-sponsor',
       name: 'Presenting Sponsor',
-      size: 'Complete Event Co-Branding',
-      price: 'Custom',
-      rawPrice: 0,
+      size: 'Prime Flagship Activation Space',
+      price: '$2,500+',
+      rawPrice: 2500,
       pillar: 'sponsorship',
       pillarLabel: 'Sponsorship Packages',
       icon: '👑',
-      highlightBadge: 'Highest Partnership',
-      description: 'The highest-level partnership with maximum co-branding across all touchpoints.',
-      bestFor: 'National brands, premier beverage/fintech/lifestyle corporations seeking total event dominance.',
+      highlightBadge: 'Top Tier Partnership',
+      tagline: 'Be the name people remember.',
+      description: 'Be the name people remember with top-tier co-branding, all-day MC recognition, and premier placement.',
+      bestFor: 'Title partners, premier corporations, and major brands wanting total event dominance.',
       features: [
-        '"Presented by [Your Brand]" marquee billing across all digital & physical collateral',
-        'Main Stage official naming rights & prominent perimeter signage',
-        'Turnkey branded VIP lounge & dedicated experiential activation',
-        'Complete digital promotion blitz, press release syndication & media interview integration',
-        'Guaranteed absolute category exclusivity & custom partnership proposals'
+        'Top-tier "Presented by [Your Brand]" recognition across all materials',
+        'The most prominent logo placement of any sponsorship tier',
+        'Premium activation space in the best spot at the festival',
+        'Multiple social promotions leading up to and during the event',
+        'Ongoing stage/MC recognition all day long',
+        'Bring branded giveaways or run a custom activation',
+        'Featured as a headline partner in all event coverage',
+        "Package tailored to your specific goals — ask us what's possible"
       ]
     }
+  ],
+
+  // 🎯 CUSTOM SPONSORSHIP OPPORTUNITIES
+  customSponsorshipOpportunities: [
+    'Community outreach initiatives',
+    'Promotional activations or demos',
+    'Educational/informational booths',
+    'Branded activities for families',
+    'Product or service demonstrations',
+    'Media and promotional partnerships',
+    'In-kind sponsorships (equipment, prizes, services)'
   ],
 
   // 💡 FLEXIBLE PAYMENT OPTIONS
