@@ -74,7 +74,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   onClick={() => onPageChange('vendors')}
                   className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
                 >
-                  Vendors
+                  Opportunity
                 </button>
               </li>
               <li>

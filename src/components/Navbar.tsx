@@ -14,7 +14,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
   const navItems = [
     { id: 'home' as PageType, label: 'Home', icon: ChefHat },
     { id: 'events' as PageType, label: 'Events', icon: Calendar },
-    { id: 'vendors' as PageType, label: 'Vendors', icon: Users },
+    { id: 'vendors' as PageType, label: 'Opportunity', icon: Users },
     { id: 'about' as PageType, label: 'About Us', icon: Info },
     { id: 'contact' as PageType, label: 'Contact', icon: MessageSquare },
   ];
@@ -74,7 +74,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
             id="nav-apply-btn"
             className="relative overflow-hidden group px-5 py-2.5 rounded-xl bg-transparent border border-gold text-gold hover:text-forest font-sans text-xs font-bold tracking-widest transition-all duration-300 hover:bg-gold"
           >
-            APPLY AS VENDOR
+            APPLY FOR OPPORTUNITY
           </button>
         </div>
 
@@ -127,7 +127,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
               id="mobile-nav-apply-btn"
               className="w-full flex items-center justify-center px-4 py-3 rounded-xl bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-colors duration-200"
             >
-              APPLY AS VENDOR
+              APPLY FOR OPPORTUNITY
             </button>
           </div>
         </div>

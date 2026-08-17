@@ -21,7 +21,7 @@ export const EVENTS_DATA: Event[] = [
     tag: 'Miami',
     category: 'Food Truck & Family Festival',
     description: 'Celebrate the ultimate Labor Day weekend summer finale at Bayfront Park in downtown Miami! Miami End of Summer Family Fun Food Truck Music & Vendor Festival 2026 runs Friday through Sunday, September 4–6, 2026 (10:00 AM – 5:00 PM daily). Experience an incredible gathering of premier gourmet food trucks, artisanal craft markets, non-stop live music, cultural performances, and family-friendly entertainment overlooking beautiful Biscayne Bay.',
-    cost: 'Free Admission / Booths from $100',
+    cost: 'Free Admission / Booths from $100/day',
     attendance: '20,000+ expected',
     highlight: 'Prime waterfront 3-day festival footprint overlooking Biscayne Bay at Bayfront Park, high-volume holiday weekend foot traffic, dedicated food truck lanes, artisan marketplace, and direct Eventbrite ticket registration.',
     ticketLink: 'https://www.eventbrite.com/e/miami-end-of-summer-family-fun-food-truck-music-vendor-festival-2026-tickets-1997693186096?aff=oddtdtcreator'
@@ -38,9 +38,9 @@ export const EVENTS_DATA: Event[] = [
     tag: 'Las Vegas',
     category: 'Food, Arts & Street Market',
     description: 'Las Vegas Food, Arts & Street Market Festival brings together food lovers, food trucks, local vendors, artists, makers, businesses, brands and entertainers for a vibrant weekend of food, shopping, live entertainment and family-friendly experiences. Taking place Friday, August 28, 2026 (9:00 AM – 1:00 PM) at 200 South 3rd Street in downtown Las Vegas. Guests can discover unique flavors, shop local, enjoy live music, explore arts and crafts, and participate in exciting activities.',
-    cost: 'Free Admission / Booths from $250',
+    cost: 'Free Admission / Booths from $100/day',
     attendance: '10,000+ expected',
-    highlight: 'Comprehensive amenities including electricity, water, tables/tents, weather cover, and free parking. Standard booths from $250, Food vendors $350, Food trucks $450, and Premium exhibitor spaces $500.',
+    highlight: 'Comprehensive amenities including electricity, water, tables/tents, weather cover, and free parking. Marketplace booths from $100/day, Food vendor spaces $100/day, Food trucks $150/day, and Business exhibitor spaces from $500.',
     ticketLink: 'https://vendorsmap.com/events/las-vegas-food-arts-street-market-festival#event-28943'
   },
   {

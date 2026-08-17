@@ -13,8 +13,20 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
   const [addDedicatedPost, setAddDedicatedPost] = useState<boolean>(false);
   const [addStageShoutout, setAddStageShoutout] = useState<boolean>(false);
 
+  interface SponsorshipTierInfo {
+    name: string;
+    price: number;
+    priceDisplay?: string;
+    impressions: string;
+    boothSize: string;
+    socials: string;
+    flyers: string;
+    stage: string;
+    colorClass: string;
+  }
+
   // Constants for tiers
-  const tierDetails = {
+  const tierDetails: Record<'community' | 'supporting' | 'featured' | 'presenting', SponsorshipTierInfo> = {
     community: {
       name: 'Community Sponsor',
       price: 2500,
@@ -47,7 +59,8 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
     },
     presenting: {
       name: 'Presenting Sponsor',
-      price: 20000,
+      price: 0,
+      priceDisplay: 'Custom',
       impressions: '450,000+',
       boothSize: 'Flagship Turnkey VIP Activation Lounge',
       socials: 'Complete marquee co-branding ("Presented by [Your Brand]")',
@@ -75,6 +88,7 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
     addOnImpressions += 15000;
   }
 
+  const isCustomPrice = selectedTier === 'presenting';
   const finalPrice = basePrice + addOnsPrice;
   const baseImpNum = parseInt(tierDetails[selectedTier].impressions.replace(/,/g, '').replace(/\+/g, ''));
   const finalImpressions = (baseImpNum + addOnImpressions).toLocaleString() + '+';
@@ -188,7 +202,9 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
                 </div>
                 <div className="text-right">
                   <span className="block text-xs text-charcoal/40 font-mono">Starts at</span>
-                  <span className="text-lg font-bold text-forest font-serif">${details.price.toLocaleString()}</span>
+                  <span className="text-lg font-bold text-forest font-serif">
+                    {details.priceDisplay || `$${details.price.toLocaleString()}`}
+                  </span>
                 </div>
               </div>
             ))}
@@ -263,7 +279,9 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-forest/5 border border-forest/15">
                   <span className="block text-[9px] text-charcoal/40 font-mono uppercase tracking-wider">Curation Investment</span>
-                  <span className="text-xl font-bold font-serif text-forest">${finalPrice.toLocaleString()}</span>
+                  <span className="text-xl font-bold font-serif text-forest">
+                    {isCustomPrice ? (addOnsPrice > 0 ? `Custom + $${addOnsPrice.toLocaleString()}` : 'Custom') : `$${finalPrice.toLocaleString()}`}
+                  </span>
                 </div>
                 <div className="p-4 rounded-xl bg-gold/5 border border-gold/20">
                   <span className="block text-[9px] text-charcoal/40 font-mono uppercase tracking-wider">Est. Impressions</span>

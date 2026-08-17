@@ -63,7 +63,7 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                 </div>
                 <div className="pt-3 border-t border-gold/10">
                   <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
-                  <span className="text-lg font-bold text-forest font-serif">$100 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="text-lg font-bold text-forest font-serif">$100 <span className="text-xs font-normal text-charcoal/60">/ day</span></span>
                   <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
                 </div>
               </div>
@@ -72,14 +72,14 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
               <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-3">
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 2 • Culinary & Drinks</span>
-                  <h3 className="font-serif text-base font-bold text-forest">Food & Beverage</h3>
+                  <h3 className="font-serif text-base font-bold text-forest">Food & Culinary</h3>
                   <p className="text-xs text-charcoal/65 font-light leading-relaxed">
                     Packaged food, baked goods, artisan treats, hot food prep, food trucks, and prime anchor kitchens.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/10">
                   <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
-                  <span className="text-lg font-bold text-forest font-serif">$300 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="text-lg font-bold text-forest font-serif">$100 <span className="text-xs font-normal text-charcoal/60">/ day</span></span>
                   <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
                 </div>
               </div>
@@ -88,14 +88,14 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
               <div className="p-5 rounded-xl bg-[#FAF6F0]/65 border border-gold/20 flex flex-col justify-between space-y-3">
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-mono text-gold font-bold tracking-wider uppercase block">Pillar 3 • Lead Generation</span>
-                  <h3 className="font-serif text-base font-bold text-forest">Business & Commercial</h3>
+                  <h3 className="font-serif text-base font-bold text-forest">Business Exhibitors</h3>
                   <p className="text-xs text-charcoal/65 font-light leading-relaxed">
                     Home improvement, wellness clinics, financial services, auto, real estate, and consumer lead gen.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/10">
                   <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
-                  <span className="text-lg font-bold text-forest font-serif">$500 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
+                  <span className="text-lg font-bold text-forest font-serif">$500</span>
                   <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
                 </div>
               </div>
@@ -110,9 +110,9 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                   </p>
                 </div>
                 <div className="pt-3 border-t border-gold/10">
-                  <span className="block text-[10px] text-charcoal/50 font-mono">From</span>
-                  <span className="text-lg font-bold text-forest font-serif">$1,000 <span className="text-xs font-normal text-charcoal/60">/ event</span></span>
-                  <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Flexible payment options available</span>
+                  <span className="block text-[10px] text-charcoal/50 font-mono">Pricing</span>
+                  <span className="text-lg font-bold text-forest font-serif">Custom</span>
+                  <span className="block text-[10px] text-gold font-sans font-medium mt-0.5">Tailored activation proposals</span>
                 </div>
               </div>
 
@@ -128,7 +128,7 @@ export default function VendorKitPage({ onBack, onApply }: VendorKitPageProps) {
                 <div className="pt-3 border-t border-gold/20 flex items-center justify-between">
                   <div>
                     <span className="block text-[10px] text-cream/50 font-mono">From</span>
-                    <span className="text-lg font-bold text-gold font-serif">$2,500 <span className="text-xs font-normal text-cream/60">to $20,000+</span></span>
+                    <span className="text-lg font-bold text-gold font-serif">$2,500 <span className="text-xs font-normal text-cream/60">to Custom</span></span>
                   </div>
                   <span className="text-xs font-mono text-gold px-2.5 py-1 rounded bg-gold/15 border border-gold/30">Tiered Packages</span>
                 </div>
