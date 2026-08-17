@@ -491,6 +491,12 @@ export const VENDOR_CONFIG: VendorConfig = {
       location: 'Atlanta, GA'
     },
     {
+      id: 'miami-end-summer-fest',
+      name: 'Miami End of Summer Family Fun Food Truck Music & Vendor Festival',
+      date: 'Sep 4-6, 2026',
+      location: 'Bayfront Park, Miami, FL'
+    },
+    {
       id: 'late-night-bites',
       name: 'Late Night Bites & Spirits Market',
       date: 'Sep 4, 2026',

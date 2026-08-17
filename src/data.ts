@@ -5,8 +5,27 @@ import miamiFestivalMarket from './assets/images/miami_festival_market_178363057
 import regeneratedTacosImage from './assets/images/regenerated_image_1784153031598.jpg';
 // @ts-ignore
 import lasVegasFoodArtsFest from './assets/images/regenerated_image_1786825872575.png';
+// @ts-ignore
+import miamiEndSummerFest from './assets/images/miami_end_summer_1786971777197.jpg';
 
 export const EVENTS_DATA: Event[] = [
+  {
+    id: 'ev-36',
+    slug: 'miami-end-of-summer-family-fun-food-truck-music-vendor-festival-2026',
+    title: 'Miami End of Summer Family Fun Food Truck Music & Vendor Festival 2026',
+    date: 'Sep 4-6, 2026',
+    location: 'Bayfront Park, 301 Biscayne Blvd, Miami, FL 33132',
+    image: miamiEndSummerFest,
+    spotsLeft: 22,
+    totalSpots: 60,
+    tag: 'Miami',
+    category: 'Food Truck & Family Festival',
+    description: 'Celebrate the ultimate Labor Day weekend summer finale at Bayfront Park in downtown Miami! Miami End of Summer Family Fun Food Truck Music & Vendor Festival 2026 runs Friday through Sunday, September 4–6, 2026 (10:00 AM – 5:00 PM daily). Experience an incredible gathering of premier gourmet food trucks, artisanal craft markets, non-stop live music, cultural performances, and family-friendly entertainment overlooking beautiful Biscayne Bay.',
+    cost: 'Free Admission / Booths from $100',
+    attendance: '20,000+ expected',
+    highlight: 'Prime waterfront 3-day festival footprint overlooking Biscayne Bay at Bayfront Park, high-volume holiday weekend foot traffic, dedicated food truck lanes, artisan marketplace, and direct Eventbrite ticket registration.',
+    ticketLink: 'https://www.eventbrite.com/e/miami-end-of-summer-family-fun-food-truck-music-vendor-festival-2026-tickets-1997693186096?aff=oddtdtcreator'
+  },
   {
     id: 'ev-35',
     slug: 'las-vegas-food-arts-street-market-festival',
