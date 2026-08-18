@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageType } from '../types';
-import { Mail, Phone, MapPin, Instagram, Linkedin, Globe, ShieldCheck, FileText, HelpCircle } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import Logo from './Logo';
 
 interface FooterProps {
@@ -32,38 +32,6 @@ export default function Footer({ onPageChange }: FooterProps) {
             <p className="text-xs leading-relaxed text-cream/60 font-light max-w-sm">
               Valerian Events designs, produces, and curates premier culinary, craft beverage, and artisanal marketplaces across America's top metropolitan cities. We connect visionary food creators and skilled makers with discerning patrons.
             </p>
-            <div className="pt-2">
-              <span className="block text-[10px] font-mono text-gold font-bold uppercase tracking-wider mb-2">Follow Our Production</span>
-              <div className="flex space-x-3">
-                <a 
-                  href="https://instagram.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-2.5 rounded-xl bg-forest/30 border border-gold/20 text-gold hover:bg-gold hover:text-forest transition-all duration-200"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="h-4 w-4" />
-                </a>
-                <a 
-                  href="https://tiktok.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-2.5 rounded-xl bg-forest/30 border border-gold/20 text-gold hover:bg-gold hover:text-forest transition-all duration-200"
-                  aria-label="TikTok"
-                >
-                  <Globe className="h-4 w-4" />
-                </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-2.5 rounded-xl bg-forest/30 border border-gold/20 text-gold hover:bg-gold hover:text-forest transition-all duration-200"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
           </div>
 
           {/* Column 2: Quick Links */}
@@ -139,14 +107,6 @@ export default function Footer({ onPageChange }: FooterProps) {
               </li>
               <li>
                 <button
-                  onClick={() => onPageChange('vendor-kit')}
-                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
-                >
-                  Vendor Information Kit
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => onPageChange('terms-of-service')}
                   className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
                 >
@@ -174,27 +134,9 @@ export default function Footer({ onPageChange }: FooterProps) {
                 <Mail className="h-4 w-4 text-gold shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-[10px] text-cream/40 uppercase tracking-wider">Email</span>
-                  <a href="mailto:vendors@valerianevents.com" className="text-cream hover:text-gold transition-colors font-medium">
-                    vendors@valerianevents.com
+                  <a href="mailto:info@valerianevents.com" className="text-cream hover:text-gold transition-colors font-medium">
+                    info@valerianevents.com
                   </a>
-                </div>
-              </li>
-              <li className="flex items-start space-x-2.5">
-                <Phone className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-[10px] text-cream/40 uppercase tracking-wider">Phone</span>
-                  <a href="tel:5551234567" className="text-cream hover:text-gold transition-colors font-medium">
-                    (555) 123-4567
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start space-x-2.5">
-                <MapPin className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-[10px] text-cream/40 uppercase tracking-wider">Headquarters</span>
-                  <span className="text-cream/70 font-light block">
-                    123 Main St, Suite 200<br />Las Vegas, NV 89101
-                  </span>
                 </div>
               </li>
             </ul>

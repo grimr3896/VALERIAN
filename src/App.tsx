@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import EventCard from './components/EventCard';
 import EventDetailPage from './components/EventDetailPage';
-import VendorKitPage from './components/VendorKitPage';
 import VendorsPage from './components/VendorsPage';
 import TermsPage from './components/TermsPage';
 import PrivacyPage from './components/PrivacyPage';
@@ -250,16 +249,6 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => {
-                      setCurrentPage('vendor-kit');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    id="hero-vendor-kit-btn"
-                    className="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-md"
-                  >
-                    VIEW VENDOR KIT – FREE DOWNLOAD
-                  </button>
-                  <button
-                    onClick={() => {
                       setCurrentPage('vendors');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
@@ -452,22 +441,13 @@ export default function App() {
                 <div className="relative z-10 shrink-0 w-full lg:w-auto flex flex-col sm:flex-row lg:flex-col gap-3">
                   <button
                     onClick={() => {
-                      setCurrentPage('vendor-kit');
+                      setCurrentPage('vendors');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="w-full px-6 py-3.5 rounded-xl bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    <span>VIEW VENDOR KIT</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setCurrentPage('vendors');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="w-full px-6 py-3.5 rounded-xl border border-gold/40 hover:bg-white/10 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
-                  >
                     <span>APPLY AS VENDOR</span>
+                    <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -481,26 +461,16 @@ export default function App() {
                 </div>
                 <h2 className="font-serif text-3xl md:text-4xl text-cream font-bold">Ready to exhibit your culinary brand?</h2>
                 <p className="text-xs md:text-sm text-cream/80 max-w-xl mx-auto leading-relaxed font-light">
-                  Spaces are curated and assigned on a rolling evaluation schedule. Download our comprehensive vendor pack or submit your concept for the 2026 debut tour today.
+                  Spaces are curated and assigned on a rolling evaluation schedule. Submit your concept for the 2026 debut tour today.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
-                  <button
-                    onClick={() => {
-                      setCurrentPage('vendor-kit');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    id="cta-vendor-kit-btn"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gold hover:bg-gold/95 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-colors shadow-lg cursor-pointer"
-                  >
-                    VIEW VENDOR KIT – FREE DOWNLOAD
-                  </button>
                   <button
                     onClick={() => {
                       setCurrentPage('vendors');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     id="cta-apply-btn"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-gold text-cream hover:bg-white/10 font-sans text-xs font-bold tracking-widest uppercase transition-colors cursor-pointer"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gold hover:bg-gold/95 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-colors shadow-lg cursor-pointer"
                   >
                     APPLY AS VENDOR
                   </button>
@@ -1020,23 +990,9 @@ export default function App() {
               event={matchedEvent}
               onApply={handleApplyForEvent}
               onBack={() => handlePageChange('events')}
-              onViewVendorKit={() => handlePageChange('vendor-kit')}
             />
           );
         })()}
-
-        {/* ==================================== */}
-        {/* VENDOR KIT PAGE                      */}
-        {/* ==================================== */}
-        {currentPage === 'vendor-kit' && (
-          <VendorKitPage
-            onBack={() => handlePageChange('home')}
-            onApply={() => {
-              setSelectedEventForApplication('General Vendor Inquiry');
-              handlePageChange('contact');
-            }}
-          />
-        )}
 
         {/* ==================================== */}
         {/* FAQ PAGE                             */}

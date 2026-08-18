@@ -29,10 +29,9 @@ interface EventDetailPageProps {
   event: Event;
   onApply: (eventName: string) => void;
   onBack: () => void;
-  onViewVendorKit?: () => void;
 }
 
-export default function EventDetailPage({ event, onApply, onBack, onViewVendorKit }: EventDetailPageProps) {
+export default function EventDetailPage({ event, onApply, onBack }: EventDetailPageProps) {
   const [copied, setCopied] = useState(false);
   const isSoldOut = event.spotsLeft === 0;
   const isAlmostFull = event.spotsLeft > 0 && event.spotsLeft <= 5;
@@ -391,17 +390,6 @@ export default function EventDetailPage({ event, onApply, onBack, onViewVendorKi
               <Ticket className="h-4 w-4 text-gold shrink-0" />
               <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : `Apply for ${event.title}`}</span>
             </button>
-
-            {/* Vendor Kit Download CTA */}
-            {onViewVendorKit && (
-              <button
-                onClick={onViewVendorKit}
-                className="w-full py-3 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase border border-gold text-forest hover:bg-forest/5 transition-all flex items-center justify-center space-x-2 cursor-pointer"
-              >
-                <Download className="h-4 w-4 text-gold shrink-0" />
-                <span>View Vendor Information Kit</span>
-              </button>
-            )}
           </div>
 
           {/* Quick Support Deck */}

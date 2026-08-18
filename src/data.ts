@@ -647,7 +647,7 @@ export const TEAM_MEMBERS = [
     formerRole: 'Former Municipal Operations Director, Coastal Events Group',
     bio: 'Elena oversees venue footprints, utility feeds (20A/110V power), health department clearances, load-in coordination, and on-site emergency readiness. She ensures 100% on-time setup and zero logistical delays for exhibitors.',
     avatar: 'https://i.pinimg.com/1200x/79/3a/36/793a36ab962a4892b2f89d8b53c5d7b2.jpg',
-    email: 'operations@valerianevents.com',
+    email: 'info@valerianevents.com',
     phone: '(555) 123-4567'
   },
   {
@@ -788,10 +788,10 @@ export const FOUNDER_DATA = {
   name: 'Alex Silver & The Leadership Team',
   title: 'Founder & Event Director',
   bio: 'Valerian Events is led by Alex Silver (CEO), Elena Rostova (Operations Lead), and Marcus Vance (Sponsorships), bringing over 30+ combined years of premier festival production, culinary curation, and municipal permitting expertise.',
-  email: 'vendors@valerianevents.com',
+  email: 'info@valerianevents.com',
   phone: '(555) 123-4567',
   address: '123 Main St, Suite 200, Las Vegas, NV 89101',
   avatar: 'https://i.pinimg.com/1200x/ce/ad/94/cead941fca1ea8075e01f564f1eedf98.jpg',
-  paymentMethod: 'Credit Card / ACH / Invoicing / Zelle (vendors@valerianevents.com)',
+  paymentMethod: 'Credit Card / ACH / Invoicing / Zelle (info@valerianevents.com)',
   commitment: '15-minute phone calls available daily. 24h response time guaranteed for all inquiries.'
 };

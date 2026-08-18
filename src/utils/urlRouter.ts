@@ -153,8 +153,8 @@ export function parseInitialUrlState(events: Event[]): {
     const pageParam = searchParams.get('page') as PageType | null;
     const validPages: PageType[] = [
       'home', 'events', 'vendor-info', 'vendors', 'contact', 
-      'event-detail', 'vendor-kit', 'terms-of-service', 
-      'privacy-policy', 'sponsorship-deck', 'about'
+      'event-detail', 'terms-of-service', 
+      'privacy-policy', 'sponsorship-deck', 'about', 'faq', 'refund-policy'
     ];
 
     if (pageParam && validPages.includes(pageParam)) {

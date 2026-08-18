@@ -674,79 +674,6 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         </div>
       </section>
 
-      {/* Transparent City Pricing Matrix Table */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8" id="city-pricing-matrix">
-        <div className="p-8 sm:p-10 bg-white border border-gold/25 rounded-3xl shadow-md space-y-6">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <span className="text-[10px] font-mono text-gold font-bold tracking-widest uppercase block">FEE TRANSPARENCY</span>
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-forest uppercase">
-              2026 City Booth Fees & Pricing Matrix
-            </h3>
-            <p className="text-xs sm:text-sm text-charcoal/65 font-light leading-relaxed">
-              No hidden fees. Every space includes tables, chairs, power connection, free parking, and insurance.
-            </p>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-gold/30 bg-forest/5 text-forest font-serif uppercase tracking-wider text-xs sm:text-sm">
-                  <th className="p-3.5 sm:p-4 font-bold">Host City</th>
-                  <th className="p-3.5 sm:p-4 font-bold">Standard 10'×10' Booth</th>
-                  <th className="p-3.5 sm:p-4 font-bold">Premium Corner Space</th>
-                  <th className="p-3.5 sm:p-4 font-bold">Food Truck / Mobile Kitchen</th>
-                  <th className="p-3.5 sm:p-4 font-bold">Inclusions & Perks</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gold/15 font-sans">
-                <tr className="hover:bg-cream/40 transition-colors">
-                  <td className="p-3.5 sm:p-4 font-bold text-forest">Las Vegas, NV</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$350 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$500 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$450 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
-                </tr>
-                <tr className="hover:bg-cream/40 transition-colors">
-                  <td className="p-3.5 sm:p-4 font-bold text-forest">Miami, FL</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$450 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$600 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
-                </tr>
-                <tr className="hover:bg-cream/40 transition-colors">
-                  <td className="p-3.5 sm:p-4 font-bold text-forest">Los Angeles, CA</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$450 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$600 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
-                </tr>
-                <tr className="hover:bg-cream/40 transition-colors">
-                  <td className="p-3.5 sm:p-4 font-bold text-forest">Austin, TX</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$400 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$500 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
-                </tr>
-                <tr className="hover:bg-cream/40 transition-colors">
-                  <td className="p-3.5 sm:p-4 font-bold text-forest">Houston, TX</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$400 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$500 / weekend</td>
-                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div className="p-4 rounded-xl bg-forest/5 border border-gold/20 flex items-center space-x-3 text-xs text-charcoal/80">
-            <ShieldCheck className="h-5 w-5 text-gold shrink-0" />
-            <p>
-              <strong>100% Sales Guarantee:</strong> We never charge sales commission or retail percentages. You keep 100% of your earnings.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Strategic Advantages Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
@@ -1059,15 +986,6 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
             >
               <Mail className="h-4 w-4 text-gold" />
               <span>{VENDOR_CONFIG.contact.email}</span>
-            </a>
-            <a
-              href={VENDOR_CONFIG.contact.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl border border-gold bg-white text-forest hover:bg-forest/5 text-xs font-bold tracking-widest uppercase transition-all duration-200 flex items-center justify-center space-x-2 cursor-pointer"
-            >
-              <Phone className="h-4 w-4 text-gold" />
-              <span>Call / WhatsApp: {VENDOR_CONFIG.contact.formattedPhone}</span>
             </a>
           </div>
         </div>

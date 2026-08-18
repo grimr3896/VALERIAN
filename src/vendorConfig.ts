@@ -749,7 +749,7 @@ export const VENDOR_CONFIG: VendorConfig = {
   */
   confirmedVendors: [],
   contact: {
-    email: 'alex@valerianevents.com',
+    email: 'info@valerianevents.com',
     phone: '',
     whatsapp: '',
     formattedPhone: ''

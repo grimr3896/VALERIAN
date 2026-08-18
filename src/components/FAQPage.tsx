@@ -130,19 +130,11 @@ export default function FAQPage({ onBack, onApply }: FAQPageProps) {
 
         <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
           <a
-            href="tel:5551234567"
-            className="inline-flex items-center space-x-2 py-3 px-6 rounded-xl bg-white/10 hover:bg-white/20 text-cream border border-gold/30 font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200"
-          >
-            <Phone className="h-4 w-4 text-gold" />
-            <span>Call (555) 123-4567</span>
-          </a>
-
-          <a
-            href="mailto:vendors@valerianevents.com"
+            href="mailto:info@valerianevents.com"
             className="inline-flex items-center space-x-2 py-3 px-6 rounded-xl bg-white/10 hover:bg-white/20 text-cream border border-gold/30 font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200"
           >
             <Mail className="h-4 w-4 text-gold" />
-            <span>vendors@valerianevents.com</span>
+            <span>info@valerianevents.com</span>
           </a>
 
           <button
