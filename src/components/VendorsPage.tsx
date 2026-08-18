@@ -621,6 +621,132 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         </div>
       </section>
 
+      {/* How We Attract Attendees Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10" id="how-we-attract-attendees">
+        <div className="text-center space-y-3 max-w-2xl mx-auto">
+          <span className="text-xs font-bold text-gold uppercase tracking-widest font-sans">Audience & Marketing Engine</span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-forest uppercase">How We Attract Attendees</h2>
+          <p className="text-charcoal/65 text-xs sm:text-sm font-light leading-relaxed">
+            We don't rely on luck or hope. We deploy an aggressive, multi-channel marketing campaign in every host city to guarantee continuous, high-intent foot traffic from open to close.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="p-6 bg-white border border-gold/20 rounded-2xl space-y-3 shadow-xs">
+            <div className="p-3 bg-forest/5 text-forest rounded-xl border border-gold/15 w-fit">
+              <Megaphone className="h-6 w-6 text-gold" />
+            </div>
+            <h4 className="font-serif font-bold text-forest text-base uppercase tracking-wide">Paid Social Ad Campaigns</h4>
+            <p className="text-xs text-charcoal/70 font-light leading-relaxed">
+              <strong>$15,000+ dedicated ad spend per city</strong> across Meta (Instagram/Facebook) and TikTok, geo-targeted to food lovers and shoppers within a 25-mile radius.
+            </p>
+          </div>
+
+          <div className="p-6 bg-white border border-gold/20 rounded-2xl space-y-3 shadow-xs">
+            <div className="p-3 bg-forest/5 text-forest rounded-xl border border-gold/15 w-fit">
+              <Mail className="h-6 w-6 text-gold" />
+            </div>
+            <h4 className="font-serif font-bold text-forest text-base uppercase tracking-wide">Direct Foodie Email List</h4>
+            <p className="text-xs text-charcoal/70 font-light leading-relaxed">
+              <strong>12,000+ local foodie subscribers</strong> receiving dedicated city preview guides, vendor highlights, and interactive marketplace menus before opening day.
+            </p>
+          </div>
+
+          <div className="p-6 bg-white border border-gold/20 rounded-2xl space-y-3 shadow-xs">
+            <div className="p-3 bg-forest/5 text-forest rounded-xl border border-gold/15 w-fit">
+              <Building className="h-6 w-6 text-gold" />
+            </div>
+            <h4 className="font-serif font-bold text-forest text-base uppercase tracking-wide">Tourism & Chamber Partners</h4>
+            <p className="text-xs text-charcoal/70 font-light leading-relaxed">
+              Official partnerships with <strong>Local Chambers of Commerce</strong>, Downtown Business Alliances, and Regional Tourism Boards driving visitor and resident attendance.
+            </p>
+          </div>
+
+          <div className="p-6 bg-white border border-gold/20 rounded-2xl space-y-3 shadow-xs">
+            <div className="p-3 bg-forest/5 text-forest rounded-xl border border-gold/15 w-fit">
+              <Sparkles className="h-6 w-6 text-gold" />
+            </div>
+            <h4 className="font-serif font-bold text-forest text-base uppercase tracking-wide">Influencer Collaborations</h4>
+            <p className="text-xs text-charcoal/70 font-light leading-relaxed">
+              <strong>15+ vetted culinary creators (50k+ followers each)</strong> hosting live tastings, story takeovers, and reels during setup and festival hours.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Transparent City Pricing Matrix Table */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8" id="city-pricing-matrix">
+        <div className="p-8 sm:p-10 bg-white border border-gold/25 rounded-3xl shadow-md space-y-6">
+          <div className="text-center space-y-2 max-w-2xl mx-auto">
+            <span className="text-[10px] font-mono text-gold font-bold tracking-widest uppercase block">FEE TRANSPARENCY</span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-forest uppercase">
+              2026 City Booth Fees & Pricing Matrix
+            </h3>
+            <p className="text-xs sm:text-sm text-charcoal/65 font-light leading-relaxed">
+              No hidden fees. Every space includes tables, chairs, power connection, free parking, and insurance.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-gold/30 bg-forest/5 text-forest font-serif uppercase tracking-wider text-xs sm:text-sm">
+                  <th className="p-3.5 sm:p-4 font-bold">Host City</th>
+                  <th className="p-3.5 sm:p-4 font-bold">Standard 10'×10' Booth</th>
+                  <th className="p-3.5 sm:p-4 font-bold">Premium Corner Space</th>
+                  <th className="p-3.5 sm:p-4 font-bold">Food Truck / Mobile Kitchen</th>
+                  <th className="p-3.5 sm:p-4 font-bold">Inclusions & Perks</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gold/15 font-sans">
+                <tr className="hover:bg-cream/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-forest">Las Vegas, NV</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$350 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$500 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$450 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
+                </tr>
+                <tr className="hover:bg-cream/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-forest">Miami, FL</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$450 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$600 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
+                </tr>
+                <tr className="hover:bg-cream/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-forest">Los Angeles, CA</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$450 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$600 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
+                </tr>
+                <tr className="hover:bg-cream/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-forest">Austin, TX</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$400 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$500 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
+                </tr>
+                <tr className="hover:bg-cream/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-forest">Houston, TX</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$400 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$550 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-forest font-semibold">$500 / weekend</td>
+                  <td className="p-3.5 sm:p-4 text-charcoal/70">10x10 space, table, 2 chairs, power, free 2-car parking, $5M insurance</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="p-4 rounded-xl bg-forest/5 border border-gold/20 flex items-center space-x-3 text-xs text-charcoal/80">
+            <ShieldCheck className="h-5 w-5 text-gold shrink-0" />
+            <p>
+              <strong>100% Sales Guarantee:</strong> We never charge sales commission or retail percentages. You keep 100% of your earnings.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Strategic Advantages Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
@@ -638,7 +764,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
             </div>
             <h3 className="font-serif text-lg font-bold text-forest">High-Volume Foot Traffic</h3>
             <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-              Our festivals attract average crowds of 8,000 to 15,000+ passionate, hungry foodies per weekend event, resulting in highly condensed sales potential.
+              Our festivals attract average crowds of 8,000 to 15,000+ passionate, hungry foodies per weekend event, resulting in high sales volume and instant repeat customer discovery.
             </p>
           </div>
 
@@ -646,9 +772,9 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
             <div className="p-3 bg-forest/5 text-forest rounded-xl border border-gold/10 inline-block">
               <Megaphone className="h-6 w-6 text-gold" />
             </div>
-            <h3 className="font-serif text-lg font-bold text-forest">No Ticket Barriers for Visitors</h3>
+            <h3 className="font-serif text-lg font-bold text-forest">100% Sales Retained (0% Commission)</h3>
             <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-              We leverage an open, accessible festival framework at high-end public hubs to remove friction and pull in massive spontaneous foot traffic.
+              Unlike traditional corporate expos that take a 20%–35% cut of your register, we operate strictly on a transparent flat booth fee. You keep every dollar you make.
             </p>
           </div>
 
@@ -656,9 +782,9 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
             <div className="p-3 bg-forest/5 text-forest rounded-xl border border-gold/10 inline-block">
               <Clock className="h-6 w-6 text-gold" />
             </div>
-            <h3 className="font-serif text-lg font-bold text-forest">Professional Infrastructure</h3>
+            <h3 className="font-serif text-lg font-bold text-forest">Turnkey Infrastructure Included</h3>
             <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-              Forget unstable generators. We provide robust low-fluctuation electric current hookups, professional waste compactors, greywater ports, and grease disposal bins on-site.
+              Forget unstable generators. We provide standard electric current hookups, professional waste compactors, greywater ports, tables, chairs, and free parking on-site.
             </p>
           </div>
         </div>

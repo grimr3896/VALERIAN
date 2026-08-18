@@ -11,11 +11,16 @@ import {
   CheckCircle2, 
   ChevronRight, 
   Shield, 
-  ShieldCheck,
-  Share2,
-  Copy,
-  Check,
-  ExternalLink
+  ShieldCheck, 
+  Share2, 
+  Copy, 
+  Check, 
+  ExternalLink,
+  Download,
+  Clock,
+  Car,
+  Zap,
+  HelpCircle
 } from 'lucide-react';
 import { FOUNDER_DATA } from '../data';
 import { getEventSlug, getEventShareUrl } from '../utils/urlRouter';
@@ -24,9 +29,10 @@ interface EventDetailPageProps {
   event: Event;
   onApply: (eventName: string) => void;
   onBack: () => void;
+  onViewVendorKit?: () => void;
 }
 
-export default function EventDetailPage({ event, onApply, onBack }: EventDetailPageProps) {
+export default function EventDetailPage({ event, onApply, onBack, onViewVendorKit }: EventDetailPageProps) {
   const [copied, setCopied] = useState(false);
   const isSoldOut = event.spotsLeft === 0;
   const isAlmostFull = event.spotsLeft > 0 && event.spotsLeft <= 5;
@@ -37,12 +43,25 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
   const eventSlug = getEventSlug(event);
   const shareUrl = getEventShareUrl(event);
 
+  const getCityPricing = (cityTag: string) => {
+    switch (cityTag) {
+      case 'Las Vegas': return { standard: '$350', corner: '$500', foodTruck: '$450' };
+      case 'Miami': return { standard: '$450', corner: '$600', foodTruck: '$550' };
+      case 'Los Angeles': return { standard: '$450', corner: '$600', foodTruck: '$550' };
+      case 'Austin': return { standard: '$400', corner: '$550', foodTruck: '$500' };
+      case 'Houston': return { standard: '$400', corner: '$550', foodTruck: '$500' };
+      case 'New York City': return { standard: '$500', corner: '$650', foodTruck: '$600' };
+      default: return { standard: '$350', corner: '$500', foodTruck: '$450' };
+    }
+  };
+
+  const pricing = getCityPricing(event.tag);
+
   const handleCopyLink = async () => {
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(shareUrl);
       } else {
-        // Fallback
         const el = document.createElement('textarea');
         el.value = shareUrl;
         document.body.appendChild(el);
@@ -66,7 +85,6 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
           url: shareUrl,
         });
       } catch (err) {
-        // User cancelled or share failed, fallback to copy
         handleCopyLink();
       }
     } else {
@@ -83,22 +101,6 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
       }`} 
       id={`event-detail-${event.id}`}
     >
-      {/* Night Market Soft Glowing Ambient String Lights (background decorative elements) */}
-      {isNightMarket && (
-        <div className="absolute inset-x-0 top-0 pointer-events-none h-44 overflow-hidden opacity-30 select-none">
-          <div className="absolute top-2 left-6 w-1.5 h-1.5 rounded-full bg-gold animate-pulse shadow-[0_0_8px_#D4AF37]"></div>
-          <div className="absolute top-4 left-16 w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-150 shadow-[0_0_10px_#D4AF37]"></div>
-          <div className="absolute top-3 left-32 w-1.5 h-1.5 rounded-full bg-gold/80 animate-pulse delay-300 shadow-[0_0_8px_#D4AF37]"></div>
-          <div className="absolute top-5 left-56 w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-500 shadow-[0_0_12px_#D4AF37]"></div>
-          <div className="absolute top-2 left-80 w-1.5 h-1.5 rounded-full bg-gold/70 animate-pulse delay-200 shadow-[0_0_8px_#D4AF37]"></div>
-          <div className="absolute top-4 left-[40%] w-2.5 h-2.5 rounded-full bg-gold/90 animate-pulse delay-75 shadow-[0_0_14px_#D4AF37]"></div>
-          <div className="absolute top-3 left-[60%] w-1.5 h-1.5 rounded-full bg-gold/80 animate-pulse delay-450 shadow-[0_0_8px_#D4AF37]"></div>
-          <div className="absolute top-5 left-[75%] w-2 h-2 rounded-full bg-gold/90 animate-pulse delay-150 shadow-[0_0_12px_#D4AF37]"></div>
-          <div className="absolute top-3 right-16 w-2.5 h-2.5 rounded-full bg-gold animate-pulse delay-300 shadow-[0_0_14px_#D4AF37]"></div>
-          <div className="absolute top-4 right-6 w-1.5 h-1.5 rounded-full bg-gold/80 animate-pulse delay-200 shadow-[0_0_8px_#D4AF37]"></div>
-        </div>
-      )}
-
       {/* Navigation Breadcrumb & Back button & Share */}
       <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
         <div className="flex items-center space-x-3">
@@ -107,12 +109,12 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer ${
               isNightMarket
                 ? 'border-gold/40 bg-gold/5 hover:bg-gold/15 text-cream hover:text-gold'
-                : 'border-gold/30 bg-white hover:bg-forest/5 text-forest'
+                : 'border-gold/30 bg-white hover:bg-forest/5 text-forest font-semibold'
             }`}
             id="event-detail-back-btn"
           >
             <ArrowLeft className="h-4 w-4 text-gold" />
-            <span>Back to Lineup</span>
+            <span>Back to All Events</span>
           </button>
 
           <button
@@ -150,8 +152,8 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
         {/* Left column - main image and info (8 cols) */}
         <div className="lg:col-span-8 space-y-8">
-          {/* Main Visual Banner with floating status */}
-          <div className={`relative rounded-2xl overflow-hidden shadow-xl aspect-video max-h-[500px] transition-all duration-300 ${
+          {/* Main Visual Banner */}
+          <div className={`relative rounded-2xl overflow-hidden shadow-xl aspect-video max-h-[480px] transition-all duration-300 ${
             isNightMarket 
               ? 'border-2 border-gold/40 shadow-[0_0_25px_rgba(212,175,55,0.15)] bg-forest/30' 
               : 'border border-gold/20 bg-neutral-100'
@@ -159,18 +161,15 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             <img
               src={event.image}
               alt={event.title}
-              className={`w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02] ${
-                isNightMarket ? 'brightness-[1.05]' : ''
-              }`}
+              className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/15 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent"></div>
 
-            {/* Float tags */}
             <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-3 items-end justify-between">
               <div>
                 <span className="px-3.5 py-1.5 text-[10px] font-bold tracking-widest uppercase rounded-full bg-gold text-forest shadow-md border border-white/20">
-                  {event.category}
+                  {event.category} • {event.tag}
                 </span>
                 <h1 className="mt-2.5 font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-md leading-none">
                   {event.title}
@@ -179,92 +178,127 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             </div>
           </div>
 
-          {/* Quick Specifications Deck */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className={`p-5 rounded-2xl shadow-sm space-y-1.5 transition-all duration-300 ${
-              isNightMarket
-                ? 'bg-white/5 border border-gold/25 text-cream hover:border-gold/40'
-                : 'bg-white border border-gold/15 text-forest hover:border-gold/30'
+          {/* Quick Specifications Deck (4 Key Metrics) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
+              isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
             }`}>
-              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/80' : 'text-charcoal/50'}`}>Date & Schedule</span>
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-4 w-4 text-gold shrink-0" />
-                <span className="text-sm font-bold">{event.date}</span>
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Date</span>
+              <div className="flex items-center space-x-1.5">
+                <Calendar className="h-3.5 w-3.5 text-gold shrink-0" />
+                <span className="text-xs sm:text-sm font-bold truncate">{event.date}</span>
               </div>
             </div>
 
-            <div className={`p-5 rounded-2xl shadow-sm space-y-1.5 transition-all duration-300 ${
-              isNightMarket
-                ? 'bg-white/5 border border-gold/25 text-cream hover:border-gold/40'
-                : 'bg-white border border-gold/15 text-forest hover:border-gold/30'
+            <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
+              isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
             }`}>
-              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/80' : 'text-charcoal/50'}`}>Venue City</span>
-              <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-gold shrink-0" />
-                <span className="text-sm font-bold truncate">{event.location}</span>
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Event Hours</span>
+              <div className="flex items-center space-x-1.5">
+                <Clock className="h-3.5 w-3.5 text-gold shrink-0" />
+                <span className="text-xs sm:text-sm font-bold truncate">11 AM – 8 PM</span>
               </div>
             </div>
 
-            <div className={`p-5 rounded-2xl shadow-sm space-y-1.5 transition-all duration-300 ${
-              isNightMarket
-                ? 'bg-white/5 border border-gold/25 text-cream hover:border-gold/40'
-                : 'bg-white border border-gold/15 text-forest hover:border-gold/30'
+            <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
+              isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
             }`}>
-              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/80' : 'text-charcoal/50'}`}>Est. Foot Traffic</span>
-              <div className="flex items-center space-x-2">
-                <Users className="h-4 w-4 text-gold shrink-0" />
-                <span className="text-sm font-bold">{event.attendance}</span>
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Venue City</span>
+              <div className="flex items-center space-x-1.5">
+                <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
+                <span className="text-xs sm:text-sm font-bold truncate">{event.location}</span>
+              </div>
+            </div>
+
+            <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
+              isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
+            }`}>
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Attendance</span>
+              <div className="flex items-center space-x-1.5">
+                <Users className="h-3.5 w-3.5 text-gold shrink-0" />
+                <span className="text-xs sm:text-sm font-bold truncate">{event.attendance}</span>
               </div>
             </div>
           </div>
 
           {/* About description */}
           <div className={`p-8 rounded-2xl shadow-sm space-y-4 ${
-            isNightMarket
-              ? 'bg-white/5 border border-gold/20 text-cream'
-              : 'bg-white border border-gold/15 text-charcoal/80'
+            isNightMarket ? 'bg-white/5 border border-gold/20 text-cream' : 'bg-white border border-gold/15 text-charcoal/80'
           }`}>
-            <h2 className={`font-serif text-xl font-bold border-b pb-3 ${isNightMarket ? 'text-gold border-gold/20' : 'text-forest border-gold/10'}`}>Festival Curation Profile</h2>
-            <p className={`text-sm md:text-base leading-relaxed font-light ${isNightMarket ? 'text-cream/90' : 'text-charcoal/80'}`}>
+            <h2 className={`font-serif text-xl font-bold border-b pb-3 ${isNightMarket ? 'text-gold border-gold/20' : 'text-forest border-gold/10'}`}>
+              Festival Curation Profile & Concept
+            </h2>
+            <p className={`text-sm leading-relaxed font-light ${isNightMarket ? 'text-cream/90' : 'text-charcoal/80'}`}>
               {event.description}
             </p>
           </div>
 
-          {/* Inclusion benefits */}
-          <div className={`p-8 border rounded-2xl shadow-sm space-y-5 relative overflow-hidden ${
-            isNightMarket
-              ? 'bg-gradient-to-br from-[#122c23] to-[#0c1e18] border-gold/35'
-              : 'bg-gradient-to-br from-white to-cream/30 border-gold/25'
-          }`}>
-            <div className="absolute top-0 right-0 p-6 opacity-5">
-              <Sparkles className="h-24 w-24 text-gold" />
+          {/* Booth Fee Structure Breakdown */}
+          <div className="p-8 rounded-2xl bg-white border border-gold/20 space-y-5 shadow-sm">
+            <div className="flex items-center justify-between border-b border-gold/15 pb-3">
+              <div>
+                <span className="text-[10px] font-mono text-gold font-bold uppercase tracking-wider block">Transparent Pricing</span>
+                <h3 className="font-serif text-xl font-bold text-forest uppercase">Booth Fee Breakdown for {event.tag}</h3>
+              </div>
+              <span className="text-xs font-mono px-3 py-1 bg-forest/5 text-forest font-bold rounded-full border border-gold/20">
+                100% Sales Kept (0% Cut)
+              </span>
             </div>
 
-            <div className="flex items-center space-x-3 text-gold">
-              <Sparkles className="h-5 w-5" />
-              <h3 className={`font-serif text-lg font-bold uppercase tracking-wider ${isNightMarket ? 'text-gold' : 'text-forest'}`}>Exhibitor Inclusion package</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 space-y-2">
+                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">Standard 10'×10' Booth</span>
+                <span className="text-2xl font-serif font-bold text-forest">{pricing.standard}</span>
+                <span className="text-[10px] text-charcoal/60 block">Includes 1 table, 2 chairs, 110V power & 2-car parking</span>
+              </div>
+
+              <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 space-y-2">
+                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">Premium Corner Space</span>
+                <span className="text-2xl font-serif font-bold text-forest">{pricing.corner}</span>
+                <span className="text-[10px] text-charcoal/60 block">Double aisle exposure, 10'×20' canopy footprint</span>
+              </div>
+
+              <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 space-y-2">
+                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">Food Truck / Mobile Rig</span>
+                <span className="text-2xl font-serif font-bold text-forest">{pricing.foodTruck}</span>
+                <span className="text-[10px] text-charcoal/60 block">Dedicated 30A/50A electric & greywater access</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Full Vendor Inclusions */}
+          <div className="p-8 border rounded-2xl shadow-sm space-y-5 bg-gradient-to-br from-white to-cream/30 border-gold/25">
+            <div className="flex items-center space-x-3 text-forest">
+              <Sparkles className="h-5 w-5 text-gold" />
+              <h3 className="font-serif text-lg font-bold uppercase tracking-wider text-forest">
+                What's Included With Every Vendor Space
+              </h3>
             </div>
             
-            <p className={`text-xs md:text-sm leading-relaxed font-light ${isNightMarket ? 'text-cream/90' : 'text-charcoal/85'}`}>
-              {event.highlight}
-            </p>
-
-            <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t text-xs ${isNightMarket ? 'border-gold/20 text-cream/80' : 'border-gold/10 text-charcoal/70'}`}>
-              <div className="flex items-start space-x-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-charcoal/80">
+              <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span>COI verification assistance and guidelines provided.</span>
+                <span><strong>Heavy-Duty Canopy & Table Setup:</strong> Commercial 10x10 canopy, 6-foot draped table, and 2 chairs.</span>
               </div>
-              <div className="flex items-start space-x-2">
+              <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span>Dedicated power hookups and safety checks.</span>
+                <span><strong>Electricity Hookup:</strong> 110V/15A standard electric outlet with dedicated circuit breaker protection.</span>
               </div>
-              <div className="flex items-start space-x-2">
+              <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span>Overnight logistics, waste management, and security.</span>
+                <span><strong>Free Parking:</strong> Guaranteed complimentary parking passes for up to 2 merchant vehicles/trailers.</span>
               </div>
-              <div className="flex items-start space-x-2">
+              <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span>Inclusion in professional festival media assets.</span>
+                <span><strong>$5M General Liability Co-Insurance:</strong> Event umbrella insurance included; COI verification assistance.</span>
+              </div>
+              <div className="flex items-start space-x-2.5">
+                <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
+                <span><strong>Waste & Overnight Security:</strong> On-site grease disposal, greywater dumps, and 24-hour guarded security.</span>
+              </div>
+              <div className="flex items-start space-x-2.5">
+                <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
+                <span><strong>Marketing Promotion:</strong> Direct inclusion in pre-event foodie newsletters (12k+ list) & social reels.</span>
               </div>
             </div>
           </div>
@@ -272,18 +306,10 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
 
         {/* Right column - Side panel (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
-          
           {/* Capacity and application ticket container */}
-          <div className={`p-6 border-2 rounded-2xl shadow-md space-y-6 relative overflow-hidden ${
-            isNightMarket
-              ? 'bg-[#122a21] border-gold/40 text-cream'
-              : 'bg-white border-gold/30 text-charcoal'
-          }`}>
-            {/* Background pattern */}
-            <div className="absolute top-0 right-0 w-24 h-24 bg-forest/5 rounded-bl-full pointer-events-none" />
-
+          <div className="p-6 border-2 rounded-2xl shadow-md space-y-6 bg-white border-gold/30 text-charcoal">
             <div className="space-y-1">
-              <span className={`block text-[10px] font-bold tracking-wider uppercase font-sans ${isNightMarket ? 'text-gold/85' : 'text-charcoal/50'}`}>Availability Status</span>
+              <span className="block text-[10px] font-bold tracking-wider uppercase font-sans text-charcoal/50">Space Availability</span>
               <div>
                 {event.isPast ? (
                   <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-neutral-200 text-neutral-700 border border-neutral-300">
@@ -294,11 +320,11 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
                     Fully Booked
                   </span>
                 ) : isAlmostFull ? (
-                  <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-amber-100 text-amber-800 border border-amber-300 animate-pulse">
+                  <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-amber-100 text-amber-800 border border-amber-300 animate-pulse font-bold">
                     Only {event.spotsLeft} Spots Left
                   </span>
                 ) : (
-                  <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  <span className="inline-flex items-center px-3 py-1 text-xs font-bold tracking-wider uppercase rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold">
                     {event.spotsLeft} Openings Available
                   </span>
                 )}
@@ -306,43 +332,49 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             </div>
 
             {/* Booking progress */}
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold">
-                <span className={isNightMarket ? 'text-cream/85' : 'text-charcoal/70'}>Booth Allocation</span>
-                <span className={`font-bold ${isNightMarket ? 'text-gold' : 'text-forest'}`}>{spotsSecured} / {event.totalSpots} Secured ({percentFull}%)</span>
+                <span className="text-charcoal/70">Booth Allocation</span>
+                <span className="font-bold text-forest">{spotsSecured} / {event.totalSpots} Secured ({percentFull}%)</span>
               </div>
-              <div className={`h-2.5 w-full rounded-full overflow-hidden ${isNightMarket ? 'bg-black/25 border border-gold/20' : 'bg-neutral-100 border border-gold/15'}`}>
+              <div className="h-2.5 w-full rounded-full overflow-hidden bg-neutral-100 border border-gold/15">
                 <div
-                  className={`h-full transition-all duration-700 rounded-full ${isNightMarket ? 'bg-gold' : 'bg-forest'}`}
+                  className="h-full transition-all duration-700 rounded-full bg-forest"
                   style={{ width: `${percentFull}%` }}
                 ></div>
               </div>
             </div>
 
-            {/* Application checklist */}
-            <div className={`p-4 rounded-xl border space-y-3 ${
-              isNightMarket
-                ? 'bg-black/20 border-gold/20'
-                : 'bg-cream/35 border-gold/15'
-            }`}>
-              <h4 className={`font-serif text-xs font-bold tracking-wide uppercase flex items-center space-x-1.5 ${isNightMarket ? 'text-gold' : 'text-forest'}`}>
-                <ShieldCheck className="h-4 w-4 text-gold" />
-                <span>Guaranteed Curation Standards</span>
-              </h4>
-              <ul className={`space-y-2 text-xs font-light ${isNightMarket ? 'text-cream/80' : 'text-charcoal/75'}`}>
-                <li className="flex items-center space-x-2">
-                  <span className="h-1 w-1 rounded-full bg-gold shrink-0"></span>
-                  <span>Flat fee - 100% retail sales kept</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="h-1 w-1 rounded-full bg-gold shrink-0"></span>
-                  <span>10x10 premium canopy included</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="h-1 w-1 rounded-full bg-gold shrink-0"></span>
-                  <span>Standard 110V/15A electric feed</span>
-                </li>
-              </ul>
+            {/* Setup & Logistics Times */}
+            <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 text-xs space-y-2">
+              <span className="font-bold text-forest uppercase tracking-wider text-[10px] block">Event Timetable</span>
+              <div className="flex justify-between">
+                <span className="text-charcoal/70">Vendor Setup:</span>
+                <span className="font-semibold text-forest">7:00 AM – 10:30 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-charcoal/70">Doors Open:</span>
+                <span className="font-semibold text-forest">11:00 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-charcoal/70">Festival Closes:</span>
+                <span className="font-semibold text-forest">8:00 PM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-charcoal/70">Apply By:</span>
+                <span className="font-semibold text-gold">14 Days Prior to Event</span>
+              </div>
+            </div>
+
+            {/* Refund & Approval Guarantee Box */}
+            <div className="p-4 rounded-xl bg-forest/5 border border-gold/20 text-xs space-y-1.5">
+              <div className="flex items-center space-x-2 text-forest font-bold text-[11px] uppercase">
+                <ShieldCheck className="h-4 w-4 text-gold shrink-0" />
+                <span>100% Refund Guarantee</span>
+              </div>
+              <p className="text-[11px] text-charcoal/70 font-light leading-relaxed">
+                Full 100% refund issued immediately if your space application is not approved or confirmed within 14 days.
+              </p>
             </div>
 
             {/* Primary Action Button */}
@@ -350,92 +382,37 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               onClick={() => onApply(event.title)}
               id={`event-detail-action-btn-${event.id}`}
               disabled={isSoldOut || event.isPast}
-              className={`w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer ${
+              className={`w-full py-4 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer ${
                 event.isPast || isSoldOut
-                  ? 'bg-neutral-100 border border-neutral-200 text-neutral-400 cursor-not-allowed hover:shadow-none'
-                  : isNightMarket
-                    ? 'bg-gold text-forest hover:bg-gold/90 hover:shadow-gold/10'
-                    : 'bg-forest text-cream hover:bg-forest/95 hover:shadow-forest/20'
+                  ? 'bg-neutral-100 border border-neutral-200 text-neutral-400 cursor-not-allowed'
+                  : 'bg-forest text-cream hover:bg-forest/95'
               }`}
             >
-              <Ticket className={`h-4 w-4 shrink-0 ${isNightMarket ? 'text-forest' : 'text-gold'}`} />
-              <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : 'Apply for this Event'}</span>
+              <Ticket className="h-4 w-4 text-gold shrink-0" />
+              <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : `Apply for ${event.title}`}</span>
             </button>
 
-            {/* Eventbrite / VendorsMap External Link for Attendees & Vendors */}
-            {event.ticketLink && (
-              <a
-                href={event.ticketLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                id={`event-detail-ticket-btn-${event.id}`}
-                className={`w-full py-3 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase border transition-all flex items-center justify-center space-x-2 cursor-pointer ${
-                  event.ticketLink.includes('vendorsmap')
-                    ? isNightMarket
-                      ? 'border-gold/40 text-gold hover:bg-gold/10'
-                      : 'border-emerald-600/40 text-emerald-700 hover:bg-emerald-50'
-                    : 'border-[#F05537] text-[#F05537] hover:bg-[#F05537]/5'
-                }`}
+            {/* Vendor Kit Download CTA */}
+            {onViewVendorKit && (
+              <button
+                onClick={onViewVendorKit}
+                className="w-full py-3 px-4 rounded-xl font-sans text-xs font-bold tracking-widest uppercase border border-gold text-forest hover:bg-forest/5 transition-all flex items-center justify-center space-x-2 cursor-pointer"
               >
-                <span className="text-sm">{event.ticketLink.includes('vendorsmap') ? '🗺️' : '🎟️'}</span>
-                <span>{event.ticketLink.includes('vendorsmap') ? 'View on VendorsMap' : 'Get Eventbrite Tickets'}</span>
-                <ExternalLink className="h-3 w-3 ml-1" />
-              </a>
+                <Download className="h-4 w-4 text-gold shrink-0" />
+                <span>View Vendor Information Kit</span>
+              </button>
             )}
-
-            {/* Direct URL Share Box */}
-            <div className={`p-3.5 rounded-xl border space-y-2 ${
-              isNightMarket ? 'bg-black/30 border-gold/20' : 'bg-neutral-50 border-gold/15'
-            }`}>
-              <div className="flex items-center justify-between text-[11px] font-mono">
-                <span className={`uppercase font-bold tracking-wider ${isNightMarket ? 'text-gold/80' : 'text-charcoal/60'}`}>
-                  Direct Event URL
-                </span>
-                {copied && (
-                  <span className="text-emerald-500 font-bold flex items-center space-x-1">
-                    <Check className="h-3 w-3" />
-                    <span>Copied!</span>
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className={`flex-1 px-2.5 py-1.5 rounded-lg border font-mono text-[11px] truncate select-all ${
-                  isNightMarket 
-                    ? 'bg-forest/50 border-gold/20 text-cream/80' 
-                    : 'bg-white border-neutral-200 text-charcoal/70'
-                }`}>
-                  ?event={eventSlug}
-                </div>
-                <button
-                  onClick={handleCopyLink}
-                  id="event-detail-copy-url-btn"
-                  className={`p-2 rounded-lg border transition-all cursor-pointer ${
-                    copied
-                      ? 'bg-emerald-500/10 border-emerald-500 text-emerald-500'
-                      : isNightMarket
-                        ? 'bg-gold/10 border-gold/30 text-gold hover:bg-gold/20'
-                        : 'bg-white border-gold/30 text-forest hover:bg-gold/10'
-                  }`}
-                  title="Copy direct event link"
-                >
-                  {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                </button>
-              </div>
-            </div>
           </div>
- 
+
           {/* Quick Support Deck */}
-          <div className="p-6 bg-forest rounded-2xl border border-gold/30 text-cream space-y-4">
-            <h4 className="font-serif text-sm font-bold tracking-wider text-gold uppercase">{FOUNDER_DATA.name}</h4>
-            <span className="block text-[10px] text-cream/60 font-mono uppercase tracking-wider">{FOUNDER_DATA.title}</span>
+          <div className="p-6 bg-forest rounded-2xl border border-gold/30 text-cream space-y-3">
+            <h4 className="font-serif text-sm font-bold tracking-wider text-gold uppercase">Direct Vendor Inquiries</h4>
             <p className="text-xs text-cream/80 font-light leading-relaxed">
-              "We maintain high curation standards to preserve sales margins for every exhibitor. Reach out immediately to evaluate your concept."
+              Have questions about booth sizing, health permits, or load-in logistics? Our team responds within 24 business hours.
             </p>
-            <div className="pt-2 border-t border-white/10 text-xs text-cream/70 space-y-2 font-mono">
-              <div className="flex items-center space-x-1.5">
-                <span className="text-gold">Email:</span>
-                <a href={`mailto:${FOUNDER_DATA.email}`} className="hover:text-gold transition-colors">{FOUNDER_DATA.email}</a>
-              </div>
+            <div className="pt-2 border-t border-white/10 text-xs text-cream/80 space-y-1.5 font-mono">
+              <div>Email: <a href="mailto:vendors@valerianevents.com" className="text-gold hover:underline">vendors@valerianevents.com</a></div>
+              <div>Phone: <a href="tel:5551234567" className="text-gold hover:underline">(555) 123-4567</a></div>
             </div>
           </div>
         </div>

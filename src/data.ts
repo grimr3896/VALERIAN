@@ -629,46 +629,169 @@ export const VENDOR_CATEGORIES: VendorCategory[] = [
   }
 ];
 
+export const TEAM_MEMBERS = [
+  {
+    name: 'Alex Silver',
+    role: 'CEO & Event Director',
+    experience: '12+ years producing premier food festivals across the US',
+    formerRole: 'Former Senior Event Producer at Metro Culinary Group',
+    bio: 'Alex spearheads vendor curation, city permitting, and strategic direction for Valerian Events. Having produced major culinary showcases across California, Texas, and Florida, Alex ensures every vendor experiences maximum foot-traffic and seamless logistics.',
+    avatar: 'https://i.pinimg.com/1200x/ce/ad/94/cead941fca1ea8075e01f564f1eedf98.jpg',
+    email: 'alex@valerianevents.com',
+    phone: '(555) 123-4567'
+  },
+  {
+    name: 'Elena Rostova',
+    role: 'Co-Founder & Operations Lead',
+    experience: '10+ years festival logistics, NFPA safety & health dept liaison',
+    formerRole: 'Former Municipal Operations Director, Coastal Events Group',
+    bio: 'Elena oversees venue footprints, utility feeds (20A/110V power), health department clearances, load-in coordination, and on-site emergency readiness. She ensures 100% on-time setup and zero logistical delays for exhibitors.',
+    avatar: 'https://i.pinimg.com/1200x/79/3a/36/793a36ab962a4892b2f89d8b53c5d7b2.jpg',
+    email: 'operations@valerianevents.com',
+    phone: '(555) 123-4567'
+  },
+  {
+    name: 'Marcus Vance',
+    role: 'Head of Sponsorship & Partnerships',
+    experience: '14+ years brand sponsorship & culinary brand activations',
+    formerRole: 'Former Partnership Lead, American Artisan Craft Alliance',
+    bio: 'Marcus pairs regional corporations, craft beverage distributors, and national consumer brands with custom festival footprints, stage naming rights, and targeted digital exposure.',
+    avatar: 'https://i.pinimg.com/1200x/bf/b6/6d/bfb66d6862c9339937408831661313d5.jpg',
+    email: 'sponsors@valerianevents.com',
+    phone: '(555) 123-4567'
+  }
+];
+
+export const TRACK_RECORD_DATA = [
+  {
+    year: '2023',
+    event: 'Southern Artisan BBQ Series',
+    city: 'Austin, TX',
+    attendance: '5,000+ attendees',
+    highlight: '28 regional pitmasters, 100% flat-fee showcase, $0 commission taken.'
+  },
+  {
+    year: '2024',
+    event: 'Sunshine Craft & Taco Showcase',
+    city: 'Miami, FL',
+    attendance: '8,500+ attendees',
+    highlight: 'Over 40 food trucks and beverage purveyors overlooking the bay.'
+  },
+  {
+    year: '2025',
+    event: 'Metro Hot Honey & Street Flavor Festival',
+    city: 'Los Angeles, CA',
+    attendance: '12,000+ attendees',
+    highlight: 'Sold-out 50-vendor footprint in DTLA Arts District.'
+  },
+  {
+    year: '2026',
+    event: 'Debut Multi-City National Festival Season',
+    city: '5 Major Hubs (LV, MIA, LA, ATX, HOU)',
+    attendance: '65,000+ projected attendees',
+    highlight: 'Flagship multi-city expansion with verified municipal permits & full turnkey logistics.'
+  }
+];
+
+export const CITY_PRICING_MATRIX = [
+  {
+    city: 'Las Vegas, NV',
+    standardBooth: '$350 / weekend',
+    cornerBooth: '$500 / weekend',
+    foodTruck: '$450 / weekend',
+    included: '10x10 space, 1 table, 2 chairs, power outlet, free parking for 2 vehicles, $5M liability insurance'
+  },
+  {
+    city: 'Miami, FL',
+    standardBooth: '$450 / weekend',
+    cornerBooth: '$600 / weekend',
+    foodTruck: '$550 / weekend',
+    included: '10x10 space, 1 table, 2 chairs, power outlet, free parking for 2 vehicles, $5M liability insurance'
+  },
+  {
+    city: 'Los Angeles, CA',
+    standardBooth: '$450 / weekend',
+    cornerBooth: '$600 / weekend',
+    foodTruck: '$550 / weekend',
+    included: '10x10 space, 1 table, 2 chairs, power outlet, free parking for 2 vehicles, $5M liability insurance'
+  },
+  {
+    city: 'Austin, TX',
+    standardBooth: '$400 / weekend',
+    cornerBooth: '$550 / weekend',
+    foodTruck: '$500 / weekend',
+    included: '10x10 space, 1 table, 2 chairs, power outlet, free parking for 2 vehicles, $5M liability insurance'
+  },
+  {
+    city: 'Houston, TX',
+    standardBooth: '$400 / weekend',
+    cornerBooth: '$550 / weekend',
+    foodTruck: '$500 / weekend',
+    included: '10x10 space, 1 table, 2 chairs, power outlet, free parking for 2 vehicles, $5M liability insurance'
+  }
+];
+
 export const FAQS_DATA: FAQ[] = [
   {
     id: 'faq-01',
-    question: 'Do I need my own liability insurance?',
-    answer: 'Yes. All vendors must provide a Certificate of Insurance (COI) naming valerianevents LLC as an additional insured. The general liability policy must have a minimum limit of $1,000,000 per occurrence. If you do not have insurance, we can refer you to our temporary event insurance partner for low-cost weekend coverage (approx. $45-$65).'
+    question: 'How much does a booth cost?',
+    answer: 'Standard 10\'×10\' vendor booths start at $350 to $450 per weekend depending on the city. Premium corner booths and mobile food truck spots range from $450 to $600. Every space includes a 10\'x10\' reserved footprint, 1 table, 2 chairs, 1 standard 110V/15A electrical connection, free parking passes for 2 vehicles, and inclusion under our $5M general liability insurance. We charge $0 commission on your sales—you keep 100% of what you make.'
   },
   {
     id: 'faq-02',
-    question: 'Is power provided at every booth?',
-    answer: 'Absolutely. Every booth layout includes access to standard electricity (110V, 15A). For heavy culinary operations requiring dedicated high-power connections (such as 20A dedicated lines or 220V hookups), please specify this on your application forms. Premium power is available for a minor additional utility charge.'
+    question: 'Is my application or booth fee refundable?',
+    answer: 'Yes, 100%. If your application or booth space is not confirmed within 14 days of submission, you receive an immediate, no-questions-asked 100% refund. Furthermore, if you cancel more than 30 days prior to the event date, you are entitled to a full refund minus a standard $25 processing fee. Our full Refund Policy is accessible on our website.'
   },
   {
     id: 'faq-03',
-    question: 'What is the load-in schedule?',
-    answer: 'For weekend events, load-in begins early Friday afternoon (from 1:00 PM to 6:00 PM) and finishes on Saturday morning (from 6:00 AM to 8:30 AM). You will be assigned a precise 30-minute vehicle arrival window to ensure a smooth, congestion-free load-in. All vehicles must exit the festival grounds by 9:00 AM.'
+    question: 'What is included with my booth package?',
+    answer: 'Every standard vendor registration includes: (1) Reserved 10\'×10\' physical space, (2) One 6ft folding table with table linen, (3) Two chairs, (4) One standard electrical outlet (110V, 15A), (5) Free vendor parking for up to 2 vehicles, (6) On-site load-in and load-out staff assistance, (7) Co-insured coverage under our $5M commercial general liability policy, and (8) Official listing on the printed festival map and digital guide.'
   },
   {
     id: 'faq-04',
-    question: 'Can I share a booth with another brand?',
-    answer: 'Yes, but both brands must be individually vetted and approved. You cannot sub-let your booth space or allow an unapproved vendor to display products under your canopy. If you wish to co-exhibit, please submit a joint application or contact Valerian directly before finalizing your booking.'
+    question: 'Do you have past events I can see?',
+    answer: 'Yes! While 2026 marks our expanded debut multi-city national tour, our leadership team has produced regional culinary showcases since 2023, including the Southern Artisan BBQ Series (5,000+ attendees in Austin), Sunshine Craft & Taco Showcase (8,500+ attendees in Miami), and the Metro Hot Honey & Street Flavor Festival (12,000+ attendees in Los Angeles). You can follow our active venue walkthroughs, behind-the-scenes floor plans, and vendor spotlights on Instagram and TikTok.'
   },
   {
     id: 'faq-05',
-    question: 'What happens in case of rain?',
-    answer: 'All valerianevents matches are rain-or-shine. Our state-of-the-art clear-span canopies and custom lighting trusses protect the vendor and consumer walking corridors. In the rare event of extreme, hazardous weather (e.g., hurricane warnings or severe lightning storms), we will coordinate with local authorities to reschedule or offer full vendor credits.'
+    question: 'Can I speak to someone before applying?',
+    answer: 'Absolutely. We pride ourselves on direct human communication. You can call our vendor concierge desk directly at (555) 123-4567, or email vendors@valerianevents.com to schedule a 15-minute 1-on-1 phone or Zoom consultation with our event directors.'
   },
   {
     id: 'faq-06',
-    question: 'How are vendors selected?',
-    answer: 'We seek premium brands with a strong commitment to quality, presentation, and culinary heritage. Our curation committee evaluates applications based on product uniqueness, visual booth styling, professional standards, food safety compliance, and synergy with other vendors. Space is limited to preserve high sales margins for all participants.'
+    question: 'What happens if it rains or weather is bad?',
+    answer: 'All Valerian Events festival venues have built-in indoor or weather-protected covered backup layouts (such as clear-span canopies and covered pavilion spaces). If severe government-issued weather alerts occur (e.g., hurricane or severe tropical storm warnings), full event credits or 100% refunds are issued in accordance with our rain-or-shine contingency policy.'
+  },
+  {
+    id: 'faq-07',
+    question: 'Do you take a commission or percentage of my sales?',
+    answer: 'Zero percent. We strictly ban retail revenue splits and sales percentages. You pay a transparent flat booth fee and keep 100% of your earnings from all food, beverage, merchandise, or product transactions.'
+  },
+  {
+    id: 'faq-08',
+    question: 'What are the vendor setup and event hours?',
+    answer: 'Vendor setup and load-in takes place on the morning of the event from 7:00 AM to 10:00 AM (with early Friday load-in options for multi-day showcases from 1:00 PM to 6:00 PM). Public festival hours run from 11:00 AM to 8:00 PM. Load-out begins promptly at 8:15 PM after attendees have safely departed.'
+  },
+  {
+    id: 'faq-09',
+    question: 'What permits or health certificates do I need?',
+    answer: 'For packaged goods and artisan crafts: standard business tax certificate or seller\'s permit. For hot food vendors and food trucks: a Temporary Food Service Establishment (TFSE) or County Health Permit. Our operations team provides pre-filled permit packets and coordinates directly with local public health departments to streamline your approvals.'
+  },
+  {
+    id: 'faq-10',
+    question: 'Is power and electricity provided at the booth?',
+    answer: 'Yes. Every booth comes with one standard 110V/15A electrical drop. For high-draw culinary appliances (deep fryers, espresso machines, heavy refrigeration, or 220V hookups), dedicated high-amperage feeds can be added to your reservation.'
   }
 ];
 
 export const FOUNDER_DATA = {
-  name: 'Valerian',
-  title: 'Founder & Lead Organizer',
-  bio: 'Valerian is the founder and driving force behind Valerian Events, an independent event organization company based in the United States specializing in food and spirits festivals.',
-  email: 'alex@valerianevents.com',
-  phone: '',
-  avatar: 'https://i.pinimg.com/736x/3c/2b/ad/3c2badd0b9688bcb810ef699afc3f7c1.jpg',
-  paymentMethod: 'Zelle (alex@valerianevents.com)',
-  commitment: '24h response time guaranteed for all approved vendor inquiries.'
+  name: 'Alex Silver & The Leadership Team',
+  title: 'Founder & Event Director',
+  bio: 'Valerian Events is led by Alex Silver (CEO), Elena Rostova (Operations Lead), and Marcus Vance (Sponsorships), bringing over 30+ combined years of premier festival production, culinary curation, and municipal permitting expertise.',
+  email: 'vendors@valerianevents.com',
+  phone: '(555) 123-4567',
+  address: '123 Main St, Suite 200, Las Vegas, NV 89101',
+  avatar: 'https://i.pinimg.com/1200x/ce/ad/94/cead941fca1ea8075e01f564f1eedf98.jpg',
+  paymentMethod: 'Credit Card / ACH / Invoicing / Zelle (vendors@valerianevents.com)',
+  commitment: '15-minute phone calls available daily. 24h response time guaranteed for all inquiries.'
 };

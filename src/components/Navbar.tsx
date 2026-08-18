@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageType } from '../types';
-import { ChefHat, Calendar, Users, MessageSquare, Menu, X, Info, Award } from 'lucide-react';
+import { ChefHat, Calendar, Users, MessageSquare, Menu, X, Info, Award, HelpCircle } from 'lucide-react';
 import Logo from './Logo';
 
 interface NavbarProps {
@@ -17,6 +17,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
     { id: 'vendors' as PageType, label: 'Opportunity', icon: Users },
     { id: 'sponsorship-deck' as PageType, label: 'Sponsorship', icon: Award },
     { id: 'about' as PageType, label: 'About Us', icon: Info },
+    { id: 'faq' as PageType, label: 'FAQ', icon: HelpCircle },
     { id: 'contact' as PageType, label: 'Contact', icon: MessageSquare },
   ];
 

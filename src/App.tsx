@@ -10,6 +10,8 @@ import TermsPage from './components/TermsPage';
 import PrivacyPage from './components/PrivacyPage';
 import SponsorshipPage from './components/SponsorshipPage';
 import AboutPage from './components/AboutPage';
+import FAQPage from './components/FAQPage';
+import RefundPolicyPage from './components/RefundPolicyPage';
 import Accordion from './components/Accordion';
 import ContactForm from './components/ContactForm';
 // @ts-ignore
@@ -219,17 +221,23 @@ export default function App() {
 
               {/* Hero content */}
               <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-forest/10 border border-forest/20 text-forest">
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-forest/15 border border-gold/40 text-forest backdrop-blur-xs">
                   <Sparkles className="h-4 w-4 text-gold" />
-                  <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase font-sans">Now Curating the 2026 Season</span>
+                  <span className="text-[11px] md:text-xs font-bold tracking-widest uppercase font-mono">
+                    Debut Season 2026 – 5 Cities | Apply by May 15, 2026
+                  </span>
                 </div>
                 
-                <h1 className="font-['Times_New_Roman'] text-[52px] font-bold italic text-left text-[#f2eaea] leading-tight tracking-tight border-double border-0">
+                <h1 className="font-['Times_New_Roman'] text-[52px] md:text-[68px] font-bold italic text-left text-[#f2eaea] leading-tight tracking-tight border-double border-0 drop-shadow-md">
                   Where Flavor Meets <br />
                   <span className="italic font-light text-[#e8e5db]">Festival</span>
                 </h1>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <p className="text-cream/90 text-sm md:text-base font-light max-w-2xl text-left drop-shadow-xs leading-relaxed">
+                  Curating America's top food and artisanal marketplaces in Las Vegas, Miami, Los Angeles, Austin, and Houston. Keep 100% of your retail sales with transparent flat booth fees and guaranteed power infrastructure.
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-2">
                   <button
                     onClick={() => {
                       setCurrentPage('events');
@@ -238,15 +246,25 @@ export default function App() {
                     id="hero-view-events-btn"
                     className="w-full sm:w-auto px-8 py-4 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase shadow-lg shadow-forest/10 transition-all duration-300 cursor-pointer"
                   >
-                    VIEW EVENTS
+                    VIEW 2026 EVENTS
                   </button>
                   <button
                     onClick={() => {
-                      setCurrentPage('contact');
+                      setCurrentPage('vendor-kit');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    id="hero-vendor-kit-btn"
+                    className="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-md"
+                  >
+                    VIEW VENDOR KIT – FREE DOWNLOAD
+                  </button>
+                  <button
+                    onClick={() => {
+                      setCurrentPage('vendors');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     id="hero-apply-btn"
-                    className="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold bg-white/40 hover:bg-white text-forest font-sans text-xs font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer"
+                    className="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/40 bg-white/20 hover:bg-white/40 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer backdrop-blur-xs"
                   >
                     APPLY AS VENDOR
                   </button>
@@ -254,9 +272,9 @@ export default function App() {
               </div>
 
               {/* Decorative side margins indicators */}
-              <div className="absolute bottom-6 left-6 right-6 hidden md:flex items-center justify-between text-[10px] text-forest/40 font-mono tracking-widest uppercase">
-                <span>[ AMBIENT CULINARY EXHIBITIONS ]</span>
-                <span>COI REQUIRED · CURATED ROSTER</span>
+              <div className="absolute bottom-6 left-6 right-6 hidden md:flex items-center justify-between text-[10px] text-forest/70 font-mono tracking-widest uppercase">
+                <span>[ 5 MAJOR METROS · 100% SALES KEPT ]</span>
+                <span>FLAT BOOTH FEE · COI VERIFICATION INCLUDED</span>
               </div>
             </section>
 
@@ -396,8 +414,8 @@ export default function App() {
 
             {/* Homepage Vendor Recruitment CTA Banner */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in" id="home-vendor-cta">
-              <div className="relative overflow-hidden rounded-3xl bg-forest border border-gold/30 px-8 py-10 md:py-12 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
-                {/* Visual background accents to match atmospheric design */}
+              <div className="relative overflow-hidden rounded-3xl bg-forest border border-gold/30 px-8 py-10 md:py-12 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
+                {/* Visual background accents */}
                 <div className="absolute inset-0 opacity-15 pointer-events-none">
                   <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gold/20 blur-3xl"></div>
                   <div className="absolute -bottom-10 -left-10 w-64 h-64 rounded-full bg-cream/10 blur-3xl"></div>
@@ -405,26 +423,51 @@ export default function App() {
                 
                 <div className="relative z-10 space-y-4 text-left max-w-2xl">
                   <span className="px-3 py-1.5 text-[9px] font-mono font-bold tracking-widest uppercase rounded-full bg-gold/15 text-gold border border-gold/30 inline-block">
-                    Vendor Recruitment
+                    Exhibitor Benefits & Transparency
                   </span>
                   <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-cream tracking-tight leading-tight uppercase">
-                    Reach Thousands of High-Intent <br className="hidden sm:inline" />
-                    <span className="text-gold">Festival Attendees</span> in One Afternoon
+                    100% Sales Kept. <br className="hidden sm:inline" />
+                    <span className="text-gold">Turnkey Infrastructure</span> & Guaranteed Foot Traffic
                   </h2>
-                  <p className="text-cream/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
-                    With high-volume foot traffic, zero ticket barriers for attendees, and professional utility infrastructures, we set up our curated merchant partners for historic sales records.
+                  <p className="text-cream/85 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
+                    We strictly ban retail revenue splits—you keep 100% of what you earn. Every vendor booth includes commercial canopy setup, 110V/15A electric feed, 2 free parking passes, on-site waste disposal, and $5M general liability umbrella coverage.
                   </p>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-[11px] text-cream/80 font-mono">
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-gold">✓</span>
+                      <span>0% Sales Commission</span>
+                    </div>
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-gold">✓</span>
+                      <span>Free 2-Car Parking</span>
+                    </div>
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-gold">✓</span>
+                      <span>100% Refund Policy</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="relative z-10 shrink-0 w-full md:w-auto">
+
+                <div className="relative z-10 shrink-0 w-full lg:w-auto flex flex-col sm:flex-row lg:flex-col gap-3">
+                  <button
+                    onClick={() => {
+                      setCurrentPage('vendor-kit');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full px-6 py-3.5 rounded-xl bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
+                  >
+                    <span>VIEW VENDOR KIT</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
                   <button
                     onClick={() => {
                       setCurrentPage('vendors');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="w-full md:w-auto px-8 py-4 rounded-xl bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
+                    className="w-full px-6 py-3.5 rounded-xl border border-gold/40 hover:bg-white/10 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    <span>APPLY TO EXHIBIT</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <span>APPLY AS VENDOR</span>
                   </button>
                 </div>
               </div>
@@ -436,18 +479,28 @@ export default function App() {
                 <div className="absolute top-0 right-0 p-4 opacity-5">
                   <Flame className="h-32 w-32 text-gold" />
                 </div>
-                <h2 className="font-serif text-3xl md:text-4xl text-cream font-bold">Ready to scale your culinary brand?</h2>
+                <h2 className="font-serif text-3xl md:text-4xl text-cream font-bold">Ready to exhibit your culinary brand?</h2>
                 <p className="text-xs md:text-sm text-cream/80 max-w-xl mx-auto leading-relaxed font-light">
-                  Spaces are highly curated and fill up months in advance. Secure your evaluation window and showcase your heritage culinary concept at our next peak weekend.
+                  Spaces are curated and assigned on a rolling evaluation schedule. Download our comprehensive vendor pack or submit your concept for the 2026 debut tour today.
                 </p>
-                <div className="pt-2">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
                   <button
                     onClick={() => {
-                      setCurrentPage('contact');
+                      setCurrentPage('vendor-kit');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    id="cta-vendor-kit-btn"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gold hover:bg-gold/95 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-colors shadow-lg cursor-pointer"
+                  >
+                    VIEW VENDOR KIT – FREE DOWNLOAD
+                  </button>
+                  <button
+                    onClick={() => {
+                      setCurrentPage('vendors');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     id="cta-apply-btn"
-                    className="px-8 py-3.5 rounded-xl bg-gold hover:bg-gold/95 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-colors shadow-lg cursor-pointer"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-gold text-cream hover:bg-white/10 font-sans text-xs font-bold tracking-widest uppercase transition-colors cursor-pointer"
                   >
                     APPLY AS VENDOR
                   </button>
@@ -967,6 +1020,7 @@ export default function App() {
               event={matchedEvent}
               onApply={handleApplyForEvent}
               onBack={() => handlePageChange('events')}
+              onViewVendorKit={() => handlePageChange('vendor-kit')}
             />
           );
         })()}
@@ -981,6 +1035,29 @@ export default function App() {
               setSelectedEventForApplication('General Vendor Inquiry');
               handlePageChange('contact');
             }}
+          />
+        )}
+
+        {/* ==================================== */}
+        {/* FAQ PAGE                             */}
+        {/* ==================================== */}
+        {currentPage === 'faq' && (
+          <FAQPage
+            onBack={() => handlePageChange('home')}
+            onApply={() => {
+              setSelectedEventForApplication('General Vendor Inquiry');
+              handlePageChange('contact');
+            }}
+          />
+        )}
+
+        {/* ==================================== */}
+        {/* REFUND & CANCELLATION POLICY PAGE    */}
+        {/* ==================================== */}
+        {currentPage === 'refund-policy' && (
+          <RefundPolicyPage
+            onBack={() => handlePageChange('home')}
+            onContact={() => handlePageChange('contact')}
           />
         )}
 
@@ -1009,6 +1086,7 @@ export default function App() {
           <AboutPage
             onBack={() => handlePageChange('home')}
             onContact={() => handlePageChange('contact')}
+            onNavigateToSponsorship={() => handlePageChange('sponsorship-deck')}
           />
         )}
 
