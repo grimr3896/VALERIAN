@@ -190,7 +190,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     { id: 'food', label: 'Food & Culinary', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'food').length, icon: Truck },
     { id: 'exhibitor', label: 'Business Exhibitors', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'exhibitor').length, icon: Building },
     { id: 'activation', label: 'Brand Activations', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'activation').length, icon: Rocket },
-    { id: 'sponsorship', label: 'Sponsorship & Partners', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'sponsorship').length, icon: Award }
+    { id: 'sponsorship', label: 'Advance Sponsorship', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'sponsorship').length, icon: Award }
   ];
 
   return (
@@ -286,6 +286,29 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
             );
           })}
         </div>
+
+        {/* Advance Sponsorship Dedicated Banner */}
+        {activePillarFilter === 'sponsorship' && (
+          <div className="p-6 rounded-2xl bg-[#FAF6F0] border border-gold/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="space-y-1 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start space-x-2">
+                <span className="px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-widest uppercase rounded-full bg-forest text-gold">
+                  ADVANCE SPONSORSHIP PORTAL
+                </span>
+                <span className="text-xs font-semibold text-forest">Looking for the dedicated sponsorship deck & Executive Sponsorship packages?</span>
+              </div>
+              <p className="text-xs text-charcoal/70 font-light">
+                Explore custom activations, deliverable matrices, flexible payment schedules, and custom proposal builders in our dedicated portal.
+              </p>
+            </div>
+            <button
+              onClick={() => onPageChange('sponsorship-deck')}
+              className="shrink-0 px-5 py-2.5 bg-forest hover:bg-forest/90 text-gold hover:text-cream text-xs font-bold tracking-wider uppercase rounded-xl transition-all shadow-md cursor-pointer border border-gold/30"
+            >
+              Open Advance Sponsorship Tab →
+            </button>
+          </div>
+        )}
 
         {/* Tier Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">

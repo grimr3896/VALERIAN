@@ -79,6 +79,14 @@ export default function Footer({ onPageChange }: FooterProps) {
               </li>
               <li>
                 <button
+                  onClick={() => onPageChange('sponsorship-deck')}
+                  className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
+                >
+                  Advance Sponsorship
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => onPageChange('about')}
                   className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
                 >
@@ -131,7 +139,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   onClick={() => onPageChange('sponsorship-deck')}
                   className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
                 >
-                  Sponsorship Deck
+                  Advance Sponsorship Deck
                 </button>
               </li>
             </ul>

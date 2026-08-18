@@ -37,6 +37,19 @@ export interface VendorConfig {
   totalSpots: number;
   tiers: VendorTier[];
   customSponsorshipOpportunities?: string[];
+  executiveSponsorshipTiers?: {
+    id: string;
+    name: string;
+    tagline: string;
+    footprint: string;
+    investment: string;
+    rawPrice: number;
+    description: string;
+    bestFor: string;
+    highlightBadge?: string;
+    includedNote?: string;
+    features: string[];
+  }[];
   paymentOptions: PaymentOption[];
   paymentPolicyNotes: string[];
   upcomingEvents: UpcomingVendorEvent[];
@@ -316,7 +329,7 @@ export const VENDOR_CONFIG: VendorConfig = {
       ]
     },
 
-    // 🤝 SPONSORSHIPS
+    // 🤝 SPONSORSHIPS (STANDARD & EXECUTIVE G-CLASS)
     {
       id: 'community-partner',
       name: 'Community Partner',
@@ -324,7 +337,7 @@ export const VENDOR_CONFIG: VendorConfig = {
       price: '$250',
       rawPrice: 250,
       pillar: 'sponsorship',
-      pillarLabel: 'Sponsorship Packages',
+      pillarLabel: 'Advance Sponsorship',
       icon: '🤝',
       tagline: 'Get your name in front of the crowd.',
       description: 'Get your name in front of the crowd with direct attendee engagement and brand exposure.',
@@ -344,7 +357,7 @@ export const VENDOR_CONFIG: VendorConfig = {
       price: '$500',
       rawPrice: 500,
       pillar: 'sponsorship',
-      pillarLabel: 'Sponsorship Packages',
+      pillarLabel: 'Advance Sponsorship',
       icon: '🤝',
       highlightBadge: 'High Reach',
       tagline: 'Everything above, plus a bigger spotlight.',
@@ -365,7 +378,7 @@ export const VENDOR_CONFIG: VendorConfig = {
       price: '$1,000',
       rawPrice: 1000,
       pillar: 'sponsorship',
-      pillarLabel: 'Sponsorship Packages',
+      pillarLabel: 'Advance Sponsorship',
       icon: '🤝',
       highlightBadge: 'Headline Supporter',
       tagline: 'Stand out as a headline supporter.',
@@ -387,7 +400,7 @@ export const VENDOR_CONFIG: VendorConfig = {
       price: '$2,500+',
       rawPrice: 2500,
       pillar: 'sponsorship',
-      pillarLabel: 'Sponsorship Packages',
+      pillarLabel: 'Advance Sponsorship',
       icon: '👑',
       highlightBadge: 'Top Tier Partnership',
       tagline: 'Be the name people remember.',
@@ -403,6 +416,88 @@ export const VENDOR_CONFIG: VendorConfig = {
         'Featured as a headline partner in all event coverage',
         "Package tailored to your specific goals — ask us what's possible"
       ]
+    },
+    {
+      id: 'neighborhood-sponsor',
+      name: 'Neighborhood Sponsor (Executive)',
+      size: "10' × 10' Space",
+      price: '$750',
+      rawPrice: 750,
+      pillar: 'sponsorship',
+      pillarLabel: 'Executive Sponsorship',
+      icon: '👑',
+      tagline: 'Establish your presence in the community.',
+      description: 'Get a foothold at the event with direct attendee engagement, official sponsor recognition, and room to grow.',
+      bestFor: 'Local businesses, growing regional brands, and organizations building their first sponsorship presence at a larger-scale event.',
+      features: [
+        '10×10 vendor/booth space',
+        'Name listed in official sponsor directory (print + digital)',
+        'Logo on select event promotional materials',
+        '1 dedicated social media mention',
+        'Distribute your own approved flyers/samples at your booth'
+      ]
+    },
+    {
+      id: 'spotlight-sponsor',
+      name: 'Spotlight Sponsor (Executive)',
+      size: "10' × 20' Space + Signage",
+      price: '$1,800',
+      rawPrice: 1800,
+      pillar: 'sponsorship',
+      pillarLabel: 'Executive Sponsorship',
+      icon: '👑',
+      highlightBadge: 'High Reach',
+      tagline: 'Everything above, plus a bigger spotlight.',
+      description: 'Step up into expanded space and real audience reach — including a segment of our subscriber list — with live recognition on event day.',
+      bestFor: 'Growing regional brands and businesses ready to move beyond a basic booth into active audience engagement.',
+      features: [
+        'Upgraded 10×20 space',
+        'Partial email list feature (segment of the 12,000 subscribers)',
+        '2 social media posts in the lead-up to the event',
+        'Live shoutout from the host/MC on event day',
+        'Signage display rights at your booth'
+      ]
+    },
+    {
+      id: 'marquee-sponsor',
+      name: 'Marquee Sponsor (Executive)',
+      size: "20' × 20' Space",
+      price: '$3,500',
+      rawPrice: 3500,
+      pillar: 'sponsorship',
+      pillarLabel: 'Executive Sponsorship',
+      icon: '👑',
+      highlightBadge: 'Headline Supporter',
+      tagline: 'Stand out as a headline supporter.',
+      description: 'Full-list email reach, repeated stage recognition, and a premium activation footprint — built for brands that want to be unmistakably present all day.',
+      bestFor: 'Established companies and regional institutions seeking headline-level visibility without full event exclusivity.',
+      features: [
+        'Premium 20×20 activation space',
+        'Full email blast to the entire subscriber list',
+        'Multiple stage/MC mentions throughout the day',
+        'Dedicated branded giveaway or sampling zone',
+        '"Marquee Sponsor" recognition across event materials'
+      ]
+    },
+    {
+      id: 'title-sponsor',
+      name: 'Title Sponsor (Executive)',
+      size: 'Prime Flagship Space + Category Exclusivity',
+      price: '$7,500+',
+      rawPrice: 7500,
+      pillar: 'sponsorship',
+      pillarLabel: 'Executive Sponsorship',
+      icon: '👑',
+      highlightBadge: 'Top Tier Partnership',
+      tagline: 'Be the name people remember.',
+      description: 'The highest level of partnership available — full co-branding, category exclusivity, and a coordinated multi-channel campaign built around your goals.',
+      bestFor: 'Regional and national brands seeking total category dominance and maximum event-wide visibility.',
+      features: [
+        'Category exclusivity — you\'re the only sponsor in your industry at the event',
+        '"Presented by [Your Brand]" naming rights on all materials',
+        'Full digital campaign push (email + social + press, if applicable)',
+        'Custom activation or negotiated add-ons — open above $7,500 for larger brands'
+      ]
     }
   ],
 
@@ -415,6 +510,83 @@ export const VENDOR_CONFIG: VendorConfig = {
     'Product or service demonstrations',
     'Media and promotional partnerships',
     'In-kind sponsorships (equipment, prizes, services)'
+  ],
+
+  // 👑 EXECUTIVE SPONSORSHIPS
+  executiveSponsorshipTiers: [
+    {
+      id: 'neighborhood-sponsor',
+      name: 'Neighborhood Sponsor',
+      tagline: 'Establish your presence in the community.',
+      footprint: "10' × 10' Vendor/Booth Space",
+      investment: '$750',
+      rawPrice: 750,
+      description: 'Get a foothold at the event with direct attendee engagement, official sponsor recognition, and room to grow into higher tiers as your goals scale.',
+      bestFor: 'Local businesses, growing regional brands, and organizations building their first sponsorship presence at a larger-scale event.',
+      features: [
+        '10×10 vendor/booth space',
+        'Name listed in official sponsor directory (print + digital)',
+        'Logo on select event promotional materials',
+        '1 dedicated social media mention',
+        'Distribute your own approved flyers/samples at your booth'
+      ]
+    },
+    {
+      id: 'spotlight-sponsor',
+      name: 'Spotlight Sponsor',
+      highlightBadge: 'High Reach',
+      tagline: 'Everything above, plus a bigger spotlight.',
+      footprint: "10' × 20' Upgraded Space + Signage",
+      investment: '$1,800',
+      rawPrice: 1800,
+      description: 'Step up into expanded space and real audience reach — including a segment of our subscriber list — with live recognition on event day.',
+      bestFor: 'Growing regional brands and businesses ready to move beyond a basic booth into active audience engagement.',
+      includedNote: 'Everything in Neighborhood Sponsor, plus:',
+      features: [
+        'Upgraded 10×20 space',
+        'Partial email list feature (segment of the 12,000 subscribers)',
+        '2 social media posts in the lead-up to the event',
+        'Live shoutout from the host/MC on event day',
+        'Signage display rights at your booth'
+      ]
+    },
+    {
+      id: 'marquee-sponsor',
+      name: 'Marquee Sponsor',
+      highlightBadge: 'Headline Supporter',
+      tagline: 'Stand out as a headline supporter.',
+      footprint: "20' × 20' Premium Activation Space",
+      investment: '$3,500',
+      rawPrice: 3500,
+      description: 'Full-list email reach, repeated stage recognition, and a premium activation footprint — built for brands that want to be unmistakably present all day.',
+      bestFor: 'Established companies and regional institutions seeking headline-level visibility without full event exclusivity.',
+      includedNote: 'Everything in Spotlight Sponsor, plus:',
+      features: [
+        'Premium 20×20 activation space',
+        'Full email blast to the entire subscriber list',
+        'Multiple stage/MC mentions throughout the day',
+        'Dedicated branded giveaway or sampling zone',
+        '"Marquee Sponsor" recognition across event materials'
+      ]
+    },
+    {
+      id: 'title-sponsor',
+      name: 'Title Sponsor',
+      highlightBadge: 'Top Tier Partnership',
+      tagline: 'Be the name people remember.',
+      footprint: 'Prime Flagship Activation Space + Category Exclusivity',
+      investment: '$7,500+',
+      rawPrice: 7500,
+      description: 'The highest level of partnership available — full co-branding, category exclusivity, and a coordinated multi-channel campaign built around your goals.',
+      bestFor: 'Regional and national brands seeking total category dominance and maximum event-wide visibility.',
+      includedNote: 'Everything in Marquee Sponsor, plus:',
+      features: [
+        'Category exclusivity — you\'re the only sponsor in your industry at the event',
+        '"Presented by [Your Brand]" naming rights on all materials',
+        'Full digital campaign push (email + social + press, if applicable)',
+        'Custom activation or negotiated add-ons — open above $7,500 for larger brands'
+      ]
+    }
   ],
 
   // 💡 FLEXIBLE PAYMENT OPTIONS
