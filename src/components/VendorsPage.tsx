@@ -4,7 +4,6 @@ import {
   Flame, 
   Sparkles, 
   Mail, 
-  Phone, 
   Check, 
   AlertCircle, 
   CheckCircle2, 
@@ -828,7 +827,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="e.g. (702) 555-0199"
+                    placeholder="e.g. (123) 456-7890"
                     className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
                   />
                 </div>

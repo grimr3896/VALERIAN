@@ -26,7 +26,6 @@ import {
   Sparkles,
   ArrowRight,
   Mail,
-  Phone,
   DollarSign,
   Users,
   ShieldCheck,

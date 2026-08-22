@@ -9,7 +9,6 @@ import {
   Award, 
   Calendar, 
   Mail, 
-  Phone, 
   Clock, 
   FileCheck, 
   Building, 
@@ -192,7 +191,6 @@ export default function AboutPage({ onBack, onContact, onNavigateToSponsorship }
                   <Mail className="h-3.5 w-3.5 text-gold" />
                   <span>{member.email}</span>
                 </a>
-                <span className="text-[10px] text-charcoal/50">{member.phone}</span>
               </div>
             </div>
           ))}
@@ -354,7 +352,7 @@ export default function AboutPage({ onBack, onContact, onNavigateToSponsorship }
 
       {/* Office & Direct Contact Section */}
       <div className="p-8 sm:p-10 bg-[#FAF6F0] border border-gold/20 rounded-3xl space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
           <div className="flex items-start space-x-3">
             <MapPin className="h-5 w-5 text-gold shrink-0 mt-0.5" />
             <div>
@@ -367,18 +365,8 @@ export default function AboutPage({ onBack, onContact, onNavigateToSponsorship }
             <Mail className="h-5 w-5 text-gold shrink-0 mt-0.5" />
             <div>
               <h4 className="font-serif font-bold text-forest uppercase">Vendor & Sponsor Desk</h4>
-              <a href="mailto:vendors@valerianevents.com" className="text-xs text-forest hover:underline font-semibold block mt-0.5">
-                vendors@valerianevents.com
-              </a>
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3">
-            <Phone className="h-5 w-5 text-gold shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-serif font-bold text-forest uppercase">Phone Inquiries</h4>
-              <a href="tel:5551234567" className="text-xs text-forest hover:underline font-semibold block mt-0.5">
-                (555) 123-4567 (Daily 9AM–6PM PT)
+              <a href="mailto:info@valerianevents.com" className="text-xs text-forest hover:underline font-semibold block mt-0.5">
+                info@valerianevents.com
               </a>
             </div>
           </div>

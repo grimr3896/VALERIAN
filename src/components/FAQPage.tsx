@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, HelpCircle, ChevronDown, ChevronUp, Sparkles, Phone, Mail, FileText, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, HelpCircle, ChevronDown, ChevronUp, Sparkles, Mail, FileText, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { FAQS_DATA } from '../data';
 
 interface FAQPageProps {
@@ -69,12 +69,12 @@ export default function FAQPage({ onBack, onApply }: FAQPageProps) {
 
         <div className="p-5 rounded-2xl bg-white border border-gold/20 flex items-start space-x-3.5 shadow-xs">
           <div className="p-2.5 rounded-xl bg-forest/5 text-forest shrink-0">
-            <Phone className="h-5 w-5 text-gold" />
+            <Mail className="h-5 w-5 text-gold" />
           </div>
           <div>
-            <h4 className="font-serif font-bold text-forest text-sm uppercase tracking-wide">Speak With A Human</h4>
+            <h4 className="font-serif font-bold text-forest text-sm uppercase tracking-wide">Direct Curator Support</h4>
             <p className="text-xs text-charcoal/65 font-light leading-relaxed mt-0.5">
-              Call (555) 123-4567 or book a 15-min consultation call anytime.
+              Email info@valerianevents.com for rapid 24-hour response.
             </p>
           </div>
         </div>
@@ -124,7 +124,7 @@ export default function FAQPage({ onBack, onApply }: FAQPageProps) {
             Still Have Questions?
           </h3>
           <p className="text-xs sm:text-sm text-cream/75 font-light leading-relaxed">
-            Our team is available daily for 15-minute consultations. Connect with us directly by phone or email to discuss electrical needs, space availability, or custom multi-city booth rates.
+            Our team is available daily for 15-minute consultations. Connect with us directly by email to discuss electrical needs, space availability, or custom multi-city booth rates.
           </p>
         </div>
 

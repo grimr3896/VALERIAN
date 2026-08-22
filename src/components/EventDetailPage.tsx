@@ -399,8 +399,7 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               Have questions about booth sizing, health permits, or load-in logistics? Our team responds within 24 business hours.
             </p>
             <div className="pt-2 border-t border-white/10 text-xs text-cream/80 space-y-1.5 font-mono">
-              <div>Email: <a href="mailto:vendors@valerianevents.com" className="text-gold hover:underline">vendors@valerianevents.com</a></div>
-              <div>Phone: <a href="tel:5551234567" className="text-gold hover:underline">(555) 123-4567</a></div>
+              <div>Email: <a href="mailto:info@valerianevents.com" className="text-gold hover:underline">info@valerianevents.com</a></div>
             </div>
           </div>
         </div>

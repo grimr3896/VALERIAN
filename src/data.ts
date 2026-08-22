@@ -637,8 +637,7 @@ export const TEAM_MEMBERS = [
     formerRole: 'Former Senior Event Producer at Metro Culinary Group',
     bio: 'Alex spearheads vendor curation, city permitting, and strategic direction for Valerian Events. Having produced major culinary showcases across California, Texas, and Florida, Alex ensures every vendor experiences maximum foot-traffic and seamless logistics.',
     avatar: 'https://i.pinimg.com/1200x/ce/ad/94/cead941fca1ea8075e01f564f1eedf98.jpg',
-    email: 'alex@valerianevents.com',
-    phone: '(555) 123-4567'
+    email: 'alex@valerianevents.com'
   },
   {
     name: 'Elena Rostova',
@@ -647,8 +646,7 @@ export const TEAM_MEMBERS = [
     formerRole: 'Former Municipal Operations Director, Coastal Events Group',
     bio: 'Elena oversees venue footprints, utility feeds (20A/110V power), health department clearances, load-in coordination, and on-site emergency readiness. She ensures 100% on-time setup and zero logistical delays for exhibitors.',
     avatar: 'https://i.pinimg.com/1200x/79/3a/36/793a36ab962a4892b2f89d8b53c5d7b2.jpg',
-    email: 'info@valerianevents.com',
-    phone: '(555) 123-4567'
+    email: 'info@valerianevents.com'
   },
   {
     name: 'Marcus Vance',
@@ -657,8 +655,7 @@ export const TEAM_MEMBERS = [
     formerRole: 'Former Partnership Lead, American Artisan Craft Alliance',
     bio: 'Marcus pairs regional corporations, craft beverage distributors, and national consumer brands with custom festival footprints, stage naming rights, and targeted digital exposure.',
     avatar: 'https://i.pinimg.com/1200x/bf/b6/6d/bfb66d6862c9339937408831661313d5.jpg',
-    email: 'sponsors@valerianevents.com',
-    phone: '(555) 123-4567'
+    email: 'sponsors@valerianevents.com'
   }
 ];
 
@@ -755,7 +752,7 @@ export const FAQS_DATA: FAQ[] = [
   {
     id: 'faq-05',
     question: 'Can I speak to someone before applying?',
-    answer: 'Absolutely. We pride ourselves on direct human communication. You can call our vendor concierge desk directly at (555) 123-4567, or email vendors@valerianevents.com to schedule a 15-minute 1-on-1 phone or Zoom consultation with our event directors.'
+    answer: 'Absolutely. We pride ourselves on direct human communication. You can email info@valerianevents.com to connect directly with our event directors or schedule a 15-minute video consultation.'
   },
   {
     id: 'faq-06',
@@ -789,9 +786,8 @@ export const FOUNDER_DATA = {
   title: 'Founder & Event Director',
   bio: 'Valerian Events is led by Alex Silver (CEO), Elena Rostova (Operations Lead), and Marcus Vance (Sponsorships), bringing over 30+ combined years of premier festival production, culinary curation, and municipal permitting expertise.',
   email: 'info@valerianevents.com',
-  phone: '(555) 123-4567',
   address: '123 Main St, Suite 200, Las Vegas, NV 89101',
   avatar: 'https://i.pinimg.com/1200x/ce/ad/94/cead941fca1ea8075e01f564f1eedf98.jpg',
   paymentMethod: 'Credit Card / ACH / Invoicing / Zelle (info@valerianevents.com)',
-  commitment: '15-minute phone calls available daily. 24h response time guaranteed for all inquiries.'
+  commitment: '15-minute consultations available. 24h response time guaranteed for all inquiries.'
 };

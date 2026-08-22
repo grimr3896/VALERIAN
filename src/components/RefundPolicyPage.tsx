@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, ShieldCheck, CheckCircle2, Clock, HelpCircle, FileText, Mail, Phone } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, CheckCircle2, Clock, HelpCircle, FileText, Mail } from 'lucide-react';
 
 interface RefundPolicyPageProps {
   onBack: () => void;
@@ -95,7 +95,7 @@ export default function RefundPolicyPage({ onBack, onContact }: RefundPolicyPage
       <div className="p-6 rounded-2xl bg-forest text-cream flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-center sm:text-left">
           <h4 className="font-serif text-lg font-bold text-gold">Questions about your payment or refund request?</h4>
-          <p className="text-xs text-cream/70 font-light">Contact our billing concierge at vendors@valerianevents.com or call (555) 123-4567.</p>
+          <p className="text-xs text-cream/70 font-light">Contact our billing concierge at info@valerianevents.com.</p>
         </div>
         <button
           onClick={onContact}
