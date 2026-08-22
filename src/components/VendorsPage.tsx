@@ -30,6 +30,9 @@ import { VENDOR_CONFIG, VendorPillar, VendorTier } from '../vendorConfig';
 // Initialize EmailJS immediately for this module
 emailjs.init('dUpRmObSvyywLE_u_');
 
+// TODO: replace with real sponsorship template ID once created in EmailJS dashboard
+const SPONSOR_TEMPLATE_ID = 'PENDING_SPONSOR_TEMPLATE_ID';
+
 interface VendorsPageProps {
   onBack: () => void;
   onPageChange: (page: string) => void;
@@ -80,6 +83,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submittedPillar, setSubmittedPillar] = useState<VendorPillar | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Form field change handler
@@ -111,16 +115,26 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     e.preventDefault();
     setError(null);
 
+    // Selected tier check
+    const selectedTierObj = VENDOR_CONFIG.tiers.find(t => t.id === formData.tier);
+    const isSponsorship = selectedTierObj?.pillar === 'sponsorship';
+
     // Basic validation
-    if (!formData.name || !formData.email || !formData.business || !formData.category || !formData.message) {
-      setError('Please fill in all required fields (Full Name, Business Name, Email, Category, and Message).');
-      return;
+    if (isSponsorship) {
+      if (!formData.name || !formData.email || !formData.business || !formData.tier) {
+        setError('Please fill in all required fields (Contact Name, Business Name, Email, and Opportunity Level).');
+        return;
+      }
+    } else {
+      if (!formData.name || !formData.email || !formData.business || !formData.category || !formData.message) {
+        setError('Please fill in all required fields (Full Name, Business Name, Email, Category, and Message).');
+        return;
+      }
     }
 
     setLoading(true);
 
     // Map tier ID to readable tier name for EmailJS 'event' field
-    const selectedTierObj = VENDOR_CONFIG.tiers.find(t => t.id === formData.tier);
     const readableTier = selectedTierObj ? `${selectedTierObj.name} (${selectedTierObj.price})` : formData.tier;
 
     // Map payment plan to readable name
@@ -134,13 +148,13 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     // Map template params using our zero-change mapping strategy
     const templateParams = {
       from_name: formData.name,
-      business_name: `${formData.business} (Category: ${formData.category})`,
+      business_name: formData.category ? `${formData.business} (Category: ${formData.category})` : formData.business,
       from_email: formData.email,
       phone: formData.phone || 'N/A',
       event: `${readableEvent} — ${readableTier}`,
-      message: formData.message,
+      message: formData.message || (isSponsorship ? 'Sponsorship inquiry submitted via portal.' : 'N/A'),
       // Pass category and tier interest separately too in case they add custom variables in EmailJS later
-      category: formData.category,
+      category: formData.category || (isSponsorship ? 'Sponsor' : 'N/A'),
       tier_interest: readableTier
     };
 
@@ -152,6 +166,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         'dUpRmObSvyywLE_u_'
       );
       setLoading(false);
+      setSubmittedPillar(selectedTierObj?.pillar || 'marketplace');
       setSubmitted(true);
       
       // Clear the form
@@ -175,6 +190,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
 
   const resetForm = () => {
     setSubmitted(false);
+    setSubmittedPillar(null);
     setError(null);
   };
 
@@ -189,7 +205,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     { id: 'food', label: 'Food & Culinary', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'food').length, icon: Truck },
     { id: 'exhibitor', label: 'Business Exhibitors', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'exhibitor').length, icon: Building },
     { id: 'activation', label: 'Brand Activations', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'activation').length, icon: Rocket },
-    { id: 'sponsorship', label: 'Advance Sponsorship', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'sponsorship').length, icon: Award }
+    { id: 'sponsorship', label: 'Sponsor', count: VENDOR_CONFIG.tiers.filter(t => t.pillar === 'sponsorship').length, icon: Award }
   ];
 
   return (
@@ -286,15 +302,15 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
           })}
         </div>
 
-        {/* Advance Sponsorship Dedicated Banner */}
+        {/* Sponsor Dedicated Banner */}
         {activePillarFilter === 'sponsorship' && (
           <div className="p-6 rounded-2xl bg-[#FAF6F0] border border-gold/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
             <div className="space-y-1 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start space-x-2">
                 <span className="px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-widest uppercase rounded-full bg-forest text-gold">
-                  ADVANCE SPONSORSHIP PORTAL
+                  SPONSOR PORTAL
                 </span>
-                <span className="text-xs font-semibold text-forest">Looking for the dedicated sponsorship deck & Executive Sponsorship packages?</span>
+                <span className="text-xs font-semibold text-forest">Looking for the dedicated sponsorship deck & Executive Sponsor packages?</span>
               </div>
               <p className="text-xs text-charcoal/70 font-light">
                 Explore custom activations, deliverable matrices, flexible payment schedules, and custom proposal builders in our dedicated portal.
@@ -304,7 +320,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
               onClick={() => onPageChange('sponsorship-deck')}
               className="shrink-0 px-5 py-2.5 bg-forest hover:bg-forest/90 text-gold hover:text-cream text-xs font-bold tracking-wider uppercase rounded-xl transition-all shadow-md cursor-pointer border border-gold/30"
             >
-              Open Advance Sponsorship Tab →
+              Open Sponsor Tab →
             </button>
           </div>
         )}
@@ -729,29 +745,55 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
           </div>
 
           {submitted ? (
-            <div className="p-8 text-center space-y-6 fade-in" id="vendor-form-success">
-              <div className="inline-flex p-4 bg-forest/10 text-forest rounded-full border border-forest/20 shadow-[0_0_20px_rgba(27,77,62,0.1)]">
-                <CheckCircle2 className="h-10 w-10 text-gold" />
+            submittedPillar === 'sponsorship' ? (
+              <div className="p-8 text-center space-y-6 fade-in" id="vendor-form-success">
+                <div className="inline-flex p-4 bg-forest/10 text-forest rounded-full border border-forest/20 shadow-[0_0_20px_rgba(27,77,62,0.1)]">
+                  <CheckCircle2 className="h-10 w-10 text-gold" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-serif text-2xl font-bold tracking-tight text-forest">Sponsorship Inquiry Received!</h3>
+                  <p className="text-charcoal/80 text-sm max-w-md mx-auto leading-relaxed font-light">
+                    Thank you for your interest in sponsoring! Check your email — we've sent a link to complete your formal sponsorship application.
+                  </p>
+                </div>
+                <div className="p-5 rounded-xl bg-cream border border-gold/20 max-w-sm mx-auto text-xs text-charcoal/80 space-y-2">
+                  <span className="block font-bold text-forest tracking-wider uppercase text-[10px]">What Happens Next?</span>
+                  <p className="font-light leading-relaxed">
+                    Our team is reviewing your initial inquiry. In the meantime, look out for the direct link in your inbox to provide your detailed branding assets and activation preferences.
+                  </p>
+                </div>
+                <button
+                  onClick={resetForm}
+                  className="px-6 py-3 rounded-full border border-gold/30 bg-transparent text-forest hover:bg-neutral-50 text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer"
+                >
+                  Submit Another Inquiry
+                </button>
               </div>
-              <div className="space-y-2">
-                <h3 className="font-serif text-2xl font-bold tracking-tight text-forest">Application Received!</h3>
-                <p className="text-charcoal/80 text-sm max-w-md mx-auto leading-relaxed font-light">
-                  Thank you! Our curated vendor and partnership team has received your application and will reach out to you within 24 business hours.
-                </p>
+            ) : (
+              <div className="p-8 text-center space-y-6 fade-in" id="vendor-form-success">
+                <div className="inline-flex p-4 bg-forest/10 text-forest rounded-full border border-forest/20 shadow-[0_0_20px_rgba(27,77,62,0.1)]">
+                  <CheckCircle2 className="h-10 w-10 text-gold" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-serif text-2xl font-bold tracking-tight text-forest">Application Received!</h3>
+                  <p className="text-charcoal/80 text-sm max-w-md mx-auto leading-relaxed font-light">
+                    Thank you! Our curated vendor and partnership team has received your application and will reach out to you within 24 business hours.
+                  </p>
+                </div>
+                <div className="p-5 rounded-xl bg-cream border border-gold/20 max-w-sm mx-auto text-xs text-charcoal/80 space-y-2">
+                  <span className="block font-bold text-forest tracking-wider uppercase text-[10px]">What Happens Next?</span>
+                  <p className="font-light leading-relaxed">
+                    We will evaluate your category synergy, confirm layout availability, and email your official approval notice along with your selected payment schedule.
+                  </p>
+                </div>
+                <button
+                  onClick={resetForm}
+                  className="px-6 py-3 rounded-full border border-gold/30 bg-transparent text-forest hover:bg-neutral-50 text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer"
+                >
+                  Submit Another Application
+                </button>
               </div>
-              <div className="p-5 rounded-xl bg-cream border border-gold/20 max-w-sm mx-auto text-xs text-charcoal/80 space-y-2">
-                <span className="block font-bold text-forest tracking-wider uppercase text-[10px]">What Happens Next?</span>
-                <p className="font-light leading-relaxed">
-                  We will evaluate your category synergy, confirm layout availability, and email your official approval notice along with your selected payment schedule.
-                </p>
-              </div>
-              <button
-                onClick={resetForm}
-                className="px-6 py-3 rounded-full border border-gold/30 bg-transparent text-forest hover:bg-neutral-50 text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer"
-              >
-                Submit Another Application
-              </button>
-            </div>
+            )
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" id="vendors-apply-form">
               {error && (
@@ -837,16 +879,16 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
                 {/* Product/Category */}
                 <div className="space-y-1.5">
                   <label htmlFor="category" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
-                    Product / Business Category <span className="text-red-500">*</span>
+                    Product / Business Category {VENDOR_CONFIG.tiers.find(t => t.id === formData.tier)?.pillar !== 'sponsorship' && <span className="text-red-500">*</span>}
                   </label>
                   <input
                     type="text"
                     id="category"
                     name="category"
-                    required
+                    required={VENDOR_CONFIG.tiers.find(t => t.id === formData.tier)?.pillar !== 'sponsorship'}
                     value={formData.category}
                     onChange={handleChange}
-                    placeholder="e.g. Artisan Bakery, Food Truck, Jewelry, Corporate"
+                    placeholder={VENDOR_CONFIG.tiers.find(t => t.id === formData.tier)?.pillar === 'sponsorship' ? "e.g. Technology, Beverage, Financial Services" : "e.g. Artisan Bakery, Food Truck, Jewelry, Corporate"}
                     className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200"
                   />
                 </div>
@@ -917,7 +959,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
                       ))}
                     </optgroup>
 
-                    <optgroup label="🤝 SPONSORSHIP & PARTNERSHIPS">
+                    <optgroup label="🤝 SPONSOR OPPORTUNITIES">
                       {VENDOR_CONFIG.tiers.filter(t => t.pillar === 'sponsorship').map(t => (
                         <option key={t.id} value={t.id}>{t.name} — {t.price}</option>
                       ))}
@@ -934,16 +976,20 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
               {/* Message */}
               <div className="space-y-1.5">
                 <label htmlFor="message" className="block text-[10px] font-bold tracking-widest uppercase text-forest/80">
-                  Tell Us About Your Brand, Setup, & Special Requirements <span className="text-red-500">*</span>
+                  {VENDOR_CONFIG.tiers.find(t => t.id === formData.tier)?.pillar === 'sponsorship' ? (
+                    <>Tell Us About Your Brand & Sponsorship Goals <span className="text-charcoal/40 font-normal lowercase">(optional)</span></>
+                  ) : (
+                    <>Tell Us About Your Brand, Setup, & Special Requirements <span className="text-red-500">*</span></>
+                  )}
                 </label>
                 <textarea
                   id="message"
                   name="message"
-                  required
+                  required={VENDOR_CONFIG.tiers.find(t => t.id === formData.tier)?.pillar !== 'sponsorship'}
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Describe your display setup, trailer dimensions, electrical needs, menu items, or activation vision..."
+                  placeholder={VENDOR_CONFIG.tiers.find(t => t.id === formData.tier)?.pillar === 'sponsorship' ? "Optional: Notes on your sponsorship objectives, target demographics, or custom activation ideas..." : "Describe your display setup, trailer dimensions, electrical needs, menu items, or activation vision..."}
                   className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal placeholder-charcoal/45 text-sm outline-none transition-all duration-200 resize-none"
                 />
               </div>

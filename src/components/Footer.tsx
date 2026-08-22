@@ -69,7 +69,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   onClick={() => onPageChange('sponsorship-deck')}
                   className="hover:text-gold transition-colors duration-200 text-left focus:outline-none cursor-pointer"
                 >
-                  Advance Sponsorship
+                  Sponsor Opportunities
                 </button>
               </li>
               <li>

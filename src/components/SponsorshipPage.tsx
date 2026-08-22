@@ -263,7 +263,7 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
           <div className="max-w-3xl space-y-5">
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-gold/30 text-gold text-xs font-mono tracking-widest uppercase">
               <Sparkles className="h-3.5 w-3.5 text-gold" />
-              <span>Official Advance Sponsorship Portal</span>
+              <span>Official Sponsor Portal</span>
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-cream uppercase leading-[1.1]">
@@ -353,7 +353,7 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
             <div className="flex items-center space-x-2">
               <Sparkles className="h-5 w-5 text-gold" />
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-forest uppercase tracking-tight">
-                Advance Sponsorship Levels
+                Sponsor Levels
               </h2>
             </div>
           </div>
@@ -427,14 +427,14 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
       </section>
 
       {/* ========================================================================= */}
-      {/* 👑 EXECUTIVE SPONSORSHIP PACKAGES                                         */}
+      {/* 👑 EXECUTIVE SPONSOR PACKAGES                                             */}
       {/* ========================================================================= */}
       <section className="p-8 sm:p-12 bg-white border border-gold/25 rounded-3xl shadow-sm space-y-10" id="executive-sponsorship-section">
         <div className="max-w-3xl space-y-3">
           <div className="flex items-center space-x-2">
             <span className="px-3 py-1 text-[10px] font-mono font-bold tracking-widest uppercase rounded-full bg-forest text-gold border border-gold/30 inline-flex items-center space-x-1.5">
               <Crown className="h-3 w-3 text-gold" />
-              <span>EXECUTIVE SPONSORSHIP</span>
+              <span>EXECUTIVE SPONSOR</span>
             </span>
             <span className="px-2.5 py-1 text-[10px] font-mono font-bold tracking-widest uppercase rounded-full bg-gold/15 text-forest border border-gold/30">
               PREMIER PACKAGES
@@ -442,7 +442,7 @@ export default function SponsorshipPage({ onBack, onApplyForSponsorship }: Spons
           </div>
 
           <h2 className="font-serif text-2xl sm:text-4xl font-bold text-forest tracking-tight uppercase">
-            Executive Sponsorship Packages
+            Executive Sponsor Packages
           </h2>
           <p className="text-charcoal/70 font-light text-sm sm:text-base italic leading-relaxed">
             For brands and organizations seeking expanded reach, larger footprints, and deeper audience engagement.

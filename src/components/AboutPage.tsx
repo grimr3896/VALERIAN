@@ -265,7 +265,7 @@ export default function AboutPage({ onBack, onContact, onNavigateToSponsorship }
                 onClick={onNavigateToSponsorship}
                 className="shrink-0 px-6 py-3.5 rounded-xl bg-forest hover:bg-forest/90 text-gold font-sans text-xs font-bold tracking-widest uppercase transition-all shadow-md cursor-pointer flex items-center space-x-2 border border-gold/30"
               >
-                <span>View Advance Sponsorship Portal</span>
+                <span>View Sponsor Portal</span>
                 <ChevronRight className="h-4 w-4" />
               </button>
             )}
