@@ -22,6 +22,12 @@ import {
   getEventSlug, 
   findEventInList 
 } from './utils/urlRouter';
+import { 
+  isEventPast, 
+  sortUpcomingEvents, 
+  sortPastEvents, 
+  groupAndSortEvents 
+} from './utils/eventDateUtils';
 import {
   Sparkles,
   ArrowRight,
@@ -117,10 +123,11 @@ export default function App() {
     updateBrowserUrl(currentPage, selectedEventId, EVENTS_DATA, true, query);
   };
 
-  // Filtered Events with multi-criteria search
-  const filteredEvents = EVENTS_DATA.filter((event) => {
-    // 1. Time filter
-    const matchesTime = timeFilter === 'upcoming' ? !event.isPast : !!event.isPast;
+  // Filtered Events with multi-criteria search and chronological sorting
+  const rawFilteredEvents = EVENTS_DATA.filter((event) => {
+    // 1. Time filter (dynamic evaluation based on event date & isPast)
+    const isPast = isEventPast(event);
+    const matchesTime = timeFilter === 'upcoming' ? !isPast : isPast;
     if (!matchesTime) return false;
 
     // 2. City filter
@@ -153,16 +160,21 @@ export default function App() {
     return true;
   });
 
+  // Sort upcoming chronologically (soonest first) and past reverse-chronologically (most recent first)
+  const filteredEvents = timeFilter === 'upcoming'
+    ? sortUpcomingEvents(rawFilteredEvents)
+    : sortPastEvents(rawFilteredEvents);
+
   // Filter Counts
   const filterCounts = {
-    All: EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !e.isPast : !!e.isPast).length,
-    'Los Angeles': EVENTS_DATA.filter(e => e.tag === 'Los Angeles' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
-    'New York City': EVENTS_DATA.filter(e => e.tag === 'New York City' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
-    Miami: EVENTS_DATA.filter(e => e.tag === 'Miami' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
-    Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
-    'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
-    Atlanta: EVENTS_DATA.filter(e => e.tag === 'Atlanta' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
-    Houston: EVENTS_DATA.filter(e => e.tag === 'Houston' && (timeFilter === 'upcoming' ? !e.isPast : !!e.isPast)).length,
+    All: EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e)).length,
+    'Los Angeles': EVENTS_DATA.filter(e => e.tag === 'Los Angeles' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    'New York City': EVENTS_DATA.filter(e => e.tag === 'New York City' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    Miami: EVENTS_DATA.filter(e => e.tag === 'Miami' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    Atlanta: EVENTS_DATA.filter(e => e.tag === 'Atlanta' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    Houston: EVENTS_DATA.filter(e => e.tag === 'Houston' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
   };
 
   return (

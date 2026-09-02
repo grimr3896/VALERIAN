@@ -54,6 +54,7 @@ export interface VendorConfig {
   paymentOptions: PaymentOption[];
   paymentPolicyNotes: string[];
   upcomingEvents: UpcomingVendorEvent[];
+  pastEvents?: UpcomingVendorEvent[];
   confirmedVendors: { name: string; logo?: string }[];
   contact: {
     email: string;
@@ -656,26 +657,8 @@ export const VENDOR_CONFIG: VendorConfig = {
 
   upcomingEvents: [
     {
-      id: 'las-vegas-food-arts',
-      name: 'Las Vegas Food, Arts & Street Market Festival',
-      date: 'Aug 28, 2026',
-      location: 'Las Vegas, NV'
-    },
-    {
-      id: 'houston-festival',
-      name: 'Houston Food, Shopping & Entertainment Festival',
-      date: 'Aug 21-23, 2026',
-      location: 'Houston, TX'
-    },
-    {
-      id: 'taste-shop-usa',
-      name: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
-      date: 'Aug 21-23, 2026',
-      location: 'Atlanta, GA'
-    },
-    {
       id: 'miami-end-summer-fest',
-      name: 'Miami End of Summer Family Fun Food Truck Music & Vendor Festival',
+      name: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
       date: 'Sep 4-6, 2026',
       location: 'Bayfront Park, Miami, FL'
     },
@@ -684,6 +667,12 @@ export const VENDOR_CONFIG: VendorConfig = {
       name: 'Late Night Bites & Spirits Market',
       date: 'Sep 4, 2026',
       location: 'North Miami, FL'
+    },
+    {
+      id: 'atlanta-food-music-culture-fest',
+      name: "Atlanta's Food, Music & Culture Festival (ATL Summer Nights)",
+      date: 'Sep 18-20, 2026',
+      location: 'Piedmont Park, Atlanta, GA'
     },
     {
       id: 'artisanal-heritage',
@@ -722,22 +711,30 @@ export const VENDOR_CONFIG: VendorConfig = {
       location: 'Miami, FL'
     },
     {
-      id: 'taco-tequila',
-      name: 'Taco & Tequila Street Fiesta',
-      date: 'Aug 16, 2026',
-      location: 'Las Vegas, NV'
-    },
-    {
       id: 'whiskey-bbq',
       name: 'Whiskey & BBQ Fest',
       date: 'Apr 10-11, 2027',
       location: 'Miami, FL'
+    }
+  ],
+  pastEvents: [
+    {
+      id: 'las-vegas-food-arts',
+      name: 'Las Vegas Food, Arts & Street Market Festival',
+      date: 'Aug 28, 2026',
+      location: 'Las Vegas, NV'
     },
     {
-      id: 'hot-sauce-expo',
-      name: 'American Hot Sauce & Spicy Food Expo',
-      date: 'Jul 11, 2026',
-      location: 'Austin, TX'
+      id: 'houston-festival',
+      name: 'Houston Food, Shopping & Entertainment Festival',
+      date: 'Aug 21-23, 2026',
+      location: 'Houston, TX'
+    },
+    {
+      id: 'taste-shop-usa',
+      name: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
+      date: 'Aug 21-23, 2026',
+      location: 'Atlanta, GA'
     },
     {
       id: 'street-eats',
@@ -746,10 +743,22 @@ export const VENDOR_CONFIG: VendorConfig = {
       location: 'Las Vegas, NV'
     },
     {
+      id: 'taco-tequila',
+      name: 'Taco & Tequila Street Fiesta',
+      date: 'Aug 16, 2026',
+      location: 'Las Vegas, NV'
+    },
+    {
       id: 'miami-summer',
       name: 'Miami Summer Vendor Market & Food Truck Festival',
       date: 'Jul 25-26, 2026',
       location: 'Miami, FL'
+    },
+    {
+      id: 'hot-sauce-expo',
+      name: 'American Hot Sauce & Spicy Food Expo',
+      date: 'Jul 11, 2026',
+      location: 'Austin, TX'
     }
   ],
   /* 

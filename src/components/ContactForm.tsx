@@ -233,11 +233,20 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
               className="w-full px-4 py-3 rounded-xl bg-cream/30 border border-gold/20 focus:border-forest/50 focus:bg-white text-charcoal text-sm outline-none appearance-none transition-all duration-200"
             >
               <option value="" className="text-charcoal/45">Select an event or general inquiry...</option>
-              {EVENTS_DATA.map((evt) => (
-                <option key={evt.id} value={`${evt.title} (${evt.date} • ${evt.location})`}>
-                  {evt.title} — {evt.date} ({evt.tag || evt.location})
-                </option>
-              ))}
+              <optgroup label="Upcoming Events & Festivals (2026–2027)">
+                {EVENTS_DATA.filter(evt => !evt.isPast).map((evt) => (
+                  <option key={evt.id} value={`${evt.title} (${evt.date} • ${evt.location})`}>
+                    {evt.title} — {evt.date} ({evt.tag || evt.location})
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Past Exhibitions (Concluded)">
+                {EVENTS_DATA.filter(evt => evt.isPast).map((evt) => (
+                  <option key={evt.id} value={`${evt.title} (${evt.date} • ${evt.location})`}>
+                    [Concluded] {evt.title} — {evt.date} ({evt.tag || evt.location})
+                  </option>
+                ))}
+              </optgroup>
               <option value="Multi-City Tour / General Inquiries">Multi-City Tour / General Inquiries</option>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gold">

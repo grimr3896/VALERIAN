@@ -6,76 +6,31 @@ import regeneratedTacosImage from './assets/images/regenerated_image_17841530315
 // @ts-ignore
 import lasVegasFoodArtsFest from './assets/images/regenerated_image_1786825872575.png';
 // @ts-ignore
-import miamiEndSummerFest from './assets/images/miami_end_summer_1786971777197.jpg';
+import miamiEndSummerFest from './assets/images/regenerated_image_1787707214312.png';
+// @ts-ignore
+import atlantaFoodMusicFest from './assets/images/atlanta_food_music_fest.jpg';
 
 export const EVENTS_DATA: Event[] = [
+  // ==========================================
+  // UPCOMING EVENTS & FESTIVALS (Chronological)
+  // ==========================================
   {
     id: 'ev-36',
-    slug: 'miami-end-of-summer-family-fun-food-truck-music-vendor-festival-2026',
-    title: 'Miami End of Summer Family Fun Food Truck Music & Vendor Festival 2026',
+    slug: 'sabor-de-verano-miamis-end-of-summer-family-food-music-vendor-festival',
+    title: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
     date: 'Sep 4-6, 2026',
     location: 'Bayfront Park, 301 Biscayne Blvd, Miami, FL 33132',
     image: miamiEndSummerFest,
     spotsLeft: 22,
-    totalSpots: 60,
+    totalSpots: 100,
     tag: 'Miami',
-    category: 'Food Truck & Family Festival',
-    description: 'Celebrate the ultimate Labor Day weekend summer finale at Bayfront Park in downtown Miami! Miami End of Summer Family Fun Food Truck Music & Vendor Festival 2026 runs Friday through Sunday, September 4–6, 2026 (10:00 AM – 5:00 PM daily). Experience an incredible gathering of premier gourmet food trucks, artisanal craft markets, non-stop live music, cultural performances, and family-friendly entertainment overlooking beautiful Biscayne Bay.',
+    category: 'Family Fun, Food, Music & Vendor Festival',
+    description: "Celebrate the ultimate Labor Day weekend summer finale at Bayfront Park in downtown Miami! Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival runs Friday through Sunday, September 4–6, 2026 (10:00 AM – 5:00 PM daily). Experience an incredible gathering featuring 100+ local vendors and artisans, premier gourmet food trucks, non-stop live music, cultural performances, and family-friendly kids activities overlooking beautiful Biscayne Bay.",
     cost: 'Free Admission / Booths from $100/day',
     attendance: '20,000+ expected',
-    highlight: 'Prime waterfront 3-day festival footprint overlooking Biscayne Bay at Bayfront Park, high-volume holiday weekend foot traffic, dedicated food truck lanes, artisan marketplace, and direct Eventbrite ticket registration.',
-    ticketLink: 'https://www.eventbrite.com/e/miami-end-of-summer-family-fun-food-truck-music-vendor-festival-2026-tickets-1997693186096?aff=oddtdtcreator'
-  },
-  {
-    id: 'ev-35',
-    slug: 'las-vegas-food-arts-street-market-festival',
-    title: 'Las Vegas Food, Arts & Street Market Festival',
-    date: 'Aug 28, 2026',
-    location: '200 South 3rd Street, Las Vegas, NV 89101',
-    image: lasVegasFoodArtsFest,
-    spotsLeft: 65,
-    totalSpots: 65,
-    tag: 'Las Vegas',
-    category: 'Food, Arts & Street Market',
-    description: 'Las Vegas Food, Arts & Street Market Festival brings together food lovers, food trucks, local vendors, artists, makers, businesses, brands and entertainers for a vibrant weekend of food, shopping, live entertainment and family-friendly experiences. Taking place Friday, August 28, 2026 (9:00 AM – 1:00 PM) at 200 South 3rd Street in downtown Las Vegas. Guests can discover unique flavors, shop local, enjoy live music, explore arts and crafts, and participate in exciting activities.',
-    cost: 'Free Admission / Booths from $100/day',
-    attendance: '10,000+ expected',
-    highlight: 'Comprehensive amenities including electricity, water, tables/tents, weather cover, and free parking. Marketplace booths from $100/day, Food vendor spaces $100/day, Food trucks $150/day, and Business exhibitor spaces from $500.',
-    ticketLink: 'https://vendorsmap.com/events/las-vegas-food-arts-street-market-festival#event-28943'
-  },
-  {
-    id: 'ev-34',
-    slug: 'houston-food-shopping-entertainment-festival',
-    title: 'Houston Food, Shopping & Entertainment Festival',
-    date: 'Aug 21-23, 2026',
-    location: '1 NRG Pkwy, Houston, TX 77054',
-    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191025956%2F3010760393004%2F1%2Foriginal.20260814-001340?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=c4721e0f095c579003158fb1f06c9aae',
-    spotsLeft: 15,
-    totalSpots: 50,
-    tag: 'Houston',
-    category: 'Food, Shopping & Entertainment',
-    description: 'FREE Houston festival featuring amazing food, shopping, live entertainment, family fun, vendors, giveaways, and unforgettable experiences! Taking place August 21–23, 2026 at 1 NRG Parkway in Houston. Discover a high-energy gathering of gourmet food trucks, artisan makers, boutique shopping stalls, interactive games, and live stage performances.',
-    cost: 'Free Admission / Vendor Packages from $450',
-    attendance: '25,000+ expected',
-    highlight: 'Prime outdoor and covered festival exhibition placement at NRG Park in Houston, dedicated vendor load-in concierge, live stage entertainment, and direct Eventbrite ticket integration.',
-    ticketLink: 'https://www.eventbrite.com/e/houston-food-shopping-entertainment-festival-tickets-1997932770700'
-  },
-  {
-    id: 'ev-33',
-    slug: 'taste-shop-usa-the-ultimate-food-shopping-festival',
-    title: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
-    date: 'Aug 21-23, 2026',
-    location: '285 Andrew Young International Blvd NW, Atlanta, GA 30313',
-    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191022569%2F3010748336193%2F1%2Foriginal.20260813-231102?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=fdaae3c17e84a5a3a830a66fd5d54d1a',
-    spotsLeft: 18,
-    totalSpots: 50,
-    tag: 'Atlanta',
-    category: 'Food & Shopping Festival',
-    description: 'Dive into delicious bites and hot deals at Taste & Shop USA, the ultimate foodie and shopping fest! Taking place August 21–23, 2026 in downtown Atlanta at 285 Andrew Young International Blvd NW. Features curated culinary creators, open-air boutique shopping, specialty beverage tasting stations, and live festival entertainment.',
-    cost: 'Free Admission / Vendor Packages from $450',
-    attendance: '15,000+ expected',
-    highlight: 'Includes 3-day weekend festival footprint (Aug 21–23, 2026) at 285 Andrew Young International Blvd NW in Atlanta, prime foot traffic exposure, curated gourmet food sampling lanes, and direct Eventbrite ticket integration.',
-    ticketLink: 'https://www.eventbrite.com/e/taste-shop-usa-the-ultimate-food-shopping-festival-tickets-1997926883090?aff=oddtdtcreator'
+    highlight: 'Prime 3-day holiday weekend waterfront festival at Bayfront Park with 100+ small businesses & artisans, gourmet food truck row, live stage entertainment, family fun zones, and official Eventbrite ticket registration.',
+    ticketLink: 'https://www.eventbrite.com/e/sabor-de-verano-miamis-end-of-summer-family-food-music-vendor-festival-tickets-1998934296290',
+    isPast: false
   },
   {
     id: 'ev-32',
@@ -91,7 +46,26 @@ export const EVENTS_DATA: Event[] = [
     description: "An evening open-air street-market style food & drink festival featuring South Florida's premier night food trucks, small-batch hot sauce and spice makers, craft tequila/mezcal brands, and boutique local artisans. Hosted at 12351 NW 7th Ave in North Miami, this event is designed for an energetic 21+ crowd with overhead string lights, a live DJ, and curated beverage pairings.",
     cost: '$450 / Weekend',
     attendance: '10,000+ expected',
-    highlight: 'Includes heavy-duty 20A electricity, private waste service, premium string-lit market space, and active ice supply concierge.'
+    highlight: 'Includes heavy-duty 20A electricity, private waste service, premium string-lit market space, and active ice supply concierge.',
+    isPast: false
+  },
+  {
+    id: 'ev-37',
+    slug: 'atlantas-food-music-culture-festival',
+    title: "Atlanta's Food, Music & Culture Festival",
+    date: 'Sep 18-20, 2026',
+    location: 'Piedmont Park, 1320 Monroe Dr NE, Atlanta, GA 30306',
+    image: atlantaFoodMusicFest,
+    spotsLeft: 45,
+    totalSpots: 100,
+    tag: 'Atlanta',
+    category: 'Food, Music & Culture Festival',
+    description: "Dive into Atlanta’s vibe with killer eats, live tunes, and nonstop culture at this awesome in-person fest! ATL Summer Nights is a three-day outdoor celebration taking place September 18–20, 2026 at Piedmont Park in Atlanta, GA. Experience a vibrant celebration featuring delicious food from gourmet food trucks and culinary vendors, live musical performances and DJs, cultural and dance shows, local artisan craft markets, and exciting family-friendly activities.",
+    cost: 'Free Admission / Booths from $100/day',
+    attendance: '25,000+ expected',
+    highlight: 'Prime 3-day outdoor festival at historic Piedmont Park in Atlanta with live concerts & DJs, gourmet culinary rows, cultural showcases, artisan crafts & fashion marketplace, and official Eventbrite ticket registration.',
+    ticketLink: 'https://www.eventbrite.com/e/atlantas-food-music-culture-festival-tickets-1999451274586?aff=oddtdtcreator',
+    isPast: false
   },
   {
     id: 'ev-01',
@@ -107,7 +81,8 @@ export const EVENTS_DATA: Event[] = [
     description: 'A curated showcase of premier craft makers, organic purveyors, and boutique local brands. Situated in the heart of LA’s cultural hub, attracting affluent design and culinary enthusiasts.',
     cost: '$450 / Weekend',
     attendance: '15,000+ expected',
-    highlight: 'Includes 10x10 premium tent space, professional lighting canopy, and spotlight promotions.'
+    highlight: 'Includes 10x10 premium tent space, professional lighting canopy, and spotlight promotions.',
+    isPast: false
   },
   {
     id: 'ev-02',
@@ -123,7 +98,8 @@ export const EVENTS_DATA: Event[] = [
     description: 'An exclusive single-day pairing event. Highlighting craft distilleries, premium barrel-aged whiskey, and artisanal smoked meats under the coastal night breeze.',
     cost: '$600 / Day',
     attendance: '8,000+ expected',
-    highlight: 'Includes heavy-duty 20A electricity, private waste service, and ice-supply concierge.'
+    highlight: 'Includes heavy-duty 20A electricity, private waste service, and ice-supply concierge.',
+    isPast: false
   },
   {
     id: 'ev-03',
@@ -139,7 +115,8 @@ export const EVENTS_DATA: Event[] = [
     description: 'Texas’ ultimate high-heat food festival. Celebrating regional pitmasters, hot sauce pioneers, and bold street food entrepreneurs. Known for lively music and fierce competition.',
     cost: '$500 / Weekend',
     attendance: '22,000+ expected',
-    highlight: 'Includes water-hookup access, shared cold-storage lockers, and fire safety compliance support.'
+    highlight: 'Includes water-hookup access, shared cold-storage lockers, and fire safety compliance support.',
+    isPast: false
   },
   {
     id: 'ev-04',
@@ -155,7 +132,8 @@ export const EVENTS_DATA: Event[] = [
     description: 'An upscale winter-themed indoor food and luxury maker market. Perfect for premium gifting brands, gourmet chocolates, fine wines, and custom home lifestyle crafts.',
     cost: '$750 / Weekend',
     attendance: '18,000+ expected',
-    highlight: 'Heated indoor environment, custom display booths, luxury concierge, and 24/7 security patrol.'
+    highlight: 'Heated indoor environment, custom display booths, luxury concierge, and 24/7 security patrol.',
+    isPast: false
   },
   {
     id: 'ev-05',
@@ -171,7 +149,8 @@ export const EVENTS_DATA: Event[] = [
     description: 'An elite culinary gathering for dry-aged steak houses, charcoal chefs, and knife makers. Heavily attended by restaurateurs and gourmet culinary buyers looking for new partnerships.',
     cost: '$550 / Day',
     attendance: '6,500+ expected',
-    highlight: 'Access to high-capacity waste disposal, commercial-grade grease removal, and premium ash-bins.'
+    highlight: 'Access to high-capacity waste disposal, commercial-grade grease removal, and premium ash-bins.',
+    isPast: false
   },
   {
     id: 'ev-06',
@@ -187,24 +166,8 @@ export const EVENTS_DATA: Event[] = [
     description: 'A prestige waterfront beachside seafood festival. Pairing the finest catch with sustainable vineyard wines, boutique desserts, and ambient beachside live acoustic performance.',
     cost: '$650 / Weekend',
     attendance: '14,000+ expected',
-    highlight: 'Ice-delivery service, shared refrigeration containers, waterfront guest seating, and overnight site security.'
-  },
-  {
-    id: 'ev-07',
-    slug: 'taco-tequila-street-fiesta',
-    title: 'Taco & Tequila Street Fiesta',
-    date: 'Aug 16, 2026',
-    location: '7101 S Buffalo Dr, Las Vegas',
-    image: regeneratedTacosImage,
-    spotsLeft: 14,
-    totalSpots: 40,
-    tag: 'Las Vegas',
-    category: 'Tequila & Tacos',
-    description: 'Get ready to fiesta with spicy tacos, bold tequila, and good vibes at the Taco & Tequila Street Fiesta!',
-    cost: '$500 / Day',
-    attendance: '16,000+ expected',
-    highlight: 'Includes premium booth space, certified tequila sampling permitting support, and direct ice-supply concierge.',
-    ticketLink: 'https://www.eventbrite.com/e/taco-tequila-street-fiesta-tickets-1992705609119'
+    highlight: 'Ice-delivery service, shared refrigeration containers, waterfront guest seating, and overnight site security.',
+    isPast: false
   },
   {
     id: 'ev-08',
@@ -221,24 +184,66 @@ export const EVENTS_DATA: Event[] = [
     cost: '$600 / Weekend',
     attendance: '12,000+ expected',
     highlight: 'Includes heavy-duty 20A electricity, dry-aged prep canopy access, and private wood-ash disposal.',
-    ticketLink: 'https://www.eventbrite.com/e/whiskey-bbq-fest-miami-tickets-1992874413016'
+    ticketLink: 'https://www.eventbrite.com/e/whiskey-bbq-fest-miami-tickets-1992874413016',
+    isPast: false
+  },
+
+  // ==========================================
+  // PAST EXHIBITIONS & CONCLUDED SHOWCASES
+  // ==========================================
+  {
+    id: 'ev-35',
+    slug: 'las-vegas-food-arts-street-market-festival',
+    title: 'Las Vegas Food, Arts & Street Market Festival',
+    date: 'Aug 28, 2026',
+    location: '200 South 3rd Street, Las Vegas, NV 89101',
+    image: lasVegasFoodArtsFest,
+    spotsLeft: 0,
+    totalSpots: 65,
+    tag: 'Las Vegas',
+    category: 'Food, Arts & Street Market',
+    description: 'Las Vegas Food, Arts & Street Market Festival brought together food lovers, food trucks, local vendors, artists, makers, businesses, brands and entertainers for a vibrant weekend of food, shopping, live entertainment and family-friendly experiences at 200 South 3rd Street in downtown Las Vegas.',
+    cost: 'Free Admission / Booths from $100/day',
+    attendance: '10,000+ attendees',
+    highlight: 'Comprehensive amenities including electricity, water, tables/tents, weather cover, and free parking. Concluded on August 28, 2026.',
+    ticketLink: 'https://vendorsmap.com/events/las-vegas-food-arts-street-market-festival#event-28943',
+    isPast: true
   },
   {
-    id: 'ev-09',
-    slug: 'american-hot-sauce-spicy-food-expo',
-    title: 'American Hot Sauce and Spicy Food Expo',
-    date: 'Jul 11, 2026',
-    location: 'Austin Event Center, Austin',
-    image: 'https://i.pinimg.com/736x/d5/09/8c/d5098c3328cb6a33ba5ce88b5522d308.jpg',
-    spotsLeft: 22,
+    id: 'ev-34',
+    slug: 'houston-food-shopping-entertainment-festival',
+    title: 'Houston Food, Shopping & Entertainment Festival',
+    date: 'Aug 21-23, 2026',
+    location: '1 NRG Pkwy, Houston, TX 77054',
+    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191025956%2F3010760393004%2F1%2Foriginal.20260814-001340?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=c4721e0f095c579003158fb1f06c9aae',
+    spotsLeft: 0,
     totalSpots: 50,
-    tag: 'Austin',
-    category: 'Gourmet Culinary',
-    description: 'The largest celebration of fire, flavor, and heat in the South — Austin, TX',
-    cost: '$550 / Day',
-    attendance: '20,000+ expected',
-    highlight: 'Includes custom fire safety compliance, shared cold storage access, and featured showcase in the main mainstage heat contest.',
-    ticketLink: 'https://www.eventbrite.com/e/american-hot-sauce-and-spicy-food-expo-tickets-1993070825491'
+    tag: 'Houston',
+    category: 'Food, Shopping & Entertainment',
+    description: 'Houston festival featuring amazing food, shopping, live entertainment, family fun, vendors, giveaways, and unforgettable experiences held August 21–23, 2026 at 1 NRG Parkway in Houston.',
+    cost: 'Free Admission / Vendor Packages from $450',
+    attendance: '25,000+ attendees',
+    highlight: 'Prime outdoor and covered festival exhibition placement at NRG Park in Houston with live stage entertainment and artisanal marketplace.',
+    ticketLink: 'https://www.eventbrite.com/e/houston-food-shopping-entertainment-festival-tickets-1997932770700',
+    isPast: true
+  },
+  {
+    id: 'ev-33',
+    slug: 'taste-shop-usa-the-ultimate-food-shopping-festival',
+    title: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
+    date: 'Aug 21-23, 2026',
+    location: '285 Andrew Young International Blvd NW, Atlanta, GA 30313',
+    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191022569%2F3010748336193%2F1%2Foriginal.20260813-231102?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=fdaae3c17e84a5a3a830a66fd5d54d1a',
+    spotsLeft: 0,
+    totalSpots: 50,
+    tag: 'Atlanta',
+    category: 'Food & Shopping Festival',
+    description: 'Taste & Shop USA brought culinary creators, open-air boutique shopping, specialty beverage tasting stations, and live festival entertainment to downtown Atlanta at 285 Andrew Young International Blvd NW.',
+    cost: 'Free Admission / Vendor Packages from $450',
+    attendance: '15,000+ attendees',
+    highlight: '3-day weekend festival footprint (Aug 21–23, 2026) at 285 Andrew Young International Blvd NW in Atlanta with curated gourmet food sampling lanes.',
+    ticketLink: 'https://www.eventbrite.com/e/taste-shop-usa-the-ultimate-food-shopping-festival-tickets-1997926883090?aff=oddtdtcreator',
+    isPast: true
   },
   {
     id: 'ev-10',
@@ -247,15 +252,34 @@ export const EVENTS_DATA: Event[] = [
     date: 'Aug 21-23, 2026',
     location: 'Nevada Brew Works, Las Vegas',
     image: 'https://i.pinimg.com/736x/13/99/57/1399579283e193e65c8f13cf15e478da.jpg',
-    spotsLeft: 25,
+    spotsLeft: 0,
     totalSpots: 60,
     tag: 'Las Vegas',
     category: 'Street Food & Craft Beer',
-    description: 'Dive into awesome street eats and craft drinks at the USA Street Eats & Craft Drinks Festival—foodie fun guaranteed!',
+    description: 'High-energy street eats and craft drinks festival at Nevada Brew Works with food trucks, craft microbreweries, and live entertainment.',
     cost: '$550 / Weekend',
-    attendance: '25,000+ expected',
-    highlight: 'Includes premium vendor space at Nevada Brew Works, high-amperage electrical hookups, direct ice access, and prominent digital mapping promotion.',
-    ticketLink: 'https://www.eventbrite.com/e/usa-street-eats-craft-drinks-festival-tickets-1993339100910?aff=oddtdtcreator'
+    attendance: '25,000+ attendees',
+    highlight: 'Comprehensive vendor village at Nevada Brew Works with high-amperage power grids and live musical performances.',
+    ticketLink: 'https://www.eventbrite.com/e/usa-street-eats-craft-drinks-festival-tickets-1993339100910?aff=oddtdtcreator',
+    isPast: true
+  },
+  {
+    id: 'ev-07',
+    slug: 'taco-tequila-street-fiesta',
+    title: 'Taco & Tequila Street Fiesta',
+    date: 'Aug 16, 2026',
+    location: '7101 S Buffalo Dr, Las Vegas',
+    image: regeneratedTacosImage,
+    spotsLeft: 0,
+    totalSpots: 40,
+    tag: 'Las Vegas',
+    category: 'Tequila & Tacos',
+    description: 'Fiesta of gourmet street tacos, certified blue agave tequilas, and good vibes at 7101 S Buffalo Dr in Las Vegas.',
+    cost: '$500 / Day',
+    attendance: '16,000+ attendees',
+    highlight: 'Concluded single-day celebration featuring certified blue agave tequila sampling and street taco pairings.',
+    ticketLink: 'https://www.eventbrite.com/e/taco-tequila-street-fiesta-tickets-1992705609119',
+    isPast: true
   },
   {
     id: 'ev-31',
@@ -264,15 +288,34 @@ export const EVENTS_DATA: Event[] = [
     date: 'Jul 25-26, 2026',
     location: 'Regatta Grove, Coconut Grove, Miami',
     image: miamiFestivalMarket,
-    spotsLeft: 15,
+    spotsLeft: 0,
     totalSpots: 40,
     tag: 'Miami',
     category: 'Street Food & Artisanal Crafts',
-    description: 'The ultimate summer culinary and artisanal gathering at Regatta Grove. Explore Miami’s premier food trucks serving gourmet street eats, alongside curated local vendor booths displaying custom handcrafted jewelry, coastal crafts, and boutique summer apparel.',
+    description: 'Summer culinary and artisanal gathering at Regatta Grove in Coconut Grove. Miami’s premier food trucks and curated artisan vendor booths overlooking the marina.',
     cost: '$450 / Weekend',
-    attendance: '12,000+ expected',
-    highlight: 'Includes 10x10 premium tent space or food truck docking spot, high-amperage electrical hookups, overnight site security, and digital map placement.',
-    ticketLink: 'https://www.eventbrite.com/e/miami-summer-vendor-market-food-truck-festival-tickets-1991583813799?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=wsa&aff=ebdsshwebmobile'
+    attendance: '12,000+ attendees',
+    highlight: 'Waterfront food truck docking, curated craft marketplace, and coastal evening vibes.',
+    ticketLink: 'https://www.eventbrite.com/e/miami-summer-vendor-market-food-truck-festival-tickets-1991583813799',
+    isPast: true
+  },
+  {
+    id: 'ev-09',
+    slug: 'american-hot-sauce-spicy-food-expo',
+    title: 'American Hot Sauce and Spicy Food Expo',
+    date: 'Jul 11, 2026',
+    location: 'Austin Event Center, Austin',
+    image: 'https://i.pinimg.com/736x/d5/09/8c/d5098c3328cb6a33ba5ce88b5522d308.jpg',
+    spotsLeft: 0,
+    totalSpots: 50,
+    tag: 'Austin',
+    category: 'Gourmet Culinary',
+    description: 'Celebration of fire, flavor, and heat in Austin, TX featuring artisanal pepper growers, fiery hot sauce makers, and high-heat barbecue.',
+    cost: '$550 / Day',
+    attendance: '20,000+ attendees',
+    highlight: 'Mainstage heat competition, small-batch hot sauce tasting pavilions, and culinary awards.',
+    ticketLink: 'https://www.eventbrite.com/e/american-hot-sauce-and-spicy-food-expo-tickets-1993070825491',
+    isPast: true
   },
   {
     id: 'ev-11',
