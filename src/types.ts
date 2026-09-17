@@ -7,13 +7,15 @@ export interface Event {
   image: string;
   spotsLeft: number;
   totalSpots: number;
-  tag: 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'Houston' | 'All';
+  tag: 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'Houston' | 'Raleigh' | 'Dallas' | 'Salt Lake City' | 'All';
   category: string;
   description: string;
   cost: string;
   attendance: string;
   highlight: string;
   ticketLink?: string;
+  hours?: string;
+  hostContact?: string;
   isPast?: boolean;
 }
 

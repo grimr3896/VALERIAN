@@ -9,6 +9,12 @@ import lasVegasFoodArtsFest from './assets/images/regenerated_image_178682587257
 import miamiEndSummerFest from './assets/images/regenerated_image_1787707214312.png';
 // @ts-ignore
 import atlantaFoodMusicFest from './assets/images/atlanta_food_music_fest.jpg';
+// @ts-ignore
+import triangleHarvestNightMarket from './assets/images/triangle_harvest_night_market.jpg';
+// @ts-ignore
+import bigDLaunchpadImg from './assets/images/big_d_launchpad_creator_market.jpg';
+// @ts-ignore
+import leGrandMarcheImg from './assets/images/le_grand_marche.jpg';
 
 export const EVENTS_DATA: Event[] = [
   // ==========================================
@@ -82,6 +88,64 @@ export const EVENTS_DATA: Event[] = [
     cost: '$450 / Weekend',
     attendance: '15,000+ expected',
     highlight: 'Includes 10x10 premium tent space, professional lighting canopy, and spotlight promotions.',
+    isPast: false
+  },
+  {
+    id: 'ev-40',
+    slug: 'le-grand-marche',
+    title: 'Le Grand Marché',
+    date: 'Oct 16-18, 2026',
+    location: 'Salt Palace Convention Center, 100 S West Temple, Salt Lake City, UT 84101',
+    image: leGrandMarcheImg,
+    spotsLeft: 42,
+    totalSpots: 110,
+    tag: 'Salt Lake City',
+    category: 'Food, Culture & Creator Festival',
+    description: "Welcome to Le Grand Marché — a premier three-day celebration of food, culture, creativity, entrepreneurship, shopping, and community in the heart of Salt Lake City at the Salt Palace Convention Center. Taking place October 16 – 18, 2026 (10:00 AM – 7:00 PM Daily).\n\nInspired by the atmosphere of a grand European marketplace and shaped around today's local businesses and creators:\n\n• Friday, October 16 — Le Business Marché: Business & networking day for entrepreneurs, creators, workshops, and business showcases.\n• Saturday, October 17 — Le Grand Marché: The main marketplace featuring fashion, beauty, jewelry, home décor, art, handmade goods, tech, and the Grand Food Hall.\n• Sunday, October 18 — Le Culture Marché: Culture & community day celebrating local makers, cultural performances, family-friendly programming, and community discovery.\n\nTASTE • DISCOVER • CREATE • CONNECT. Come for the market. Stay for the experience.",
+    cost: 'Free Admission / Vendor Spaces Available',
+    attendance: '18,000+ expected',
+    highlight: 'A 3-day European marketplace-inspired food, culture & creator festival at Salt Palace Convention Center featuring the Grand Food Hall, Creator Studio, Business Networking Day, and 100+ local brands.',
+    ticketLink: 'https://www.eventbrite.com/e/le-grand-marche-tickets-2001347052910',
+    hours: '10:00 AM – 7:00 PM Daily',
+    hostContact: 'alexsilver3986@gmail.com',
+    isPast: false
+  },
+  {
+    id: 'ev-38',
+    slug: 'the-triangle-harvest-night-market',
+    title: 'The Triangle Harvest & Night Market',
+    date: 'Oct 17-20, 2026',
+    location: '443 Fayetteville St, Raleigh, NC 27601',
+    image: triangleHarvestNightMarket,
+    spotsLeft: 38,
+    totalSpots: 85,
+    tag: 'Raleigh',
+    category: 'Harvest, Food & Night Market',
+    description: "A premier four-day fall celebration of food trucks, artisan makers, boutique shopping, live music, craft fall beverages, and community entertainment in downtown Raleigh. Taking place Saturday, October 17 through Tuesday, October 20, 2026 (4:00 PM – 10:00 PM) along 443 Fayetteville Street. Features rotating mobile kitchens, dessert bakeries, handmade jewelry, home décor, interactive games, seasonal photo installations, and family-friendly activations.",
+    cost: 'Free Admission / Booths from $100/day',
+    attendance: '20,000+ expected',
+    highlight: 'Four-day downtown Raleigh street festival on historic Fayetteville Street featuring 85+ rotating food & artisanal vendors, live music stages, craft cider & seasonal drink gardens, hotel accommodations concierge, and direct Eventbrite ticket registration.',
+    ticketLink: 'https://www.eventbrite.com/e/the-triangle-harvest-night-market-tickets-2000660840430?aff=oddtdtcreator',
+    isPast: false
+  },
+  {
+    id: 'ev-39',
+    slug: 'big-d-launchpad-creator-market',
+    title: 'Big D Launchpad & Creator Market',
+    date: 'Oct 30 - Nov 1, 2026',
+    location: 'Centennial Hall at Fair Park, 1001 Washington St., Dallas, TX 75210',
+    image: bigDLaunchpadImg,
+    spotsLeft: 45,
+    totalSpots: 120,
+    tag: 'Dallas',
+    category: 'Business, Creator & Community Marketplace',
+    description: "Join us for a three-day business, creator, and community marketplace bringing together entrepreneurs, creators, makers, independent brands, and shoppers at Centennial Hall at Fair Park in Dallas, TX. Taking place October 30 – November 1, 2026 (10:00 AM – 7:00 PM Daily).\n\n• Friday, October 30 — Business & Networking: Connect with entrepreneurs, explore business resources, attend workshops, and build valuable relationships.\n• Saturday, October 31 — Creator Market & Brand Showcase: Shop independent brands, meet creators, explore unique products, and enjoy live programming.\n• Sunday, November 1 — Community & Discovery: Explore local businesses, shop, enjoy food, and take part in family-friendly activities and community experiences.\n\nBUILD IT. SHOW IT. SELL IT. GROW IT. Discover local brands across fashion, beauty, art, home, food, tech, and more.",
+    cost: 'Free Admission / Vendor Spaces Available',
+    attendance: '15,000+ expected',
+    highlight: 'A 3-day business, creator & community marketplace at Centennial Hall at Fair Park in Dallas featuring local brand showcases, workshops, creator studio, food vendors, business networking, and free admission.',
+    ticketLink: 'https://www.eventbrite.com/e/big-d-launchpad-creator-market-tickets-2001336406065',
+    hours: '10:00 AM – 7:00 PM Daily',
+    hostContact: 'alexsilver3986@gmail.com',
     isPast: false
   },
   {

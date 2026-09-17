@@ -6,27 +6,51 @@ const MONTH_MAP: Record<string, number> = {
 };
 
 /**
- * Parses an event date string like "Sep 18-20, 2026", "Aug 28, 2026", or "Jan 12, 2027"
+ * Parses an event date string like "Oct 30 - Nov 1, 2026", "Sep 18-20, 2026", "Aug 28, 2026", or "Jan 12, 2027"
  * into a start Date object.
  */
 export function getEventStartDate(dateStr: string): Date {
-  const match = dateStr.match(/([A-Za-z]{3})\s+(\d+)(?:-(\d+))?,\s+(\d{4})/);
-  if (!match) return new Date(0);
-  const [_, monthName, startDay, , year] = match;
-  const month = MONTH_MAP[monthName] ?? 0;
-  return new Date(parseInt(year, 10), month, parseInt(startDay, 10), 0, 0, 0);
+  // Cross month format: "Oct 30 - Nov 1, 2026" or "Oct 30 – Nov 1, 2026"
+  const crossMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)\s*[-–]\s*([A-Za-z]{3})\s+(\d+),\s*(\d{4})/);
+  if (crossMatch) {
+    const [, startM, startD, , , y] = crossMatch;
+    const month = MONTH_MAP[startM] ?? 0;
+    return new Date(parseInt(y, 10), month, parseInt(startD, 10), 0, 0, 0);
+  }
+
+  // Single month range or single day: "Sep 18-20, 2026" or "Aug 28, 2026"
+  const singleMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)(?:\s*[-–]\s*(\d+))?,\s*(\d{4})/);
+  if (singleMatch) {
+    const [, monthName, startDay, , year] = singleMatch;
+    const month = MONTH_MAP[monthName] ?? 0;
+    return new Date(parseInt(year, 10), month, parseInt(startDay, 10), 0, 0, 0);
+  }
+
+  return new Date(0);
 }
 
 /**
  * Parses an event date string into an end Date object.
  */
 export function getEventEndDate(dateStr: string): Date {
-  const match = dateStr.match(/([A-Za-z]{3})\s+(\d+)(?:-(\d+))?,\s+(\d{4})/);
-  if (!match) return new Date(0);
-  const [_, monthName, startDay, endDay, year] = match;
-  const month = MONTH_MAP[monthName] ?? 0;
-  const day = endDay ? parseInt(endDay, 10) : parseInt(startDay, 10);
-  return new Date(parseInt(year, 10), month, day, 23, 59, 59);
+  // Cross month format: "Oct 30 - Nov 1, 2026" or "Oct 30 – Nov 1, 2026"
+  const crossMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)\s*[-–]\s*([A-Za-z]{3})\s+(\d+),\s*(\d{4})/);
+  if (crossMatch) {
+    const [, , , endM, endD, y] = crossMatch;
+    const month = MONTH_MAP[endM] ?? 0;
+    return new Date(parseInt(y, 10), month, parseInt(endD, 10), 23, 59, 59);
+  }
+
+  // Single month range or single day: "Sep 18-20, 2026" or "Aug 28, 2026"
+  const singleMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)(?:\s*[-–]\s*(\d+))?,\s*(\d{4})/);
+  if (singleMatch) {
+    const [, monthName, startDay, endDay, year] = singleMatch;
+    const month = MONTH_MAP[monthName] ?? 0;
+    const day = endDay ? parseInt(endDay, 10) : parseInt(startDay, 10);
+    return new Date(parseInt(year, 10), month, day, 23, 59, 59);
+  }
+
+  return new Date(0);
 }
 
 /**

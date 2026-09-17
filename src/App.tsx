@@ -50,7 +50,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedEventForApplication, setSelectedEventForApplication] = useState<string>('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Atlanta' | 'Houston' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
+  const [activeFilter, setActiveFilter] = useState<'All' | 'Atlanta' | 'Dallas' | 'Salt Lake City' | 'Raleigh' | 'Houston' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
   const [timeFilter, setTimeFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
@@ -174,6 +174,9 @@ export default function App() {
     Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
     'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
     Atlanta: EVENTS_DATA.filter(e => e.tag === 'Atlanta' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    'Salt Lake City': EVENTS_DATA.filter(e => e.tag === 'Salt Lake City' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    Raleigh: EVENTS_DATA.filter(e => e.tag === 'Raleigh' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
+    Dallas: EVENTS_DATA.filter(e => e.tag === 'Dallas' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
     Houston: EVENTS_DATA.filter(e => e.tag === 'Houston' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
   };
 
@@ -244,7 +247,7 @@ export default function App() {
                 </h1>
 
                 <p className="text-cream/90 text-sm md:text-base font-light max-w-2xl text-left drop-shadow-xs leading-relaxed">
-                  Curating America's top food and artisanal marketplaces in Las Vegas, Miami, Los Angeles, Austin, and Houston. Keep 100% of your retail sales with transparent flat booth fees and guaranteed power infrastructure.
+                  Curating America's top food, creator, and artisanal marketplaces in Salt Lake City, Dallas, Miami, Atlanta, Raleigh, Los Angeles, Austin, and beyond. Keep 100% of your retail sales with transparent flat booth fees and guaranteed power infrastructure.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-2">
@@ -595,7 +598,7 @@ export default function App() {
 
                 {/* City Filters */}
                 <div className="flex flex-wrap gap-2" id="city-filters">
-                  {(['All', 'Atlanta', 'Houston', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
+                  {(['All', 'Atlanta', 'Dallas', 'Salt Lake City', 'Raleigh', 'Houston', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
                     const isActive = activeFilter === city;
                     return (
                       <button

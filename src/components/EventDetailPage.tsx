@@ -49,6 +49,10 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
       case 'Los Angeles': return { standard: '$450', corner: '$600', foodTruck: '$550' };
       case 'Austin': return { standard: '$400', corner: '$550', foodTruck: '$500' };
       case 'Houston': return { standard: '$400', corner: '$550', foodTruck: '$500' };
+      case 'Atlanta': return { standard: '$400', corner: '$550', foodTruck: '$500' };
+      case 'Raleigh': return { standard: '$400', corner: '$550', foodTruck: '$500' };
+      case 'Dallas': return { standard: '$400', corner: '$550', foodTruck: '$500' };
+      case 'Salt Lake City': return { standard: '$400', corner: '$550', foodTruck: '$500' };
       case 'New York City': return { standard: '$500', corner: '$650', foodTruck: '$600' };
       default: return { standard: '$350', corner: '$500', foodTruck: '$450' };
     }
@@ -195,7 +199,7 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Event Hours</span>
               <div className="flex items-center space-x-1.5">
                 <Clock className="h-3.5 w-3.5 text-gold shrink-0" />
-                <span className="text-xs sm:text-sm font-bold truncate">11 AM – 8 PM</span>
+                <span className="text-xs sm:text-sm font-bold truncate">{event.hours || '11 AM – 8 PM'}</span>
               </div>
             </div>
 
@@ -390,16 +394,34 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               <Ticket className="h-4 w-4 text-gold shrink-0" />
               <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : `Apply for ${event.title}`}</span>
             </button>
+
+            {/* Eventbrite Ticket Button if available */}
+            {event.ticketLink && !event.isPast && (
+              <a
+                href={event.ticketLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                id={`event-detail-eventbrite-btn-${event.id}`}
+                className="w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold tracking-wider uppercase border border-gold/40 bg-gold/10 hover:bg-gold/20 text-forest transition-all flex items-center justify-center space-x-2 cursor-pointer text-center"
+              >
+                <Ticket className="h-4 w-4 text-gold shrink-0" />
+                <span>Reserve Free Tickets (Eventbrite)</span>
+                <ExternalLink className="h-3.5 w-3.5 text-gold shrink-0 ml-1" />
+              </a>
+            )}
           </div>
 
           {/* Quick Support Deck */}
           <div className="p-6 bg-forest rounded-2xl border border-gold/30 text-cream space-y-3">
-            <h4 className="font-serif text-sm font-bold tracking-wider text-gold uppercase">Direct Vendor Inquiries</h4>
+            <h4 className="font-serif text-sm font-bold tracking-wider text-gold uppercase">Direct Event & Vendor Inquiries</h4>
             <p className="text-xs text-cream/80 font-light leading-relaxed">
               Have questions about booth sizing, health permits, or load-in logistics? Our team responds within 24 business hours.
             </p>
             <div className="pt-2 border-t border-white/10 text-xs text-cream/80 space-y-1.5 font-mono">
-              <div>Email: <a href="mailto:info@valerianevents.com" className="text-gold hover:underline">info@valerianevents.com</a></div>
+              <div>Management: <a href="mailto:info@valerianevents.com" className="text-gold hover:underline">info@valerianevents.com</a></div>
+              {event.hostContact && (
+                <div>Host: <a href={`mailto:${event.hostContact}`} className="text-gold hover:underline">{event.hostContact}</a></div>
+              )}
             </div>
           </div>
         </div>

@@ -22,6 +22,10 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
       case 'Los Angeles': return '$450 / weekend';
       case 'Austin': return '$400 / weekend';
       case 'Houston': return '$400 / weekend';
+      case 'Atlanta': return '$400 / weekend';
+      case 'Raleigh': return '$400 / weekend';
+      case 'Dallas': return '$400 / weekend';
+      case 'Salt Lake City': return '$400 / weekend';
       case 'New York City': return '$500 / weekend';
       default: return '$350 - $450 / weekend';
     }
@@ -122,7 +126,7 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
             <div className="mt-2.5 p-3 rounded-xl bg-cream/40 border border-gold/20 text-xs space-y-2 fade-in">
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-charcoal/60">Event Hours:</span>
-                <span className="font-semibold text-forest">11:00 AM – 8:00 PM</span>
+                <span className="font-semibold text-forest">{event.hours || '11:00 AM – 8:00 PM'}</span>
               </div>
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-charcoal/60">Vendor Setup:</span>

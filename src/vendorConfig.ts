@@ -681,6 +681,24 @@ export const VENDOR_CONFIG: VendorConfig = {
       location: 'Los Angeles, CA'
     },
     {
+      id: 'le-grand-marche',
+      name: 'Le Grand Marché (Salt Lake City Food, Culture & Creator Festival)',
+      date: 'Oct 16-18, 2026',
+      location: 'Salt Palace Convention Center, Salt Lake City, UT'
+    },
+    {
+      id: 'triangle-harvest-night-market',
+      name: 'The Triangle Harvest & Night Market',
+      date: 'Oct 17-20, 2026',
+      location: 'Raleigh, NC'
+    },
+    {
+      id: 'big-d-launchpad-creator-market',
+      name: 'Big D Launchpad & Creator Market',
+      date: 'Oct 30 - Nov 1, 2026',
+      location: 'Centennial Hall at Fair Park, Dallas, TX'
+    },
+    {
       id: 'smoke-oak',
       name: 'Smoke & Oak Spirits Fest',
       date: 'Nov 02, 2026',
