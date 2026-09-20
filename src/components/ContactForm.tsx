@@ -72,7 +72,7 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
 
     try {
       await emailjs.send(
-        'service_j7a181v',
+        'service_a6hnip8',
         'template_uwd0or8',
         templateParams,
         'dUpRmObSvyywLE_u_'

@@ -149,13 +149,24 @@ export function parseInitialUrlState(events: Event[]): {
       };
     }
 
-    // Check for page param: ?page=events, ?page=vendors, etc.
+    // Check for page param: ?page=events, ?page=payment, ?page=vendors, etc.
     const pageParam = searchParams.get('page') as PageType | null;
     const validPages: PageType[] = [
       'home', 'events', 'vendor-info', 'vendors', 'contact', 
       'event-detail', 'terms-of-service', 
-      'privacy-policy', 'sponsorship-deck', 'about', 'faq', 'refund-policy'
+      'privacy-policy', 'sponsorship-deck', 'about', 'faq', 'refund-policy',
+      'payment'
     ];
+
+    if (pageParam === 'payment') {
+      const eventQuery = searchParams.get('event') || searchParams.get('id') || searchParams.get('slug');
+      const matched = eventQuery ? findEventInList(eventQuery, events) : null;
+      return {
+        page: 'payment',
+        selectedEventId: matched ? matched.id : (events.length > 0 ? events[0].id : null),
+        searchQuery: ''
+      };
+    }
 
     if (pageParam && validPages.includes(pageParam)) {
       return {
@@ -211,6 +222,16 @@ export function updateBrowserUrl(
         params.set('event', slug);
       } else {
         params.set('event', eventId);
+      }
+    } else if (page === 'payment') {
+      params.set('page', 'payment');
+      if (eventId) {
+        const event = events.find(e => e.id === eventId);
+        if (event) {
+          params.set('event', getEventSlug(event));
+        } else {
+          params.set('event', eventId);
+        }
       }
     } else if (page !== 'home') {
       params.set('page', page);

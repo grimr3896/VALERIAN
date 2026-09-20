@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { PageType } from './types';
+import { PageType, Event } from './types';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import EventCard from './components/EventCard';
@@ -11,6 +11,7 @@ import SponsorshipPage from './components/SponsorshipPage';
 import AboutPage from './components/AboutPage';
 import FAQPage from './components/FAQPage';
 import RefundPolicyPage from './components/RefundPolicyPage';
+import VendorPaymentPage from './components/VendorPaymentPage';
 import Accordion from './components/Accordion';
 import ContactForm from './components/ContactForm';
 // @ts-ignore
@@ -104,10 +105,17 @@ export default function App() {
     if (page !== 'contact' && page !== 'vendors') {
       setSelectedEventForApplication('');
     }
-    if (page !== 'event-detail') {
+    if (page !== 'event-detail' && page !== 'payment') {
       setSelectedEventId(null);
     }
     updateBrowserUrl(page, null, EVENTS_DATA, false, page === 'events' ? searchQuery : undefined);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePayAlreadyApplied = (event: Event) => {
+    setSelectedEventId(event.id);
+    setCurrentPage('payment');
+    updateBrowserUrl('payment', event.id, EVENTS_DATA);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -1004,6 +1012,30 @@ export default function App() {
               event={matchedEvent}
               onApply={handleApplyForEvent}
               onBack={() => handlePageChange('events')}
+              onPayAlreadyApplied={handlePayAlreadyApplied}
+            />
+          );
+        })()}
+
+        {/* ==================================== */}
+        {/* VENDOR CARD PAYMENT PAGE             */}
+        {/* ==================================== */}
+        {currentPage === 'payment' && (() => {
+          const matchedEvent = EVENTS_DATA.find(e => e.id === selectedEventId) || EVENTS_DATA[0];
+          return (
+            <VendorPaymentPage
+              event={matchedEvent}
+              onBack={() => {
+                if (selectedEventId) {
+                  setSelectedEventId(selectedEventId);
+                  setCurrentPage('event-detail');
+                  updateBrowserUrl('event-detail', selectedEventId, EVENTS_DATA);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  handlePageChange('events');
+                }
+              }}
+              onSuccessReturn={() => handlePageChange('events')}
             />
           );
         })()}

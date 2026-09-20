@@ -3,7 +3,6 @@ import { Event } from '../types';
 import { 
   Calendar, 
   MapPin, 
-  Users, 
   DollarSign, 
   Sparkles, 
   ArrowLeft, 
@@ -20,7 +19,8 @@ import {
   Clock,
   Car,
   Zap,
-  HelpCircle
+  HelpCircle,
+  CreditCard
 } from 'lucide-react';
 import { FOUNDER_DATA } from '../data';
 import { getEventSlug, getEventShareUrl } from '../utils/urlRouter';
@@ -29,9 +29,10 @@ interface EventDetailPageProps {
   event: Event;
   onApply: (eventName: string) => void;
   onBack: () => void;
+  onPayAlreadyApplied?: (event: Event) => void;
 }
 
-export default function EventDetailPage({ event, onApply, onBack }: EventDetailPageProps) {
+export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyApplied }: EventDetailPageProps) {
   const [copied, setCopied] = useState(false);
   const isSoldOut = event.spotsLeft === 0;
   const isAlmostFull = event.spotsLeft > 0 && event.spotsLeft <= 5;
@@ -181,8 +182,8 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
             </div>
           </div>
 
-          {/* Quick Specifications Deck (4 Key Metrics) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {/* Quick Specifications Deck (3 Key Metrics) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
               isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
             }`}>
@@ -210,16 +211,6 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               <div className="flex items-center space-x-1.5">
                 <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
                 <span className="text-xs sm:text-sm font-bold truncate">{event.location}</span>
-              </div>
-            </div>
-
-            <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
-              isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
-            }`}>
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Attendance</span>
-              <div className="flex items-center space-x-1.5">
-                <Users className="h-3.5 w-3.5 text-gold shrink-0" />
-                <span className="text-xs sm:text-sm font-bold truncate">{event.attendance}</span>
               </div>
             </div>
           </div>
@@ -363,10 +354,6 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
                 <span className="text-charcoal/70">Festival Closes:</span>
                 <span className="font-semibold text-forest">8:00 PM</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-charcoal/70">Apply By:</span>
-                <span className="font-semibold text-gold">14 Days Prior to Event</span>
-              </div>
             </div>
 
             {/* Refund & Approval Guarantee Box */}
@@ -394,6 +381,18 @@ export default function EventDetailPage({ event, onApply, onBack }: EventDetailP
               <Ticket className="h-4 w-4 text-gold shrink-0" />
               <span>{event.isPast ? 'Exhibition Concluded' : isSoldOut ? 'Join Vendor Waitlist' : `Apply for ${event.title}`}</span>
             </button>
+
+            {/* PAY (already applied) Button */}
+            {!event.isPast && (
+              <button
+                onClick={() => onPayAlreadyApplied?.(event)}
+                id={`event-detail-pay-applied-btn-${event.id}`}
+                className="w-full py-3.5 px-4 rounded-xl font-sans text-xs font-bold tracking-wider uppercase border-2 border-forest bg-amber-50 hover:bg-amber-100/80 text-forest shadow-sm hover:shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer group"
+              >
+                <CreditCard className="h-4 w-4 text-forest shrink-0 group-hover:scale-110 transition-transform" />
+                <span>PAY (already applied)</span>
+              </button>
+            )}
 
             {/* Eventbrite Ticket Button if available */}
             {event.ticketLink && !event.isPast && (
