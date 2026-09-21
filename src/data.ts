@@ -15,6 +15,8 @@ import triangleHarvestNightMarket from './assets/images/triangle_harvest_night_m
 import bigDLaunchpadImg from './assets/images/big_d_launchpad_creator_market.jpg';
 // @ts-ignore
 import leGrandMarcheImg from './assets/images/le_grand_marche.jpg';
+// @ts-ignore
+import tasteOfAmericaFestivalImg from './assets/images/taste_of_america_festival_1789978197588.jpg';
 
 export const EVENTS_DATA: Event[] = [
   // ==========================================
@@ -108,6 +110,24 @@ export const EVENTS_DATA: Event[] = [
     ticketLink: 'https://www.eventbrite.com/e/le-grand-marche-tickets-2001347052910',
     hours: '10:00 AM – 7:00 PM Daily',
     hostContact: 'alexsilver3986@gmail.com',
+    isPast: false
+  },
+  {
+    id: 'ev-41',
+    slug: 'taste-of-america-food-culture-festival-2026',
+    title: 'Taste of America Food & Culture Festival 2026',
+    date: 'Oct 16-18, 2026',
+    location: 'Downtown Las Vegas, Las Vegas, NV 89101',
+    image: tasteOfAmericaFestivalImg,
+    spotsLeft: 35,
+    totalSpots: 90,
+    tag: 'Las Vegas',
+    category: 'Food & Culture Festival',
+    description: "ONE CITY. MANY FLAVORS. ONE BIG CELEBRATION.\n\nJoin us for three days of delicious food, live music, cultural experiences, family activities, local businesses, and community connection in Las Vegas, Nevada! Taking place October 16–18, 2026 (4:00 PM–10:00 PM Daily).\n\n🍴 FOOD & FLAVORS:\nExplore street food, burgers, BBQ, pizza, Mexican & Latin-inspired dishes, Asian cuisine, Southern favorites, desserts, baked goods, beverages, coffee, and vegetarian options.\n\n🎶 LIVE ENTERTAINMENT:\nEnjoy live musical performances, DJs, dance, cultural performances, local artists, featured entertainment, and family-friendly programming.\n\n👨‍🍳 COOKING & FOOD DEMOS:\nWatch chefs and food professionals demonstrate cooking, grilling, baking, desserts, food presentation, and regional culinary traditions.\n\n🎨 CULTURE & COMMUNITY:\nDiscover diverse culinary traditions, creative businesses, artisans, makers, and community organizations while supporting local businesses.\n\n👨‍👩‍👧‍👦 FAMILY FUN:\nEnjoy games, creative activities, photo opportunities, children's activities, interactive experiences, and performances.\n\n🛍️ SHOP & EXPLORE:\nBrowse handmade products, art, crafts, fashion, accessories, specialty goods, local brands, and cultural products.\n\n🏪 VENDORS WELCOME:\nFood trucks, restaurants, bakeries, dessert makers, beverage businesses, artisans, boutiques, and specialty vendors may apply. Please contact the event team for vendor requirements, eligibility, availability, and participation procedures.\n\nCOME HUNGRY. BRING YOUR PEOPLE. DISCOVER SOMETHING NEW.\nTaste the Flavors. Feel the Culture. Celebrate Together.",
+    cost: 'Free Admission / Vendor Spaces Available',
+    attendance: '25,000+ expected',
+    highlight: 'A 3-day Las Vegas celebration of food, live music, cultural showcases, cooking demos, artisan shopping, and family entertainment (4:00 PM–10:00 PM Daily).',
+    hours: '4:00 PM – 10:00 PM Daily',
     isPast: false
   },
   {

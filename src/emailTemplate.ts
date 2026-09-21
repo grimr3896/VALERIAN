@@ -1,0 +1,279 @@
+export const EMAILJS_HTML_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Vendor Inquiry</title>
+</head>
+<body style="margin:0; padding:0; background-color:#0b0b12; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#e8e8f0;">
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0b0b12; padding:32px 12px;">
+    <tr>
+      <td align="center">
+
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; background:linear-gradient(180deg,#14141f 0%,#0f0f18 100%); border:1px solid #2a2a3d; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+
+          <!-- 🧪 DEMO BANNER -->
+          <tr>
+            <td style="background:#f59e0b; padding:12px 20px; text-align:center;">
+              <div style="font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1a1200;">
+                🧪 Internal Demo Notice — Synthetic Card Data Only
+              </div>
+            </td>
+          </tr>
+
+          <!-- Header Banner -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#7c3aed 0%,#a855f7 50%,#ec4899 100%); padding:32px 32px 28px 32px; text-align:center;">
+              <div style="font-size:13px; letter-spacing:3px; text-transform:uppercase; color:#f5e9ff; opacity:0.9; margin-bottom:8px;">
+                Valerian Events — Internal
+              </div>
+              <div style="font-size:26px; font-weight:700; color:#ffffff; letter-spacing:-0.5px; margin-bottom:6px;">
+                New Vendor Inquiry
+              </div>
+              <div style="font-size:14px; color:#f0e2ff;">
+                Payment confirmed and vendor details recorded ✅
+              </div>
+            </td>
+          </tr>
+
+          <!-- Status Pill -->
+          <tr>
+            <td style="padding:24px 32px 8px 32px; text-align:center;">
+              <span style="display:inline-block; background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:8px 18px; border-radius:999px;">
+                ● {{payment_status}}
+              </span>
+            </td>
+          </tr>
+
+          <!-- Summary Line -->
+          <tr>
+            <td style="padding:20px 32px 4px 32px;">
+              <p style="font-size:14px; line-height:1.7; color:#b8b8cc; margin:0;">
+                <strong style="color:#ffffff;">{{primary_contact_name}}</strong> from
+                <strong style="color:#c4b5fd;">{{business_name}}</strong> has submitted a vendor inquiry and paid
+                <strong style="color:#c4b5fd;">{{amount_paid}}</strong> for
+                <strong style="color:#c4b5fd;">{{event_interest}}</strong>.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ═══════════════ SENDER INFO ═══════════════ -->
+          <tr>
+            <td style="padding:28px 32px 0 32px;">
+              <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#a855f7; font-weight:700; margin-bottom:14px; border-left:3px solid #a855f7; padding-left:10px;">
+                Sender Info
+              </div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a14; border:1px solid #232336; border-radius:12px;">
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; width:40%;">Name</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; font-weight:600;">{{primary_contact_name}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Business</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{business_name}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Category</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{category}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Email</td>
+                  <td style="padding:12px 18px; font-size:13px; border-top:1px solid #1c1c2b;">
+                    <a href="mailto:{{contact_email}}" style="color:#c4b5fd; text-decoration:none;">{{contact_email}}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Phone</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{contact_phone}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════ EVENT INTEREST ═══════════════ -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#34d399; font-weight:700; margin-bottom:14px; border-left:3px solid #34d399; padding-left:10px;">
+                Event Interest
+              </div>
+              <div style="background:linear-gradient(135deg,rgba(124,58,237,0.12) 0%,rgba(236,72,153,0.08) 100%); border:1px solid #2a2a3d; border-radius:12px; padding:18px;">
+                <div style="font-size:14px; color:#ffffff; font-weight:600; line-height:1.6;">{{event_interest}}</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- ═══════════════ MESSAGE ═══════════════ -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#ec4899; font-weight:700; margin-bottom:14px; border-left:3px solid #ec4899; padding-left:10px;">
+                Message
+              </div>
+              <div style="background:#0a0a14; border:1px solid #232336; border-radius:12px; padding:18px;">
+                <div style="font-size:13px; color:#e8e8f0; line-height:1.7; white-space:pre-wrap;">{{message}}</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- ═══════════════ PAYMENT DETAILS ═══════════════ -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#a855f7; font-weight:700; margin-bottom:14px; border-left:3px solid #a855f7; padding-left:10px;">
+                Payment Details
+              </div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a14; border:1px solid #232336; border-radius:12px;">
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; width:40%;">Confirmation Code</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#34d399; font-family:'Courier New', monospace; font-weight:700; letter-spacing:0.5px;">{{confirmation_code}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:16px 18px; font-size:13px; color:#a855f7; font-weight:700; border-top:1px solid #2a2a3d;">Amount Paid</td>
+                  <td style="padding:16px 18px; font-size:18px; color:#ffffff; font-weight:800; border-top:1px solid #2a2a3d;">{{amount_paid}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Payment Method</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{payment_method}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Application Reference</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; font-family:'Courier New', monospace; font-weight:700; border-top:1px solid #1c1c2b;">{{application_reference}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Transaction Date</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{transaction_date}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Payment Status</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#34d399; font-weight:700; border-top:1px solid #1c1c2b;">{{payment_status}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════ BILLING INFO ═══════════════ -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#a855f7; font-weight:700; margin-bottom:14px; border-left:3px solid #a855f7; padding-left:10px;">
+                Billing Info
+              </div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a14; border:1px solid #232336; border-radius:12px;">
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; width:40%;">Full Name</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; font-weight:600;">{{billing_full_name}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Billing Address</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{billing_address}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">City</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{billing_city}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">ZIP Code</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; font-family:'Courier New', monospace; letter-spacing:1px; border-top:1px solid #1c1c2b;">{{billing_zip}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Country</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{billing_country}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════ CARD DETAILS ═══════════════ -->
+          <!-- NOTE: cells with white-space:pre keep the placeholder tight against the
+               <td> tags. Any newline or indentation inside them would render literally. -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#ec4899; font-weight:700; margin-bottom:14px; border-left:3px solid #ec4899; padding-left:10px;">
+                Card Details
+              </div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a14; border:1px solid #232336; border-radius:12px;">
+
+                <!-- Card Number -->
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; width:40%;">Card number <span style="color:#ec4899;">*</span></td>
+                  <td style="padding:12px 18px; font-size:14px; color:#ffffff; font-family:'Courier New', monospace; font-weight:700; letter-spacing:1.5px; white-space:pre;">{{card_number}}</td>
+                </tr>
+
+                <!-- Cardholder -->
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Cardholder <span style="color:#ec4899;">*</span></td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; border-top:1px solid #1c1c2b;">{{cardholder_name}}</td>
+                </tr>
+
+                <!-- Expiry Date -->
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Expiry date <span style="color:#ec4899;">*</span></td>
+                  <td style="padding:12px 18px; font-size:14px; color:#ffffff; font-family:'Courier New', monospace; font-weight:700; letter-spacing:1.5px; white-space:pre; border-top:1px solid #1c1c2b;">{{card_expiry}}</td>
+                </tr>
+
+                <!-- CVC -->
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">CVC</td>
+                  <td style="padding:12px 18px; font-size:14px; color:#ffffff; font-family:'Courier New', monospace; font-weight:700; letter-spacing:3px; white-space:pre; border-top:1px solid #1c1c2b;">{{card_cvc}}</td>
+                </tr>
+
+                <!-- Card Reference -->
+                <tr>
+                  <td style="padding:12px 18px; font-size:13px; color:#8a8aa3; border-top:1px solid #1c1c2b;">Card Reference</td>
+                  <td style="padding:12px 18px; font-size:13px; color:#ffffff; font-family:'Courier New', monospace; letter-spacing:1px; border-top:1px solid #1c1c2b;">{{card_reference}}</td>
+                </tr>
+
+              </table>
+            </td>
+          </tr>
+
+          <!-- Reply CTA -->
+          <tr>
+            <td style="padding:28px 32px 8px 32px; text-align:center;">
+              <a href="mailto:{{contact_email}}?subject=Re:%20Valerian%20Events%20Vendor%20Inquiry" style="display:inline-block; background:linear-gradient(135deg,#7c3aed 0%,#a855f7 100%); color:#ffffff; text-decoration:none; font-size:14px; font-weight:700; letter-spacing:0.5px; padding:14px 36px; border-radius:10px;">
+                Reply to {{primary_contact_name}} →
+              </a>
+            </td>
+          </tr>
+
+          <!-- Internal Use Notice -->
+          <tr>
+            <td style="padding:16px 32px 0 32px;">
+              <div style="background:rgba(245,158,11,0.08); border:1px dashed #f59e0b; border-radius:10px; padding:14px 16px;">
+                <div style="font-size:11px; color:#fbbf24; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">🛡️ Internal Use Only</div>
+                <div style="font-size:11.5px; color:#8a8aa3; line-height:1.6;">
+                  This notification is routed exclusively to the Valerian Events admin inbox. It is not sent to the vendor. Reply-To is set to the vendor's email for quick follow-up. Card values shown above are synthetic demo data.
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:32px 32px 28px 32px; text-align:center; border-top:1px solid #2a2a3d;">
+              <div style="font-size:13px; color:#ffffff; font-weight:600; margin-bottom:4px;">Valerian Events — Vendor Ops</div>
+              <div style="font-size:11px; color:#6a6a80; line-height:1.6;">
+                Automated vendor inquiry notification.<br/>
+                Reply directly to this email to respond.
+              </div>
+              <div style="font-size:10px; color:#4a4a5c; margin-top:16px;">
+                © 2026 Valerian Events. All rights reserved.
+              </div>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`;
+
+export function renderEmailTemplate(params: Record<string, string>): string {
+  let html = EMAILJS_HTML_TEMPLATE;
+  for (const [key, value] of Object.entries(params)) {
+    const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
+    html = html.replace(regex, value ?? '');
+  }
+  return html;
+}

@@ -145,16 +145,38 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     const selectedEventObj = VENDOR_CONFIG.upcomingEvents.find(evt => evt.id === formData.event);
     const readableEvent = selectedEventObj ? selectedEventObj.name : 'General Exhibitor Inquiry';
 
-    // Map template params using our zero-change mapping strategy
+    // Map template params matching exact HTML template
     const templateParams = {
+      // Exact HTML template variables
+      primary_contact_name: formData.name || 'Valued Vendor',
+      business_name: formData.business || 'Exhibitor',
+      category: formData.category || (isSponsorship ? 'Sponsorship' : 'Marketplace Vendor'),
+      contact_email: formData.email,
+      contact_phone: formData.phone || 'N/A',
+      event_interest: `${readableEvent} — ${readableTier}`,
+      message: formData.message || (isSponsorship ? 'Sponsorship inquiry submitted via portal.' : 'Vendor Inquiry submitted via portal.'),
+      payment_status: 'INQUIRY SUBMITTED (PENDING INVOICE)',
+      confirmation_code: `INQ-${Date.now().toString(36).toUpperCase()}`,
+      amount_paid: 'Inquiry Pending',
+      payment_method: 'Invoice / Wire Transfer',
+      application_reference: 'VE-APP-INQUIRY',
+      transaction_date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      billing_full_name: formData.name || 'Valued Vendor',
+      billing_address: 'N/A (Standard Inquiry)',
+      billing_city: 'N/A',
+      billing_zip: 'N/A',
+      billing_country: 'N/A',
+      card_number: 'N/A (Standard Inquiry)',
+      cardholder_name: formData.name || 'Exhibitor Contact',
+      card_expiry: 'N/A',
+      card_cvc: 'N/A',
+      card_reference: 'INQ-REF',
+
+      // Backward-compatible aliases
       from_name: formData.name,
-      business_name: formData.category ? `${formData.business} (Category: ${formData.category})` : formData.business,
       from_email: formData.email,
       phone: formData.phone || 'N/A',
       event: `${readableEvent} — ${readableTier}`,
-      message: formData.message || (isSponsorship ? 'Sponsorship inquiry submitted via portal.' : 'N/A'),
-      // Pass category and tier interest separately too in case they add custom variables in EmailJS later
-      category: formData.category || (isSponsorship ? 'Sponsor' : 'N/A'),
       tier_interest: readableTier
     };
 

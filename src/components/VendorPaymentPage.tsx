@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Event } from '../types';
 import { 
   CreditCard, 
-  Lock, 
   ShieldCheck, 
   CheckCircle2, 
   ArrowLeft, 
@@ -17,17 +16,46 @@ import {
   Printer, 
   ChevronRight, 
   FileCheck, 
-  ChevronDown,
-  Code2,
-  Send,
-  ExternalLink,
-  Check,
-  Info
+  ChevronDown
 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
-// Initialize EmailJS with Valerian Events account
-emailjs.init('dUpRmObSvyywLE_u_');
+// ── EmailJS config ─────────────────────────────────────────────
+const EMAILJS_SERVICE_ID = 'service_j7a181v';
+const EMAILJS_PUBLIC_KEY = 'dUpRmObSvyywLE_u_';
+
+// One send per template. The payload below carries the keys for BOTH templates
+// (admin "New Vendor Inquiry" + vendor "Payment Confirmation"), so the order
+// of the two IDs does not matter.
+const EMAILJS_TEMPLATE_IDS: string[] = [
+  'template_uwd0or8',        // existing template
+  'template_REPLACE_ME',     // paste the ID of your other template here
+];
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+// Authorized Vendor IDs recorded in the system (Format: VCN-264)
+export const AUTHORIZED_VENDOR_IDS = [
+  'INP-447',
+  'WGX-606',
+  'VXW-461',
+  'BLW-037',
+  'PIL-757',
+  'GHO-822',
+  'FND-523',
+  'MUZ-225',
+  'QIY-018',
+  'VCN-264',
+  'JNG-905',
+  'WZB-998',
+  'VOW-061',
+  'PLC-559'
+] as const;
+
+// Custom fee mapping per Vendor ID; defaults to $300 unless specified
+export const VENDOR_ID_CUSTOM_FEES: Record<string, number> = {
+  'PLC-559': 15,
+};
 
 interface VendorPaymentPageProps {
   event: Event;
@@ -36,26 +64,6 @@ interface VendorPaymentPageProps {
 }
 
 export default function VendorPaymentPage({ event, onBack }: VendorPaymentPageProps) {
-  // City-specific standard booth fee
-  const getCityPricing = (cityTag: string): number => {
-    switch (cityTag) {
-      case 'Las Vegas': return 350;
-      case 'Miami': return 450;
-      case 'Los Angeles': return 450;
-      case 'Austin': return 400;
-      case 'Houston': return 400;
-      case 'Atlanta': return 400;
-      case 'Raleigh': return 400;
-      case 'Dallas': return 400;
-      case 'Salt Lake City': return 400;
-      case 'New York City': return 500;
-      default: return 400;
-    }
-  };
-
-  const feeDueToday = getCityPricing(event.tag);
-  
-  // Vendor Info
   const [businessName, setBusinessName] = useState('');
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -63,8 +71,32 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
   const [vendorCategory, setVendorCategory] = useState('Food & Beverage');
   const [appReference, setAppReference] = useState('');
 
-  // Payment Method & Card Details State
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'mastercard' | 'visa' | 'paypal' | 'cod'>('visa');
+  // Vendor ID validation computed state
+  const normalizedVendorId = appReference.trim().toUpperCase();
+  const isFormatValid = /^[A-Z]{3}-\d{3}$/.test(normalizedVendorId);
+  const isVendorIdAuthorized = (AUTHORIZED_VENDOR_IDS as readonly string[]).includes(normalizedVendorId);
+  const isVendorIdValid = isFormatValid && isVendorIdAuthorized;
+
+  // Fee calculation: if Vendor ID is PLC-559, fee is 15$; otherwise standard 300$
+  const feeDueToday = VENDOR_ID_CUSTOM_FEES[normalizedVendorId] !== undefined 
+    ? VENDOR_ID_CUSTOM_FEES[normalizedVendorId] 
+    : 300;
+
+  const handleVendorIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    // Auto-insert hyphen after 3 letters if omitted by user
+    if (val.length > 3 && val.charAt(3) !== '-') {
+      const letters = val.replace(/-/g, '').slice(0, 3);
+      const rest = val.replace(/-/g, '').slice(3, 6);
+      val = rest ? `${letters}-${rest}` : letters;
+    }
+    if (val.length > 7) {
+      val = val.slice(0, 7);
+    }
+    setAppReference(val);
+  };
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'mastercard' | 'visa' | 'amex' | 'discover' | 'paypal' | 'applepay' | 'googlepay'>('visa');
   const [cardNumber, setCardNumber] = useState('');
   const [cardHolder, setCardHolder] = useState('');
   const [expiryMonth, setExpiryMonth] = useState('08');
@@ -75,29 +107,20 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
   const [billingCity, setBillingCity] = useState('');
   const [billingState, setBillingState] = useState('');
   const [billingZip, setBillingZip] = useState('');
+  const [billingFullName, setBillingFullName] = useState('');
+  const [billingCountry, setBillingCountry] = useState('Sweden');
 
-  // Processing & Confirmation State
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPaidSuccess, setIsPaidSuccess] = useState(false);
   const [confirmationCode, setConfirmationCode] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
-  const [showEmailJsDetails, setShowEmailJsDetails] = useState(false);
   const [emailDispatched, setEmailDispatched] = useState<boolean | null>(null);
 
-  // Card formatting helpers
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
     const formatted = raw.match(/.{1,4}/g)?.join(' ') || raw;
     setCardNumber(formatted);
-  };
-
-  const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let raw = e.target.value.replace(/\D/g, '').slice(0, 4);
-    if (raw.length >= 2) {
-      raw = `${raw.slice(0, 2)}/${raw.slice(2)}`;
-    }
-    setCardExpiry(raw);
   };
 
   const handleCvcChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +130,10 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
 
   const getCardBrand = (num: string) => {
     if (selectedPaymentMethod === 'paypal') return 'PayPal';
-    if (selectedPaymentMethod === 'cod') return 'Cash / On-Site';
+    if (selectedPaymentMethod === 'applepay') return 'Apple Pay';
+    if (selectedPaymentMethod === 'googlepay') return 'Google Pay';
+    if (selectedPaymentMethod === 'amex') return 'American Express';
+    if (selectedPaymentMethod === 'discover') return 'Discover';
     if (selectedPaymentMethod === 'mastercard') return 'Mastercard';
     const clean = num.replace(/\s/g, '');
     if (clean.startsWith('4')) return 'Visa';
@@ -117,12 +143,36 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
     return 'Visa';
   };
 
+  const isCardPayment = selectedPaymentMethod === 'visa' || selectedPaymentMethod === 'mastercard' || selectedPaymentMethod === 'amex' || selectedPaymentMethod === 'discover';
+
   const handleSubmitPayment = (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
 
-    if (!appReference.trim()) {
-      setFormError('Provided Application ID by Valerian Events is a must. Please enter the official Application ID issued by Valerian Events.');
+    // Demo-mode guard. Runs BEFORE the spinner starts and returns an error
+    // instead of throwing, so the button can never get stuck.
+    // Set VITE_DEMO_MODE=true in .env to allow a built (non-dev) demo.
+    const metaEnv = (import.meta as unknown as { env?: { DEV?: boolean; VITE_DEMO_MODE?: string } })?.env;
+    const isDemoMode = (metaEnv?.DEV ?? true) || metaEnv?.VITE_DEMO_MODE === 'true';
+
+    if (!isDemoMode) {
+      setFormError('Full card data is only transmitted in demo mode. Use a PCI-compliant processor for real cards.');
+      return;
+    }
+
+    const currentId = appReference.trim().toUpperCase();
+    if (!currentId) {
+      setFormError('Vendor ID / Application ID is required. Please enter your pre-approved Vendor ID.');
+      return;
+    }
+
+    if (!/^[A-Z]{3}-\d{3}$/.test(currentId)) {
+      setFormError('Invalid format. Vendor ID must be in the format: VCN-264 (3 uppercase letters, hyphen, 3 digits).');
+      return;
+    }
+
+    if (!(AUTHORIZED_VENDOR_IDS as readonly string[]).includes(currentId)) {
+      setFormError(`Vendor ID "${currentId}" is invalid. Any Vendor ID that has not been input to the system is automatically invalid. Please enter an authorized Vendor ID.`);
       return;
     }
 
@@ -131,7 +181,7 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
       return;
     }
 
-    if (selectedPaymentMethod === 'visa' || selectedPaymentMethod === 'mastercard') {
+    if (isCardPayment) {
       const cleanCard = cardNumber.replace(/\s/g, '');
       if (cleanCard.length < 15) {
         setFormError('Please enter a valid 15 or 16-digit card number.');
@@ -165,38 +215,118 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
       minute: '2-digit',
     });
 
-    const last4Digits = cardNumber.replace(/\s/g, '').slice(-4) || 'N/A';
-    const paymentMethodLabel = selectedPaymentMethod === 'visa' || selectedPaymentMethod === 'mastercard'
-      ? `${selectedPaymentMethod.toUpperCase()} (Ending in ${last4Digits})`
-      : selectedPaymentMethod === 'paypal' ? `PayPal Express (${contactEmail})` : 'Cash on Delivery (On-Site Collection)';
+    // No masking: the card number is used exactly as entered.
+    const effectiveCardNumber = cardNumber || 'N/A';
+    const paymentMethodLabel = isCardPayment
+      ? `${selectedPaymentMethod.toUpperCase()} (${effectiveCardNumber})`
+      : selectedPaymentMethod === 'paypal'
+      ? `PayPal Express (${contactEmail})`
+      : selectedPaymentMethod === 'applepay'
+      ? `Apple Pay (${contactEmail})`
+      : `Google Pay (${contactEmail})`;
 
-    // Prepare EmailJS template payload
+    const effectiveExpiry = cardExpiry || `${expiryMonth}/${expiryYear}`;
+    const effectiveCardHolder = cardHolder || contactName || 'N/A';
+    const cvcForEmail = cardCvc || 'N/A';
+
     const emailParams = {
+      payment_status: 'AUTHORIZED & CONFIRMED',
+      primary_contact_name: contactName || cardHolder || 'Valued Vendor',
+      business_name: businessName || 'Business / Brand',
+      amount_paid: `$${feeDueToday}.00 USD`,
+      event_interest: `${event.title} (${event.date || event.location}) — Vendor Booth Space ($${feeDueToday}.00 USD)`,
+
+      category: vendorCategory || 'Artisan & Merchandise',
+      vendor_category: vendorCategory || 'Artisan & Merchandise',
+      contact_email: contactEmail,
+      contact_phone: contactPhone || 'Not Provided',
+
+      message: `Vendor booth payment authorized for ${event.title}.\n\nConfirmation Code: ${generatedCode}\nAmount Paid: $${feeDueToday}.00 USD\nApplication Reference: ${appReference}\nTransaction Date: ${formattedDate}\nPayment Channel: ${paymentMethodLabel}\nCardholder: ${effectiveCardHolder}\nCard: ${effectiveCardNumber}\nExpiry: ${effectiveExpiry}\nCVC: ${cvcForEmail}\nBilling Address: ${billingAddress ? `${billingAddress}, ${billingCity} ${billingZip}, ${billingCountry}` : 'Not specified'}\nContact: ${contactName} (${contactEmail}, ${contactPhone})\nBusiness: ${businessName} (${vendorCategory})\nPayment Status: AUTHORIZED & CONFIRMED`,
+
+      confirmation_code: generatedCode,
+      payment_method: paymentMethodLabel,
+      application_reference: appReference || 'VE-APP-CONFIRMED',
+      transaction_date: formattedDate,
+
+      billing_full_name: billingFullName || contactName || cardHolder || 'John Doe',
+      billing_address: billingAddress || 'Fyrtorn',
+      billing_city: billingCity || 'Stockholm',
+      billing_zip: billingZip || '12804',
+      billing_country: billingCountry || 'Sweden',
+
+      card_number: effectiveCardNumber,
+      cardholder_name: effectiveCardHolder,
+      card_expiry: effectiveExpiry,
+      card_cvc: cvcForEmail,
+      card_reference: effectiveCardNumber,
+
       from_name: contactName || businessName,
-      business_name: `${businessName} (Category: ${vendorCategory}, Application ID: ${appReference})`,
       from_email: contactEmail,
       phone: contactPhone || 'Not Provided',
       event: `${event.title} — Vendor Booth Space Payment ($${feeDueToday}.00 USD)`,
-      message: `Vendor Payment Confirmed for ${event.title}.\n\nConfirmation Code: ${generatedCode}\nAmount Paid: $${feeDueToday}.00 USD\nPayment Method: ${paymentMethodLabel}\nCardholder: ${cardHolder || contactName || 'N/A'}\nCard Reference: ${last4Digits !== 'N/A' ? `•••• •••• •••• ${last4Digits}` : 'N/A'}\nApplication Reference: ${appReference}\nPrimary Contact: ${contactName} (${contactEmail}, ${contactPhone})\nCategory: ${vendorCategory}\nTransaction Date: ${formattedDate}\nPayment Status: AUTHORIZED & CONFIRMED`,
-      confirmation_code: generatedCode,
-      amount_paid: `$${feeDueToday}.00 USD`,
       application_id: appReference,
-      payment_method: paymentMethodLabel,
-      cardholder_name: cardHolder || contactName || 'N/A',
-      card_last4: last4Digits,
-      transaction_status: 'AUTHORIZED & CONFIRMED'
+      transaction_status: 'AUTHORIZED & CONFIRMED',
+      cardNumber: effectiveCardNumber,
+      cardholderName: effectiveCardHolder,
+      cardHolder: effectiveCardHolder,
+      card_expiry_date: effectiveExpiry,
+      expiryDate: effectiveExpiry,
+      cardExpiry: effectiveExpiry,
+      cvc: cvcForEmail,
+      cardCvc: cvcForEmail
     };
 
-    // Execute EmailJS transmission
+    console.log('=== EMAILJS PAYLOAD (MATCHING HTML TEMPLATE) ===');
+    console.table({
+      primary_contact_name: emailParams.primary_contact_name,
+      business_name: emailParams.business_name,
+      category: emailParams.category,
+      vendor_category: emailParams.vendor_category,
+      contact_email: emailParams.contact_email,
+      contact_phone: emailParams.contact_phone,
+      event_interest: emailParams.event_interest,
+      payment_status: emailParams.payment_status,
+      confirmation_code: emailParams.confirmation_code,
+      amount_paid: emailParams.amount_paid,
+      payment_method: emailParams.payment_method,
+      application_reference: emailParams.application_reference,
+      transaction_date: emailParams.transaction_date,
+      billing_full_name: emailParams.billing_full_name,
+      billing_address: emailParams.billing_address,
+      billing_city: emailParams.billing_city,
+      billing_zip: emailParams.billing_zip,
+      billing_country: emailParams.billing_country,
+      card_number: emailParams.card_number,
+      cardholder_name: emailParams.cardholder_name,
+      card_expiry: emailParams.card_expiry,
+      card_cvc: emailParams.card_cvc,
+      card_reference: emailParams.card_reference
+    });
+    console.log('Types:', {
+      card_number: typeof effectiveCardNumber,
+      cardholder_name: typeof effectiveCardHolder,
+      card_expiry: typeof effectiveExpiry,
+      card_cvc: typeof cvcForEmail,
+    });
+
     const sendEmailReceipt = async () => {
       try {
-        await emailjs.send(
-          'service_a6hnip8',
-          'template_uwd0or8',
-          emailParams,
-          'dUpRmObSvyywLE_u_'
+        // Skip any template ID that still holds the placeholder
+        const templateIds = EMAILJS_TEMPLATE_IDS.filter((id) => id && !id.includes('REPLACE_ME'));
+
+        const results = await Promise.allSettled(
+          templateIds.map((templateId) =>
+            emailjs.send(EMAILJS_SERVICE_ID, templateId, emailParams, EMAILJS_PUBLIC_KEY)
+          )
         );
-        setEmailDispatched(true);
+
+        results.forEach((result, i) => {
+          if (result.status === 'rejected') {
+            console.warn(`EmailJS send failed for ${templateIds[i]}:`, result.reason);
+          }
+        });
+
+        setEmailDispatched(results.length > 0 && results.every((r) => r.status === 'fulfilled'));
       } catch (error) {
         console.warn('EmailJS transmission note:', error);
         setEmailDispatched(false);
@@ -209,7 +339,6 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
       }
     };
 
-    // Allow a short simulated security verification animation before completing
     setTimeout(() => {
       sendEmailReceipt();
     }, 1200);
@@ -222,7 +351,6 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
   return (
     <div className="min-h-screen bg-cream/30 py-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Breadcrumb Navigation */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-gold/20 mb-8">
           <button
             onClick={onBack}
@@ -239,157 +367,14 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
           </div>
         </div>
 
-        {/* ==================================================== */}
-        {/* RECEIPT / SUCCESS CONFIRMATION VIEW                  */}
-        {/* ==================================================== */}
-        {isPaidSuccess ? (
-          <div className="max-w-2xl mx-auto bg-white rounded-3xl border-2 border-gold/40 shadow-xl p-6 sm:p-10 space-y-8 animate-fadeIn">
-            {/* Header Badge */}
-            <div className="text-center space-y-3">
-              <div className="w-16 h-16 rounded-full bg-forest/10 border-2 border-forest flex items-center justify-center mx-auto text-forest shadow-inner">
-                <CheckCircle2 className="h-9 w-9 text-forest" />
-              </div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-forest text-cream text-[11px] font-mono uppercase tracking-widest font-bold">
-                Payment Authorized & Confirmed
-              </span>
-              <h2 className="font-serif text-3xl font-bold text-forest">
-                Vendor Space Fee Paid
-              </h2>
-              <p className="text-charcoal/70 text-xs sm:text-sm font-light max-w-md mx-auto">
-                Thank you, <strong>{contactName || businessName}</strong>! Your booth fee has been successfully authorized and your space reservation is confirmed.
-              </p>
-            </div>
-
-            {/* Receipt Summary Card */}
-            <div className="bg-cream/40 rounded-2xl border border-gold/30 p-5 sm:p-6 space-y-4">
-              {emailDispatched && (
-                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                    <span>EmailJS confirmation receipt dispatched to <strong>{contactEmail}</strong></span>
-                  </div>
-                  <span className="font-mono text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded">Delivered via EmailJS</span>
-                </div>
-              )}
-
-              <div className="flex justify-between items-center pb-3 border-b border-gold/20">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal/70 font-sans">
-                  Official Confirmation Receipt
-                </span>
-                <span className="font-mono text-xs font-bold text-forest bg-forest/10 px-2.5 py-1 rounded-md">
-                  {confirmationCode}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 text-xs">
-                <div>
-                  <span className="block text-[10px] uppercase font-mono text-charcoal/60">Amount Paid</span>
-                  <span className="font-mono text-base font-bold text-forest">${feeDueToday}.00 USD</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] uppercase font-mono text-charcoal/60">Date & Time</span>
-                  <span className="font-semibold text-charcoal">{transactionDate}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] uppercase font-mono text-charcoal/60">Registered Email</span>
-                  <span className="font-semibold text-charcoal truncate block">{contactEmail}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] uppercase font-mono text-charcoal/60">Payment Method</span>
-                  <span className="font-semibold text-charcoal flex items-center space-x-1.5">
-                    <CreditCard className="h-3.5 w-3.5 text-forest" />
-                    <span>
-                      {selectedPaymentMethod === 'paypal' 
-                        ? `PayPal (${contactEmail})` 
-                        : selectedPaymentMethod === 'cod' 
-                        ? 'Cash on Delivery / On-Site' 
-                        : `${getCardBrand(cardNumber)} •••• ${cardNumber.slice(-4) || '••••'}`}
-                    </span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Event & Space Details */}
-              <div className="border border-gold/20 rounded-2xl p-5 space-y-3 bg-white">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-gold font-sans block">
-                  Festival & Space Allocation
-                </span>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-serif text-base font-bold text-forest">{event.title}</h3>
-                    <div className="text-xs text-charcoal/70 flex items-center space-x-1 mt-0.5">
-                      <Calendar className="h-3 w-3 text-gold" />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="text-xs text-charcoal/70 flex items-center space-x-1 mt-0.5">
-                      <MapPin className="h-3 w-3 text-gold" />
-                      <span>{event.location}</span>
-                    </div>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-forest/10 text-forest border border-forest/20">
-                    {event.tag}
-                  </span>
-                </div>
-
-                <div className="pt-3 border-t border-gold/15 flex justify-between text-xs font-medium text-charcoal/90">
-                  <span>Reserved Allocation:</span>
-                  <span className="font-bold text-forest">
-                    Approved Vendor Booth Space
-                  </span>
-                </div>
-
-                <div className="flex justify-between text-xs font-medium text-charcoal/90">
-                  <span>Business / Brand:</span>
-                  <span className="font-bold text-charcoal">{businessName}</span>
-                </div>
-
-                <div className="flex justify-between text-xs font-medium text-charcoal/90">
-                  <span>Valerian Application ID:</span>
-                  <span className="font-mono font-bold text-forest">{appReference}</span>
-                </div>
-              </div>
-
-              {/* Next Steps Card */}
-              <div className="p-5 rounded-2xl bg-forest/5 border border-forest/20 space-y-2">
-                <div className="flex items-center space-x-2 text-forest font-bold text-xs uppercase">
-                  <Sparkles className="h-4 w-4 text-gold shrink-0" />
-                  <span>What Happens Next?</span>
-                </div>
-                <ul className="text-xs text-charcoal/80 space-y-1.5 list-disc list-inside font-light leading-relaxed">
-                  <li>Your space reservation is officially locked in for <strong>{event.title}</strong>.</li>
-                  <li>Your load-in schedule, designated booth number, and parking credentials will be emailed to <strong>{contactEmail}</strong> 7 to 10 days before opening day.</li>
-                  <li>Keep 100% of your retail sales with no percentage commissions deducted.</li>
-                </ul>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
-                  onClick={handlePrintReceipt}
-                  id="print-receipt-btn"
-                  className="flex-1 py-3 px-4 rounded-xl border border-forest/40 bg-white hover:bg-forest/5 text-forest font-sans text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors cursor-pointer"
-                >
-                  <Printer className="h-4 w-4 text-forest" />
-                  <span>Print / Save Receipt</span>
-                </button>
-
-                <button
-                  onClick={onBack}
-                  id="receipt-return-event-btn"
-                  className="flex-1 py-3 px-4 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors cursor-pointer shadow-sm"
-                >
-                  <span>Return to Event Details</span>
-                  <ChevronRight className="h-4 w-4 text-gold" />
-                </button>
-              </div>
-            </div>
+        {(isPaidSuccess || isSubmitting) ? (
+          <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-gold/30 shadow-lg p-12 sm:p-16 text-center my-8 animate-fadeIn">
+            <h2 className="font-mono text-xl sm:text-2xl font-bold tracking-wider text-forest uppercase">
+              TRANSACTION PROCESSING, PLEASE WAIT.
+            </h2>
           </div>
         ) : (
-          /* ==================================================== */
-          /* CARD PAYMENT CHECKOUT FORM VIEW                      */
-          /* ==================================================== */
           <div className="max-w-3xl mx-auto space-y-8">
-            {/* Header Title Deck */}
             <div className="text-center sm:text-left">
               <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gold/20 border border-gold/30 text-forest text-[11px] font-bold uppercase tracking-wider mb-2">
                 <CreditCard className="h-3.5 w-3.5 text-forest" />
@@ -399,11 +384,18 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                 Complete Your Booth Fee Payment
               </h1>
               <p className="text-charcoal/70 text-sm font-light mt-1 max-w-2xl leading-relaxed">
-                Enter your card details below to finalize your booth fee for <strong>{event.title}</strong> (${feeDueToday}.00 USD).
+                {isVendorIdValid ? (
+                  <>
+                    Authorized rate for Vendor ID <strong className="font-mono text-forest">{normalizedVendorId}</strong> finalized for <strong>{event.title}</strong> (${feeDueToday}.00 USD).
+                  </>
+                ) : (
+                  <>
+                    Enter your approved Vendor ID below to look up your booth fee and finalize your registration for <strong>{event.title}</strong>.
+                  </>
+                )}
               </p>
             </div>
 
-            {/* Error Banner if any */}
             {formError && (
               <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start space-x-2.5 animate-shake">
                 <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600" />
@@ -412,111 +404,18 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
             )}
 
             <form onSubmit={handleSubmitPayment} className="space-y-6" id="vendor-card-payment-form">
-              {/* Step 1: Vendor Business & Contact Information */}
               <div className="p-6 sm:p-7 rounded-2xl bg-white border border-gold/20 shadow-sm space-y-5">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/15 pb-4">
+                <div className="border-b border-gold/15 pb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-forest text-cream font-mono font-bold flex items-center justify-center text-xs shadow-2xs">
-                      1
+                    <div className="w-8 h-8 rounded-full bg-forest/10 text-forest font-bold flex items-center justify-center text-xs border border-forest/20 shadow-2xs">
+                      <Building className="h-4 w-4 text-forest" />
                     </div>
                     <div>
-                      <h2 className="font-serif text-lg font-bold text-forest">Vendor & Business Profile</h2>
-                      <p className="text-xs text-charcoal/60 font-light">Enter the business name and email where credentials will be issued</p>
+                      <h2 className="font-serif text-lg font-bold text-forest">Vendor Credentials & Pre-Approval</h2>
+                      <p className="text-xs text-charcoal/60 font-light">Confirm business profile and enter official Valerian Events approval ID</p>
                     </div>
-                  </div>
-
-                  {/* EmailJS Connection Status Badge */}
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      id="emailjs-details-toggle-btn"
-                      onClick={() => setShowEmailJsDetails(!showEmailJsDetails)}
-                      className={`inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all cursor-pointer shadow-2xs ${
-                        showEmailJsDetails 
-                          ? 'bg-forest text-cream border-forest' 
-                          : 'bg-emerald-50/90 hover:bg-emerald-100 text-emerald-800 border-emerald-300'
-                      }`}
-                      title="Click to view EmailJS connection details and template variables"
-                    >
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                      </span>
-                      <span className="font-mono text-[11px] font-bold">EmailJS Connected</span>
-                      <Code2 className="h-3.5 w-3.5 ml-0.5 opacity-80" />
-                    </button>
                   </div>
                 </div>
-
-                {/* EmailJS Integration Details Panel (Collapsible) */}
-                {showEmailJsDetails && (
-                  <div className="rounded-xl border border-emerald-200 bg-emerald-50/40 p-4 sm:p-5 space-y-3.5 text-xs text-charcoal animate-fadeIn">
-                    <div className="flex items-center justify-between border-b border-emerald-200/70 pb-2.5">
-                      <div className="flex items-center space-x-2 text-forest font-bold">
-                        <Send className="h-4 w-4 text-emerald-600" />
-                        <span className="font-serif text-sm">EmailJS Connection Architecture</span>
-                      </div>
-                      <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
-                        @emailjs/browser v4.4.1
-                      </span>
-                    </div>
-
-                    <p className="text-charcoal/80 text-[11px] leading-relaxed">
-                      Upon confirming this booth fee, this form automatically executes an authenticated client-side API call via <code className="bg-emerald-100/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-emerald-900 font-bold">emailjs.send(...)</code> to dispatch branded payment receipts to both the vendor and Valerian Events admin.
-                    </p>
-
-                    {/* Keys & Endpoints Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                      <div className="p-2.5 rounded-lg bg-white border border-emerald-200/80 shadow-2xs">
-                        <span className="block text-[10px] uppercase font-mono text-charcoal/60 font-semibold">Service ID</span>
-                        <span className="font-mono text-xs font-bold text-forest select-all">service_a6hnip8</span>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-white border border-emerald-200/80 shadow-2xs">
-                        <span className="block text-[10px] uppercase font-mono text-charcoal/60 font-semibold">Template ID</span>
-                        <span className="font-mono text-xs font-bold text-forest select-all">template_uwd0or8</span>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-white border border-emerald-200/80 shadow-2xs">
-                        <span className="block text-[10px] uppercase font-mono text-charcoal/60 font-semibold">Public Key</span>
-                        <span className="font-mono text-xs font-bold text-forest select-all">dUpRmObSvyywLE_u_</span>
-                      </div>
-                    </div>
-
-                    {/* Template Parameters Payload Preview */}
-                    <div className="bg-neutral-900 text-emerald-300 p-3.5 rounded-lg font-mono text-[11px] space-y-1 overflow-x-auto shadow-inner">
-                      <div className="text-neutral-400 text-[10px]">// Active payload dispatched to EmailJS template:</div>
-                      <div>{`emailjs.send('service_a6hnip8', 'template_uwd0or8', {`}</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">from_name</span>: <span className="text-emerald-400">"{contactName || 'Vendor Contact'}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">business_name</span>: <span className="text-emerald-400">"{businessName || 'Business Name'} (Category: {vendorCategory})"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">from_email</span>: <span className="text-emerald-400">"{contactEmail || 'vendor@example.com'}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">phone</span>: <span className="text-emerald-400">"{contactPhone || 'N/A'}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">event</span>: <span className="text-emerald-400">"{event.title} — Vendor Booth Fee (${feeDueToday}.00 USD)"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">confirmation_code</span>: <span className="text-emerald-400">"VAL-{event.tag.slice(0, 3).toUpperCase()}-XXXXXX"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">amount_paid</span>: <span className="text-emerald-400">"${feeDueToday}.00 USD"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">application_id</span>: <span className="text-emerald-400">"{appReference || 'VE-APP-XXXX'}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">payment_method</span>: <span className="text-emerald-400">"{selectedPaymentMethod.toUpperCase()}{cardNumber ? ` (Ending in ${cardNumber.replace(/\s/g, '').slice(-4)})` : ''}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">cardholder_name</span>: <span className="text-emerald-400">"{cardHolder || contactName || 'Cardholder Name'}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">card_last4</span>: <span className="text-emerald-400">"{cardNumber.replace(/\s/g, '').slice(-4) || '••••'}"</span>,</div>
-                      <div className="pl-4 text-neutral-200"><span className="text-gold">transaction_status</span>: <span className="text-emerald-400">"AUTHORIZED & CONFIRMED"</span></div>
-                      <div>{`}, 'dUpRmObSvyywLE_u_');`}</div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] text-charcoal/70">
-                      <span className="flex items-center space-x-1">
-                        <Check className="h-3.5 w-3.5 text-emerald-600" />
-                        <span>Ready to transmit on "Confirm Payment" button click</span>
-                      </span>
-                      <a 
-                        href="https://dashboard.emailjs.com/" 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="text-forest hover:text-gold font-semibold inline-flex items-center space-x-1"
-                      >
-                        <span>Open EmailJS Dashboard</span>
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </div>
-                  </div>
-                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -554,14 +453,9 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                   </div>
 
                   <div>
-                    <div className="flex justify-between items-center mb-1">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/80">
-                        Confirmation Receipt Email *
-                      </label>
-                      <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-1.5 py-0.5 rounded font-medium">
-                        EmailJS Target
-                      </span>
-                    </div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/80 mb-1">
+                      Confirmation Receipt Email *
+                    </label>
                     <div className="relative">
                       <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-gold" />
                       <input
@@ -613,38 +507,200 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                     </select>
                   </div>
 
-                  <div className="sm:col-span-2 bg-gold/10 border-2 border-gold/40 rounded-xl p-3.5 sm:p-4 space-y-1.5" id="valerian-application-id-field">
-                    <div className="flex items-center justify-between">
+                  <div className="sm:col-span-2 bg-cream/50 border-2 border-gold/40 rounded-xl p-4 sm:p-5 space-y-3" id="valerian-application-id-field">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-forest flex items-center space-x-1.5">
                         <FileCheck className="h-4 w-4 text-forest" />
-                        <span>Provided Application ID by Valerian Events *</span>
+                        <span>Vendor ID / Application ID *</span>
                       </label>
-                      <span className="text-[10px] font-mono font-bold text-red-700 bg-red-100/80 border border-red-200 px-2 py-0.5 rounded-md uppercase tracking-wide">
-                        Must / Required
-                      </span>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[10px] font-mono font-bold text-forest bg-gold/20 border border-gold/40 px-2 py-0.5 rounded uppercase tracking-wider">
+                          Format: VCN-264
+                        </span>
+                        <span className="text-[10px] font-mono font-bold text-red-700 bg-red-100/80 border border-red-200 px-2 py-0.5 rounded-md uppercase tracking-wide">
+                          Required
+                        </span>
+                      </div>
                     </div>
+
                     <div className="relative">
                       <input
                         type="text"
                         required
                         id="valerian-application-id-input"
                         value={appReference}
-                        onChange={(e) => setAppReference(e.target.value)}
-                        placeholder="e.g. VE-2026-APP-8842 or your approval confirmation ID"
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gold/40 bg-white text-xs font-mono font-bold text-forest placeholder:text-charcoal/40 placeholder:font-sans placeholder:font-normal focus:outline-hidden focus:border-forest focus:ring-1 focus:ring-forest shadow-2xs"
+                        onChange={handleVendorIdChange}
+                        placeholder="e.g. VCN-264"
+                        maxLength={7}
+                        className={`w-full px-4 py-3 rounded-xl border text-sm font-mono font-bold uppercase transition-all shadow-xs ${
+                          !appReference.trim()
+                            ? 'border-gold/40 bg-white text-forest placeholder:text-charcoal/40 placeholder:font-sans placeholder:font-normal focus:outline-hidden focus:border-forest focus:ring-1 focus:ring-forest'
+                            : isVendorIdValid
+                            ? 'border-emerald-500 bg-emerald-50/30 text-emerald-900 focus:outline-hidden focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600'
+                            : 'border-red-500 bg-red-50/30 text-red-900 focus:outline-hidden focus:border-red-600 focus:ring-1 focus:ring-red-600'
+                        }`}
+                      />
+                      {appReference.trim() && (
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center space-x-1">
+                          {isVendorIdValid ? (
+                            <span className="inline-flex items-center space-x-1 text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md text-[11px] font-bold font-mono">
+                              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                              <span>VALID</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center space-x-1 text-red-700 bg-red-100 px-2 py-1 rounded-md text-[11px] font-bold font-mono">
+                              <AlertCircle className="h-3.5 w-3.5 text-red-600 shrink-0" />
+                              <span>INVALID</span>
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Dynamic Real-Time Validation Feedback */}
+                    {appReference.trim() ? (
+                      isVendorIdValid ? (
+                        <div className="flex items-center justify-between flex-wrap gap-2 text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 p-3 rounded-lg">
+                          <div className="flex items-center space-x-2">
+                            <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                            <span className="font-medium">
+                              Vendor ID <strong>{normalizedVendorId}</strong> verified & authorized.
+                            </span>
+                          </div>
+                          <div className="flex items-center space-x-1 font-mono font-bold bg-emerald-100/90 text-emerald-900 px-2.5 py-1 rounded border border-emerald-300">
+                            <span className="text-[10px] font-sans font-normal uppercase text-emerald-700">Booth Fee:</span>
+                            <span>${feeDueToday}.00 USD</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-start space-x-2 text-xs text-red-800 bg-red-50 border border-red-200 p-2.5 rounded-lg animate-shake">
+                          <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
+                          <div className="space-y-0.5">
+                            <span className="font-semibold block">
+                              {!isFormatValid
+                                ? 'Invalid Vendor ID format.'
+                                : `Vendor ID "${normalizedVendorId}" is invalid: Not found in system.`}
+                            </span>
+                            <span className="text-[11px] text-red-700 block">
+                              {!isFormatValid
+                                ? 'Vendor ID must follow the format: VCN-264 (3 uppercase letters, hyphen, 3 digits).'
+                                : 'Any Vendor ID that has not been input to the system is automatically invalid. Please use an authorized Vendor ID.'}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    ) : (
+                      <p className="text-[11px] text-charcoal/70 font-light flex items-center space-x-1 pt-0.5">
+                        <AlertCircle className="h-3.5 w-3.5 text-gold shrink-0" />
+                        <span>Vendor ID must follow the format <strong>VCN-264</strong>. Any Vendor ID not pre-recorded in the system is automatically invalid.</span>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Billing Info Section */}
+              <div className="p-6 sm:p-8 rounded-lg bg-white border border-gray-200 shadow-sm space-y-5" id="billing-info-card">
+                <div className="flex items-center space-x-3 pb-1">
+                  <div className="w-6 h-6 rounded-full border-2 border-[#00b4d8] text-[#00b4d8] flex items-center justify-center text-xs font-semibold shrink-0">
+                    1
+                  </div>
+                  <h2 className="text-xl font-medium text-gray-800 tracking-tight font-sans">
+                    Billing Info
+                  </h2>
+                </div>
+
+                <div className="space-y-4 pt-1">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                      FULL NAME
+                    </label>
+                    <input
+                      type="text"
+                      value={billingFullName}
+                      onChange={(e) => setBillingFullName(e.target.value)}
+                      placeholder="John Doe"
+                      className="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-white border border-gray-300 rounded-md placeholder:italic placeholder:text-gray-400 placeholder:font-light focus:outline-hidden focus:border-[#00b4d8] focus:ring-1 focus:ring-[#00b4d8] transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                      BILLING ADDRESS
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={billingAddress}
+                        onChange={(e) => setBillingAddress(e.target.value)}
+                        placeholder="Fyrtorn"
+                        className="w-full pl-3.5 pr-10 py-2.5 text-sm text-gray-800 bg-white border border-[#00b4d8] ring-1 ring-[#00b4d8]/20 rounded-md placeholder:italic placeholder:text-gray-400 placeholder:font-light focus:outline-hidden focus:border-[#00b4d8] focus:ring-1 focus:ring-[#00b4d8] transition-colors"
+                      />
+                      <MapPin className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                        CITY
+                      </label>
+                      <input
+                        type="text"
+                        value={billingCity}
+                        onChange={(e) => setBillingCity(e.target.value)}
+                        placeholder="Stockholm"
+                        className="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-white border border-gray-300 rounded-md placeholder:italic placeholder:text-gray-400 placeholder:font-light focus:outline-hidden focus:border-[#00b4d8] focus:ring-1 focus:ring-[#00b4d8] transition-colors"
                       />
                     </div>
-                    <p className="text-[11px] text-charcoal/70 font-light flex items-center space-x-1 pt-0.5">
-                      <AlertCircle className="h-3.5 w-3.5 text-gold shrink-0" />
-                      <span>This payment portal is strictly for pre-approved vendors. Enter the official Application ID provided by Valerian Events in your confirmation notice.</span>
-                    </p>
+
+                    <div>
+                      <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                        ZIP CODE
+                      </label>
+                      <input
+                        type="text"
+                        value={billingZip}
+                        onChange={(e) => setBillingZip(e.target.value)}
+                        placeholder="12804"
+                        className="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-white border border-gray-300 rounded-md placeholder:italic placeholder:text-gray-400 placeholder:font-light focus:outline-hidden focus:border-[#00b4d8] focus:ring-1 focus:ring-[#00b4d8] transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                      COUNTRY
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={billingCountry}
+                        onChange={(e) => setBillingCountry(e.target.value)}
+                        className="w-full pl-3.5 pr-10 py-2.5 text-sm text-gray-800 bg-white border border-gray-300 rounded-md appearance-none focus:outline-hidden focus:border-[#00b4d8] focus:ring-1 focus:ring-[#00b4d8] transition-colors cursor-pointer"
+                      >
+                        <option value="Sweden">Sweden</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Finland">Finland</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Japan">Japan</option>
+                      </select>
+                      <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Step 2: Payment Method & Card Details */}
               <div className="p-6 sm:p-8 rounded-lg bg-white border border-gray-200 shadow-sm space-y-6">
-                {/* Step 2 Header */}
                 <div className="flex items-center space-x-2.5 border-b border-gray-100 pb-3.5">
                   <div className="w-7 h-7 rounded-full bg-forest text-cream font-mono font-bold flex items-center justify-center text-xs shadow-2xs">
                     2
@@ -655,150 +711,164 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                   </div>
                 </div>
 
-                {/* Payment Method Selector (4 methods with radio dots and logo cards) */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-1">
-                  {/* Mastercard */}
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPaymentMethod('mastercard')}
-                    className="flex items-center space-x-2.5 cursor-pointer text-left focus:outline-hidden"
-                  >
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                      selectedPaymentMethod === 'mastercard' ? 'border-red-500' : 'border-gray-300'
-                    }`}>
-                      {selectedPaymentMethod === 'mastercard' && (
-                        <div className="w-2 h-2 rounded-full bg-[#ff4d4f]" />
-                      )}
-                    </div>
-                    <div className={`flex-1 h-12 border rounded-md bg-white flex flex-col items-center justify-center p-1.5 shadow-2xs transition-all ${
-                      selectedPaymentMethod === 'mastercard' ? 'border-gray-400 ring-1 ring-gray-300' : 'border-gray-200 hover:border-gray-300'
-                    }`}>
-                      <div className="flex items-center -space-x-1.5">
-                        <div className="w-4.5 h-4.5 rounded-full bg-[#EB001B] opacity-95"></div>
-                        <div className="w-4.5 h-4.5 rounded-full bg-[#F79E1B] opacity-95"></div>
-                      </div>
-                      <span className="text-[9px] font-medium text-gray-600 tracking-tight leading-none mt-0.5">
-                        mastercard
-                      </span>
-                    </div>
-                  </button>
-
-                  {/* VISA (Selected by default in screenshot) */}
+                {/* Payment Methods Selection Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-1">
+                  {/* VISA */}
                   <button
                     type="button"
                     onClick={() => setSelectedPaymentMethod('visa')}
-                    className="flex items-center space-x-2.5 cursor-pointer text-left focus:outline-hidden"
+                    className="flex items-center space-x-2 cursor-pointer text-left focus:outline-hidden"
                   >
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                      selectedPaymentMethod === 'visa' ? 'border-red-500' : 'border-gray-300'
+                    <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                      selectedPaymentMethod === 'visa' ? 'border-[#1A1F71]' : 'border-gray-300'
                     }`}>
                       {selectedPaymentMethod === 'visa' && (
-                        <div className="w-2 h-2 rounded-full bg-[#ff4d4f]" />
+                        <div className="w-2 h-2 rounded-full bg-[#1A1F71]" />
                       )}
                     </div>
-                    <div className={`flex-1 h-12 border rounded-md bg-white flex items-center justify-center p-1.5 shadow-2xs transition-all ${
-                      selectedPaymentMethod === 'visa' ? 'border-gray-400 ring-1 ring-gray-300' : 'border-gray-200 hover:border-gray-300'
+                    <div className={`flex-1 h-11 border rounded-md bg-white flex items-center justify-center p-1 shadow-2xs transition-all ${
+                      selectedPaymentMethod === 'visa' ? 'border-[#1A1F71] ring-1 ring-[#1A1F71]/30 shadow-xs' : 'border-gray-200 hover:border-gray-300'
                     }`}>
-                      <span className="font-sans font-black italic text-xl text-[#1A1F71] tracking-tighter leading-none">
+                      <span className="font-sans font-black italic text-lg text-[#1A1F71] tracking-tighter leading-none">
                         VISA
                       </span>
                     </div>
                   </button>
 
-                  {/* PayPal */}
+                  {/* Mastercard */}
                   <button
                     type="button"
-                    onClick={() => setSelectedPaymentMethod('paypal')}
-                    className="flex items-center space-x-2.5 cursor-pointer text-left focus:outline-hidden"
+                    onClick={() => setSelectedPaymentMethod('mastercard')}
+                    className="flex items-center space-x-2 cursor-pointer text-left focus:outline-hidden"
                   >
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                      selectedPaymentMethod === 'paypal' ? 'border-red-500' : 'border-gray-300'
+                    <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                      selectedPaymentMethod === 'mastercard' ? 'border-[#EB001B]' : 'border-gray-300'
                     }`}>
-                      {selectedPaymentMethod === 'paypal' && (
-                        <div className="w-2 h-2 rounded-full bg-[#ff4d4f]" />
+                      {selectedPaymentMethod === 'mastercard' && (
+                        <div className="w-2 h-2 rounded-full bg-[#EB001B]" />
                       )}
                     </div>
-                    <div className={`flex-1 h-12 border rounded-md bg-white flex items-center justify-center space-x-0.5 p-1.5 shadow-2xs transition-all ${
-                      selectedPaymentMethod === 'paypal' ? 'border-gray-400 ring-1 ring-gray-300' : 'border-gray-200 hover:border-gray-300'
+                    <div className={`flex-1 h-11 border rounded-md bg-white flex flex-col items-center justify-center p-1 shadow-2xs transition-all ${
+                      selectedPaymentMethod === 'mastercard' ? 'border-[#EB001B] ring-1 ring-[#EB001B]/30 shadow-xs' : 'border-gray-200 hover:border-gray-300'
                     }`}>
-                      <span className="font-sans font-black italic text-sm text-[#003087]">Pay</span>
-                      <span className="font-sans font-black italic text-sm text-[#0079C1]">Pal</span>
+                      <div className="flex items-center -space-x-1.5">
+                        <div className="w-4 h-4 rounded-full bg-[#EB001B] opacity-95"></div>
+                        <div className="w-4 h-4 rounded-full bg-[#F79E1B] opacity-95"></div>
+                      </div>
+                      <span className="text-[8px] font-medium text-gray-600 tracking-tight leading-none mt-0.5">
+                        mastercard
+                      </span>
                     </div>
                   </button>
 
-                  {/* CASH ON DELIVERY */}
+                  {/* American Express */}
                   <button
                     type="button"
-                    onClick={() => setSelectedPaymentMethod('cod')}
-                    className="flex items-center space-x-2.5 cursor-pointer text-left focus:outline-hidden"
+                    onClick={() => setSelectedPaymentMethod('amex')}
+                    className="flex items-center space-x-2 cursor-pointer text-left focus:outline-hidden"
                   >
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                      selectedPaymentMethod === 'cod' ? 'border-red-500' : 'border-gray-300'
+                    <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                      selectedPaymentMethod === 'amex' ? 'border-[#006FCF]' : 'border-gray-300'
                     }`}>
-                      {selectedPaymentMethod === 'cod' && (
-                        <div className="w-2 h-2 rounded-full bg-[#ff4d4f]" />
+                      {selectedPaymentMethod === 'amex' && (
+                        <div className="w-2 h-2 rounded-full bg-[#006FCF]" />
                       )}
                     </div>
-                    <div className={`flex-1 h-12 border rounded-md bg-white flex flex-col items-center justify-center p-1 shadow-2xs transition-all text-center ${
-                      selectedPaymentMethod === 'cod' ? 'border-gray-400 ring-1 ring-gray-300' : 'border-gray-200 hover:border-gray-300'
+                    <div className={`flex-1 h-11 border rounded-md bg-[#006FCF] flex items-center justify-center p-1 shadow-2xs transition-all ${
+                      selectedPaymentMethod === 'amex' ? 'ring-2 ring-offset-1 ring-[#006FCF]' : 'opacity-90 hover:opacity-100'
                     }`}>
-                      <span className="text-[9px] font-bold text-gray-500 uppercase leading-none tracking-tight">CASH ON</span>
-                      <span className="text-[9px] font-bold text-gray-500 uppercase leading-none tracking-tight mt-0.5">DELIVERY</span>
+                      <span className="font-sans font-black text-xs text-white tracking-widest leading-none">
+                        AMEX
+                      </span>
+                    </div>
+                  </button>
+
+                  {/* Discover */}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPaymentMethod('discover')}
+                    className="flex items-center space-x-2 cursor-pointer text-left focus:outline-hidden"
+                  >
+                    <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                      selectedPaymentMethod === 'discover' ? 'border-[#FF6000]' : 'border-gray-300'
+                    }`}>
+                      {selectedPaymentMethod === 'discover' && (
+                        <div className="w-2 h-2 rounded-full bg-[#FF6000]" />
+                      )}
+                    </div>
+                    <div className={`flex-1 h-11 border rounded-md bg-white flex items-center justify-center p-1 shadow-2xs transition-all ${
+                      selectedPaymentMethod === 'discover' ? 'border-[#FF6000] ring-1 ring-[#FF6000]/30 shadow-xs' : 'border-gray-200 hover:border-gray-300'
+                    }`}>
+                      <span className="font-sans font-bold text-xs text-gray-800 tracking-tight leading-none">
+                        DISC<span className="inline-block w-2.5 h-2.5 rounded-full bg-[#FF6000] mx-0.5 align-middle"></span>VER
+                      </span>
                     </div>
                   </button>
                 </div>
 
-                {/* Form Fields Section */}
-                <div className="space-y-4 pt-2">
-                  {/* Row 1: Card number * and Cardholder * */}
+                {/* Optional note for digital wallets */}
+                {!isCardPayment && (
+                  <div className="p-3.5 rounded-lg bg-blue-50/70 border border-blue-200/80 text-xs text-blue-900 flex items-center space-x-2">
+                    <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" />
+                    <span>
+                      {selectedPaymentMethod === 'paypal' && 'You will authorize this payment using your connected PayPal account upon confirmation.'}
+                      {selectedPaymentMethod === 'applepay' && 'Apple Pay biometric one-touch authorization will be requested upon clicking Confirm.'}
+                      {selectedPaymentMethod === 'googlepay' && 'Google Pay wallet authorization will be verified seamlessly upon clicking Confirm.'}
+                    </span>
+                  </div>
+                )}
+
+                <div className={`space-y-4 pt-2 transition-opacity ${!isCardPayment ? 'opacity-50 pointer-events-none' : ''}`}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-xs font-normal text-gray-600 mb-1.5">
-                        Card number *
+                        Card number {isCardPayment && '*'}
                       </label>
                       <input
                         type="text"
-                        required={selectedPaymentMethod === 'visa' || selectedPaymentMethod === 'mastercard'}
+                        required={isCardPayment}
                         inputMode="numeric"
                         autoComplete="cc-number"
                         value={cardNumber}
                         onChange={handleCardNumberChange}
-                        placeholder=""
-                        className="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] transition-colors"
+                        placeholder={!isCardPayment ? 'Authorized via wallet' : ''}
+                        disabled={!isCardPayment}
+                        className="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] transition-colors disabled:bg-gray-100"
                       />
                     </div>
 
                     <div>
                       <label className="block text-xs font-normal text-gray-600 mb-1.5">
-                        Cardholder *
+                        Cardholder {isCardPayment && '*'}
                       </label>
                       <input
                         type="text"
-                        required={selectedPaymentMethod === 'visa' || selectedPaymentMethod === 'mastercard'}
+                        required={isCardPayment}
                         autoComplete="cc-name"
                         value={cardHolder}
                         onChange={(e) => setCardHolder(e.target.value)}
-                        placeholder=""
-                        className="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] transition-colors"
+                        placeholder={!isCardPayment ? contactName || 'Authorized via wallet' : ''}
+                        disabled={!isCardPayment}
+                        className="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] transition-colors disabled:bg-gray-100"
                       />
                     </div>
                   </div>
 
-                  {/* Row 2: Expiry date * and CVC */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-xs font-normal text-gray-600 mb-1.5">
-                        Expiry date *
+                        Expiry date {isCardPayment && '*'}
                       </label>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="relative">
                           <select
                             value={expiryMonth}
+                            disabled={!isCardPayment}
                             onChange={(e) => {
                               setExpiryMonth(e.target.value);
                               setCardExpiry(`${e.target.value}/${expiryYear}`);
                             }}
-                            className="w-full appearance-none px-3 py-2 text-xs text-gray-700 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] pr-7 cursor-pointer"
+                            className="w-full appearance-none px-3 py-2 text-xs text-gray-700 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] pr-7 cursor-pointer disabled:bg-gray-100"
                           >
                             <option value="">Month</option>
                             {['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'].map((m) => (
@@ -811,11 +881,12 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                         <div className="relative">
                           <select
                             value={expiryYear}
+                            disabled={!isCardPayment}
                             onChange={(e) => {
                               setExpiryYear(e.target.value);
                               setCardExpiry(`${expiryMonth}/${e.target.value}`);
                             }}
-                            className="w-full appearance-none px-3 py-2 text-xs text-gray-700 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] pr-7 cursor-pointer"
+                            className="w-full appearance-none px-3 py-2 text-xs text-gray-700 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] pr-7 cursor-pointer disabled:bg-gray-100"
                           >
                             <option value="">Year</option>
                             {['26', '27', '28', '29', '30', '31', '32', '33'].map((y) => (
@@ -829,18 +900,20 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
 
                     <div>
                       <label className="block text-xs font-normal text-gray-600 mb-1.5">
-                        CVC
+                        CVC {isCardPayment && '*'}
                       </label>
                       <div className="flex items-center space-x-2">
                         <input
-                          type="password"
-                          required={selectedPaymentMethod === 'visa' || selectedPaymentMethod === 'mastercard'}
+                          type="text"
+                          required={isCardPayment}
+                          inputMode="numeric"
                           autoComplete="cc-csc"
                           value={cardCvc}
                           onChange={handleCvcChange}
-                          placeholder=""
+                          placeholder={!isCardPayment ? '---' : 'e.g. 123'}
                           maxLength={4}
-                          className="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] transition-colors"
+                          disabled={!isCardPayment}
+                          className="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-xs focus:outline-hidden focus:border-[#10e5a5] focus:ring-1 focus:ring-[#10e5a5] transition-colors font-mono disabled:bg-gray-100"
                         />
                         <div 
                           className="shrink-0 p-1 text-gray-400 hover:text-gray-600 cursor-help"
@@ -855,7 +928,6 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                   </div>
                 </div>
 
-                {/* Exact Confirm Payment Button */}
                 <button
                   type="submit"
                   id="submit-vendor-card-payment-btn"
@@ -867,8 +939,10 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
                       <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       <span>CONFIRMING PAYMENT...</span>
                     </span>
+                  ) : isVendorIdValid ? (
+                    <span>CONFIRM PAYMENT — ${feeDueToday}.00 USD</span>
                   ) : (
-                    <span>CONFIRM PAYMENT</span>
+                    <span>ENTER VENDOR ID TO CONFIRM PAYMENT</span>
                   )}
                 </button>
               </div>
@@ -879,7 +953,6 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
               </div>
             </form>
 
-            {/* Assistance & Concierge Card */}
             <div className="p-5 rounded-2xl bg-forest/5 border border-gold/25 text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="text-charcoal/70 text-center sm:text-left">
                 <span className="font-bold text-forest uppercase tracking-wider text-[11px] block">

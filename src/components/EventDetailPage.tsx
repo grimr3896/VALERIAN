@@ -45,17 +45,17 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
 
   const getCityPricing = (cityTag: string) => {
     switch (cityTag) {
-      case 'Las Vegas': return { standard: '$350', corner: '$500', foodTruck: '$450' };
-      case 'Miami': return { standard: '$450', corner: '$600', foodTruck: '$550' };
-      case 'Los Angeles': return { standard: '$450', corner: '$600', foodTruck: '$550' };
-      case 'Austin': return { standard: '$400', corner: '$550', foodTruck: '$500' };
-      case 'Houston': return { standard: '$400', corner: '$550', foodTruck: '$500' };
-      case 'Atlanta': return { standard: '$400', corner: '$550', foodTruck: '$500' };
-      case 'Raleigh': return { standard: '$400', corner: '$550', foodTruck: '$500' };
-      case 'Dallas': return { standard: '$400', corner: '$550', foodTruck: '$500' };
-      case 'Salt Lake City': return { standard: '$400', corner: '$550', foodTruck: '$500' };
-      case 'New York City': return { standard: '$500', corner: '$650', foodTruck: '$600' };
-      default: return { standard: '$350', corner: '$500', foodTruck: '$450' };
+      case 'Las Vegas': return { standard: '$300', corner: '$500', foodTruck: '$450' };
+      case 'Miami': return { standard: '$300', corner: '$600', foodTruck: '$550' };
+      case 'Los Angeles': return { standard: '$300', corner: '$600', foodTruck: '$550' };
+      case 'Austin': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'Houston': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'Atlanta': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'Raleigh': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'Dallas': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'Salt Lake City': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'New York City': return { standard: '$300', corner: '$650', foodTruck: '$600' };
+      default: return { standard: '$300', corner: '$500', foodTruck: '$450' };
     }
   };
 
