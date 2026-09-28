@@ -1,4 +1,5 @@
 import { Event, FAQ, VendorCategory } from './types';
+import { isEventDatePast } from './utils/eventDateUtils';
 // @ts-ignore
 import miamiFestivalMarket from './assets/images/miami_festival_market_1783630573468.jpg';
 // @ts-ignore
@@ -18,63 +19,10 @@ import leGrandMarcheImg from './assets/images/le_grand_marche.jpg';
 // @ts-ignore
 import tasteOfAmericaFestivalImg from './assets/images/taste_of_america_festival_1789978197588.jpg';
 
-export const EVENTS_DATA: Event[] = [
+const RAW_EVENTS_DATA: Event[] = [
   // ==========================================
   // UPCOMING EVENTS & FESTIVALS (Chronological)
   // ==========================================
-  {
-    id: 'ev-36',
-    slug: 'sabor-de-verano-miamis-end-of-summer-family-food-music-vendor-festival',
-    title: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
-    date: 'Sep 4-6, 2026',
-    location: 'Bayfront Park, 301 Biscayne Blvd, Miami, FL 33132',
-    image: miamiEndSummerFest,
-    spotsLeft: 22,
-    totalSpots: 100,
-    tag: 'Miami',
-    category: 'Family Fun, Food, Music & Vendor Festival',
-    description: "Celebrate the ultimate Labor Day weekend summer finale at Bayfront Park in downtown Miami! Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival runs Friday through Sunday, September 4–6, 2026 (10:00 AM – 5:00 PM daily). Experience an incredible gathering featuring 100+ local vendors and artisans, premier gourmet food trucks, non-stop live music, cultural performances, and family-friendly kids activities overlooking beautiful Biscayne Bay.",
-    cost: 'Free Admission / Booths from $100/day',
-    attendance: '20,000+ expected',
-    highlight: 'Prime 3-day holiday weekend waterfront festival at Bayfront Park with 100+ small businesses & artisans, gourmet food truck row, live stage entertainment, family fun zones, and official Eventbrite ticket registration.',
-    ticketLink: 'https://www.eventbrite.com/e/sabor-de-verano-miamis-end-of-summer-family-food-music-vendor-festival-tickets-1998934296290',
-    isPast: false
-  },
-  {
-    id: 'ev-32',
-    slug: 'late-night-bites-spirits-market',
-    title: 'Late Night Bites & Spirits Market',
-    date: 'Sep 4, 2026',
-    location: '12351 NW 7th Ave, North Miami, FL 33168',
-    image: 'https://i.pinimg.com/1200x/cd/69/57/cd6957055720ffa79acf3c9a0bb5773b.jpg',
-    spotsLeft: 12,
-    totalSpots: 30,
-    tag: 'Miami',
-    category: 'Street Food & Spirits',
-    description: "An evening open-air street-market style food & drink festival featuring South Florida's premier night food trucks, small-batch hot sauce and spice makers, craft tequila/mezcal brands, and boutique local artisans. Hosted at 12351 NW 7th Ave in North Miami, this event is designed for an energetic 21+ crowd with overhead string lights, a live DJ, and curated beverage pairings.",
-    cost: '$450 / Weekend',
-    attendance: '10,000+ expected',
-    highlight: 'Includes heavy-duty 20A electricity, private waste service, premium string-lit market space, and active ice supply concierge.',
-    isPast: false
-  },
-  {
-    id: 'ev-37',
-    slug: 'atlantas-food-music-culture-festival',
-    title: "Atlanta's Food, Music & Culture Festival",
-    date: 'Sep 18-20, 2026',
-    location: 'Piedmont Park, 1320 Monroe Dr NE, Atlanta, GA 30306',
-    image: atlantaFoodMusicFest,
-    spotsLeft: 45,
-    totalSpots: 100,
-    tag: 'Atlanta',
-    category: 'Food, Music & Culture Festival',
-    description: "Dive into Atlanta’s vibe with killer eats, live tunes, and nonstop culture at this awesome in-person fest! ATL Summer Nights is a three-day outdoor celebration taking place September 18–20, 2026 at Piedmont Park in Atlanta, GA. Experience a vibrant celebration featuring delicious food from gourmet food trucks and culinary vendors, live musical performances and DJs, cultural and dance shows, local artisan craft markets, and exciting family-friendly activities.",
-    cost: 'Free Admission / Booths from $100/day',
-    attendance: '25,000+ expected',
-    highlight: 'Prime 3-day outdoor festival at historic Piedmont Park in Atlanta with live concerts & DJs, gourmet culinary rows, cultural showcases, artisan crafts & fashion marketplace, and official Eventbrite ticket registration.',
-    ticketLink: 'https://www.eventbrite.com/e/atlantas-food-music-culture-festival-tickets-1999451274586?aff=oddtdtcreator',
-    isPast: false
-  },
   {
     id: 'ev-01',
     slug: 'artisanal-heritage-market',
@@ -275,6 +223,59 @@ export const EVENTS_DATA: Event[] = [
   // ==========================================
   // PAST EXHIBITIONS & CONCLUDED SHOWCASES
   // ==========================================
+  {
+    id: 'ev-37',
+    slug: 'atlantas-food-music-culture-festival',
+    title: "Atlanta's Food, Music & Culture Festival",
+    date: 'Sep 18-20, 2026',
+    location: 'Piedmont Park, 1320 Monroe Dr NE, Atlanta, GA 30306',
+    image: atlantaFoodMusicFest,
+    spotsLeft: 0,
+    totalSpots: 100,
+    tag: 'Atlanta',
+    category: 'Food, Music & Culture Festival',
+    description: "ATL Summer Nights was a vibrant three-day outdoor celebration that took place September 18–20, 2026 at Piedmont Park in Atlanta, GA. The festival brought together gourmet food trucks, culinary creators, live musical showcases, local artisan markets, and community cultural celebrations.",
+    cost: 'Free Admission / Booths from $100/day',
+    attendance: '25,000+ attendees',
+    highlight: 'Prime 3-day outdoor festival at historic Piedmont Park in Atlanta featuring live concerts, gourmet culinary rows, and artisanal marketplace. Concluded September 20, 2026.',
+    ticketLink: 'https://www.eventbrite.com/e/atlantas-food-music-culture-festival-tickets-1999451274586?aff=oddtdtcreator',
+    isPast: true
+  },
+  {
+    id: 'ev-36',
+    slug: 'sabor-de-verano-miamis-end-of-summer-family-food-music-vendor-festival',
+    title: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
+    date: 'Sep 4-6, 2026',
+    location: 'Bayfront Park, 301 Biscayne Blvd, Miami, FL 33132',
+    image: miamiEndSummerFest,
+    spotsLeft: 0,
+    totalSpots: 100,
+    tag: 'Miami',
+    category: 'Family Fun, Food, Music & Vendor Festival',
+    description: "A premier Labor Day weekend summer finale at Bayfront Park in downtown Miami that took place September 4–6, 2026. Featured 100+ local small businesses, artisans, gourmet food trucks, cultural dance performances, and family-friendly activities overlooking Biscayne Bay.",
+    cost: 'Free Admission / Booths from $100/day',
+    attendance: '20,000+ attendees',
+    highlight: 'Prime 3-day holiday weekend waterfront festival at Bayfront Park with 100+ small businesses & artisans, gourmet food truck row, and live stage entertainment. Concluded September 6, 2026.',
+    ticketLink: 'https://www.eventbrite.com/e/sabor-de-verano-miamis-end-of-summer-family-food-music-vendor-festival-tickets-1998934296290',
+    isPast: true
+  },
+  {
+    id: 'ev-32',
+    slug: 'late-night-bites-spirits-market',
+    title: 'Late Night Bites & Spirits Market',
+    date: 'Sep 4, 2026',
+    location: '12351 NW 7th Ave, North Miami, FL 33168',
+    image: 'https://i.pinimg.com/1200x/cd/69/57/cd6957055720ffa79acf3c9a0bb5773b.jpg',
+    spotsLeft: 0,
+    totalSpots: 30,
+    tag: 'Miami',
+    category: 'Street Food & Spirits',
+    description: "An evening open-air street-market style food & drink festival held on September 4, 2026 at 12351 NW 7th Ave in North Miami. Highlighted South Florida's premier night food trucks, small-batch hot sauces, craft spirits, and boutique local artisans.",
+    cost: '$450 / Weekend',
+    attendance: '10,000+ attendees',
+    highlight: 'Includes heavy-duty 20A electricity, private waste service, premium string-lit market space, and active ice supply concierge. Concluded September 4, 2026.',
+    isPast: true
+  },
   {
     id: 'ev-35',
     slug: 'las-vegas-food-arts-street-market-festival',
@@ -722,6 +723,19 @@ export const EVENTS_DATA: Event[] = [
     isPast: true
   }
 ];
+
+/**
+ * Dynamically updates each event's isPast flag and spots based on whether its end date
+ * has already passed relative to the current date.
+ */
+export const EVENTS_DATA: Event[] = RAW_EVENTS_DATA.map((event) => {
+  const isPast = isEventDatePast(event.date);
+  return {
+    ...event,
+    isPast,
+    spotsLeft: isPast ? 0 : event.spotsLeft
+  };
+});
 
 export const VENDOR_CATEGORIES: VendorCategory[] = [
   {

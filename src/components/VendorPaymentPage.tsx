@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Event } from '../types';
 import { 
   CreditCard, 
@@ -63,7 +63,7 @@ interface VendorPaymentPageProps {
   onSuccessReturn?: () => void;
 }
 
-export default function VendorPaymentPage({ event, onBack }: VendorPaymentPageProps) {
+export default function VendorPaymentPage({ event, onBack, onSuccessReturn }: VendorPaymentPageProps) {
   const [businessName, setBusinessName] = useState('');
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -116,6 +116,29 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
   const [transactionDate, setTransactionDate] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
   const [emailDispatched, setEmailDispatched] = useState<boolean | null>(null);
+
+  // Auto-redirect to events page after payment processing page is displayed for a few seconds
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if ((isSubmitting || isPaidSuccess) && !redirectTimerRef.current) {
+      redirectTimerRef.current = setTimeout(() => {
+        if (onSuccessReturn) {
+          onSuccessReturn();
+        } else {
+          onBack();
+        }
+      }, 3500);
+    }
+  }, [isSubmitting, isPaidSuccess, onSuccessReturn, onBack]);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimerRef.current) {
+        clearTimeout(redirectTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
@@ -339,39 +362,89 @@ export default function VendorPaymentPage({ event, onBack }: VendorPaymentPagePr
       }
     };
 
-    setTimeout(() => {
-      sendEmailReceipt();
-    }, 1200);
+    sendEmailReceipt();
   };
 
   const handlePrintReceipt = () => {
     window.print();
   };
 
+  const isProcessing = isPaidSuccess || isSubmitting;
+
   return (
     <div className="min-h-screen bg-cream/30 py-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-gold/20 mb-8">
-          <button
-            onClick={onBack}
-            id="back-to-event-from-payment"
-            className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-forest hover:text-gold transition-colors cursor-pointer"
-          >
-            <ArrowLeft className="h-4 w-4 text-gold" />
-            <span>Back to {event.title}</span>
-          </button>
+        {!isProcessing && (
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-gold/20 mb-8">
+            <button
+              onClick={onBack}
+              id="back-to-event-from-payment"
+              className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-forest hover:text-gold transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="h-4 w-4 text-gold" />
+              <span>Back to {event.title}</span>
+            </button>
 
-          <div className="flex items-center space-x-2 text-xs text-charcoal/70">
-            <ShieldCheck className="h-4 w-4 text-forest" />
-            <span className="font-mono text-[11px] font-semibold">256-Bit SSL Encrypted Payment</span>
+            <div className="flex items-center space-x-2 text-xs text-charcoal/70">
+              <ShieldCheck className="h-4 w-4 text-forest" />
+              <span className="font-mono text-[11px] font-semibold">256-Bit SSL Encrypted Payment</span>
+            </div>
           </div>
-        </div>
+        )}
 
-        {(isPaidSuccess || isSubmitting) ? (
-          <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-gold/30 shadow-lg p-12 sm:p-16 text-center my-8 animate-fadeIn">
+        {isProcessing ? (
+          <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-gold/30 shadow-lg p-10 sm:p-14 text-center my-8 animate-fadeIn">
+            {/* Elegant spinner & security icon */}
+            <div className="flex justify-center mb-6">
+              <div className="relative flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full border-4 border-gold/20 border-t-forest animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <ShieldCheck className="w-6 h-6 text-gold" />
+                </div>
+              </div>
+            </div>
+
             <h2 className="font-mono text-xl sm:text-2xl font-bold tracking-wider text-forest uppercase">
               TRANSACTION PROCESSING, PLEASE WAIT.
             </h2>
+
+            <p className="mt-3 text-sm text-charcoal/70 font-light max-w-md mx-auto leading-relaxed">
+              Authorizing your payment and securing your vendor booth for{' '}
+              <strong className="text-forest font-semibold">{event.title}</strong>...
+            </p>
+
+            {/* Subtle animated progress bar */}
+            <div className="mt-6 max-w-xs mx-auto bg-forest/10 rounded-full h-1.5 overflow-hidden">
+              <div 
+                className="bg-forest h-full rounded-full animate-pulse"
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            <p className="mt-4 text-xs font-mono text-charcoal/60 uppercase tracking-wider flex items-center justify-center gap-1.5">
+              <span>Redirecting to events calendar</span>
+              <span className="inline-flex space-x-0.5">
+                <span className="animate-bounce">.</span>
+                <span className="animate-bounce" style={{ animationDelay: '0.15s' }}>.</span>
+                <span className="animate-bounce" style={{ animationDelay: '0.3s' }}>.</span>
+              </span>
+            </p>
+
+            <div className="mt-6 pt-5 border-t border-gold/15">
+              <button
+                type="button"
+                onClick={() => {
+                  if (onSuccessReturn) {
+                    onSuccessReturn();
+                  } else {
+                    onBack();
+                  }
+                }}
+                className="text-xs text-charcoal/60 hover:text-forest underline transition-colors cursor-pointer"
+              >
+                Click here if not redirected automatically
+              </button>
+            </div>
           </div>
         ) : (
           <div className="max-w-3xl mx-auto space-y-8">

@@ -54,14 +54,26 @@ export function getEventEndDate(dateStr: string): Date {
 }
 
 /**
- * Checks if an event is in the past, respecting the explicit isPast boolean flag or date comparison.
+ * Checks if an event date string has already happened relative to referenceDate (defaults to current date/time).
  */
-export function isEventPast(event: Event, referenceDate: Date = new Date()): boolean {
-  if (typeof event.isPast === 'boolean') {
-    return event.isPast;
+export function isEventDatePast(dateStr: string, referenceDate: Date = new Date()): boolean {
+  const endDate = getEventEndDate(dateStr);
+  if (endDate.getTime() > 0) {
+    return endDate.getTime() < referenceDate.getTime();
   }
+  return false;
+}
+
+/**
+ * Checks if an event is in the past, based on whether its end date has already passed
+ * relative to the current date (or an optional referenceDate).
+ */
+export function isEventPast(event: { date: string; isPast?: boolean }, referenceDate: Date = new Date()): boolean {
   const endDate = getEventEndDate(event.date);
-  return endDate.getTime() < referenceDate.getTime();
+  if (endDate.getTime() > 0) {
+    return endDate.getTime() < referenceDate.getTime();
+  }
+  return typeof event.isPast === 'boolean' ? event.isPast : false;
 }
 
 /**

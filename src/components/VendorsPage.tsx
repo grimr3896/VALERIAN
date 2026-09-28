@@ -52,7 +52,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     category: '',
     tier: 'starter-booth', // default to starter-booth
     paymentPlan: 'pay-in-full', // default to pay-in-full
-    event: 'las-vegas-food-arts', // default to upcoming event
+    event: 'artisanal-heritage', // default to upcoming event
     message: '',
   });
 
@@ -562,7 +562,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         </div>
       </section>
 
-      {/* Featured Event Focus: Las Vegas & Late Night Launches */}
+      {/* Featured Event Focus: Le Grand Marché Salt Lake City Showcase */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl bg-[#11241E] border border-gold/30 p-8 md:p-12 text-cream shadow-xl">
           <div className="absolute inset-0 pointer-events-none opacity-20">
@@ -580,24 +580,24 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
               
               <div className="space-y-3">
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-cream tracking-tight uppercase leading-tight">
-                  Las Vegas Food, Arts & <br />
-                  <span className="text-gold">Street Market Festival</span>
+                  Le Grand Marché <br />
+                  <span className="text-gold">Salt Lake City Food & Creator Festival</span>
                 </h2>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-cream/80">
                   <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
-                    📍 200 South 3rd Street, Las Vegas, NV
+                    📍 Salt Palace Convention Center, SLC, UT
                   </span>
                   <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
-                    🗓️ August 28, 2026 (9 AM – 1 PM)
+                    🗓️ October 16–18, 2026 (10 AM – 7 PM Daily)
                   </span>
                   <span className="flex items-center gap-1.5 bg-gold/15 text-gold px-2.5 py-1 rounded border border-gold/20 font-bold">
-                    🎟️ 65 SPOTS • ALL TIERS OPEN
+                    🎟️ 42 SPOTS LEFT • OPEN FOR REGISTRATION
                   </span>
                 </div>
               </div>
 
               <p className="text-cream/80 text-xs sm:text-sm font-light leading-relaxed max-w-2xl">
-                Las Vegas Food, Arts & Street Market Festival brings together food lovers, food trucks, local vendors, artists, makers, businesses, and entertainers for a vibrant weekend of commerce and live entertainment. Full utilities provided including power, water, and weather cover.
+                Le Grand Marché brings together 100+ local food artisans, fashion brands, crafters, tech innovators, and creators at the Salt Palace Convention Center. Features the Grand Food Hall, Creator Studio, Business Networking Day, and live cultural showcases with complete utility support.
               </p>
 
               <div className="border-t border-white/10 pt-5 space-y-3">
@@ -648,10 +648,10 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
               </ul>
               
               <button
-                onClick={() => handleSelectEvent('las-vegas-food-arts')}
+                onClick={() => handleSelectEvent('le-grand-marche')}
                 className="w-full py-3.5 bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase rounded-xl transition-all shadow-md cursor-pointer"
               >
-                Apply for Las Vegas Festival
+                Apply for Le Grand Marché
               </button>
             </div>
           </div>

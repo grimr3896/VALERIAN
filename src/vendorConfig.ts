@@ -1,3 +1,5 @@
+import { isEventDatePast, getEventStartDate } from './utils/eventDateUtils';
+
 export type VendorPillar = 'marketplace' | 'food' | 'exhibitor' | 'activation' | 'sponsorship';
 
 export interface VendorTier {
@@ -63,6 +65,135 @@ export interface VendorConfig {
     formattedPhone: string;
   };
 }
+
+export const ALL_VENDOR_EVENTS: UpcomingVendorEvent[] = [
+  {
+    id: 'artisanal-heritage',
+    name: 'Artisanal Heritage Market',
+    date: 'Oct 14-15, 2026',
+    location: 'Los Angeles, CA'
+  },
+  {
+    id: 'le-grand-marche',
+    name: 'Le Grand Marché (Salt Lake City Food, Culture & Creator Festival)',
+    date: 'Oct 16-18, 2026',
+    location: 'Salt Palace Convention Center, Salt Lake City, UT'
+  },
+  {
+    id: 'taste-of-america-food-culture',
+    name: 'Taste of America Food & Culture Festival 2026',
+    date: 'Oct 16-18, 2026',
+    location: 'Downtown Las Vegas, Las Vegas, NV'
+  },
+  {
+    id: 'triangle-harvest-night-market',
+    name: 'The Triangle Harvest & Night Market',
+    date: 'Oct 17-20, 2026',
+    location: 'Raleigh, NC'
+  },
+  {
+    id: 'big-d-launchpad-creator-market',
+    name: 'Big D Launchpad & Creator Market',
+    date: 'Oct 30 - Nov 1, 2026',
+    location: 'Centennial Hall at Fair Park, Dallas, TX'
+  },
+  {
+    id: 'smoke-oak',
+    name: 'Smoke & Oak Spirits Fest',
+    date: 'Nov 02, 2026',
+    location: 'Miami, FL'
+  },
+  {
+    id: 'ember-spice',
+    name: 'Ember & Spice Street Fair',
+    date: 'Nov 22, 2026',
+    location: 'Austin, TX'
+  },
+  {
+    id: 'harvest-gala',
+    name: 'Harvest Gala & Market',
+    date: 'Dec 05-06, 2026',
+    location: 'New York City, NY'
+  },
+  {
+    id: 'butchers-block',
+    name: "The Butcher's Block",
+    date: 'Jan 12, 2027',
+    location: 'Austin, TX'
+  },
+  {
+    id: 'coastal-crustacean',
+    name: 'Coastal Crustacean & Wine',
+    date: 'Feb 20-21, 2027',
+    location: 'Miami, FL'
+  },
+  {
+    id: 'whiskey-bbq',
+    name: 'Whiskey & BBQ Fest',
+    date: 'Apr 10-11, 2027',
+    location: 'Miami, FL'
+  },
+  {
+    id: 'atlanta-food-music-culture-fest',
+    name: "Atlanta's Food, Music & Culture Festival (ATL Summer Nights)",
+    date: 'Sep 18-20, 2026',
+    location: 'Piedmont Park, Atlanta, GA'
+  },
+  {
+    id: 'miami-end-summer-fest',
+    name: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
+    date: 'Sep 4-6, 2026',
+    location: 'Bayfront Park, Miami, FL'
+  },
+  {
+    id: 'late-night-bites',
+    name: 'Late Night Bites & Spirits Market',
+    date: 'Sep 4, 2026',
+    location: 'North Miami, FL'
+  },
+  {
+    id: 'las-vegas-food-arts',
+    name: 'Las Vegas Food, Arts & Street Market Festival',
+    date: 'Aug 28, 2026',
+    location: 'Las Vegas, NV'
+  },
+  {
+    id: 'houston-festival',
+    name: 'Houston Food, Shopping & Entertainment Festival',
+    date: 'Aug 21-23, 2026',
+    location: 'Houston, TX'
+  },
+  {
+    id: 'taste-shop-usa',
+    name: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
+    date: 'Aug 21-23, 2026',
+    location: 'Atlanta, GA'
+  },
+  {
+    id: 'street-eats',
+    name: 'USA Street Eats & Craft Drinks Festival',
+    date: 'Aug 21-23, 2026',
+    location: 'Las Vegas, NV'
+  },
+  {
+    id: 'taco-tequila',
+    name: 'Taco & Tequila Street Fiesta',
+    date: 'Aug 16, 2026',
+    location: 'Las Vegas, NV'
+  },
+  {
+    id: 'miami-summer',
+    name: 'Miami Summer Vendor Market & Food Truck Festival',
+    date: 'Jul 25-26, 2026',
+    location: 'Miami, FL'
+  },
+  {
+    id: 'hot-sauce-expo',
+    name: 'American Hot Sauce & Spicy Food Expo',
+    date: 'Jul 11, 2026',
+    location: 'Austin, TX'
+  }
+];
 
 export const VENDOR_CONFIG: VendorConfig = {
   spotsRemaining: 12,
@@ -655,130 +786,17 @@ export const VENDOR_CONFIG: VendorConfig = {
     'Upon application acceptance, you will receive an official approval notification outlining your selected payment terms.'
   ],
 
-  upcomingEvents: [
-    {
-      id: 'miami-end-summer-fest',
-      name: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
-      date: 'Sep 4-6, 2026',
-      location: 'Bayfront Park, Miami, FL'
-    },
-    {
-      id: 'late-night-bites',
-      name: 'Late Night Bites & Spirits Market',
-      date: 'Sep 4, 2026',
-      location: 'North Miami, FL'
-    },
-    {
-      id: 'atlanta-food-music-culture-fest',
-      name: "Atlanta's Food, Music & Culture Festival (ATL Summer Nights)",
-      date: 'Sep 18-20, 2026',
-      location: 'Piedmont Park, Atlanta, GA'
-    },
-    {
-      id: 'artisanal-heritage',
-      name: 'Artisanal Heritage Market',
-      date: 'Oct 14-15, 2026',
-      location: 'Los Angeles, CA'
-    },
-    {
-      id: 'le-grand-marche',
-      name: 'Le Grand Marché (Salt Lake City Food, Culture & Creator Festival)',
-      date: 'Oct 16-18, 2026',
-      location: 'Salt Palace Convention Center, Salt Lake City, UT'
-    },
-    {
-      id: 'triangle-harvest-night-market',
-      name: 'The Triangle Harvest & Night Market',
-      date: 'Oct 17-20, 2026',
-      location: 'Raleigh, NC'
-    },
-    {
-      id: 'big-d-launchpad-creator-market',
-      name: 'Big D Launchpad & Creator Market',
-      date: 'Oct 30 - Nov 1, 2026',
-      location: 'Centennial Hall at Fair Park, Dallas, TX'
-    },
-    {
-      id: 'smoke-oak',
-      name: 'Smoke & Oak Spirits Fest',
-      date: 'Nov 02, 2026',
-      location: 'Miami, FL'
-    },
-    {
-      id: 'ember-spice',
-      name: 'Ember & Spice Street Fair',
-      date: 'Nov 22, 2026',
-      location: 'Austin, TX'
-    },
-    {
-      id: 'harvest-gala',
-      name: 'Harvest Gala & Market',
-      date: 'Dec 05-06, 2026',
-      location: 'New York City, NY'
-    },
-    {
-      id: 'butchers-block',
-      name: "The Butcher's Block",
-      date: 'Jan 12, 2027',
-      location: 'Austin, TX'
-    },
-    {
-      id: 'coastal-crustacean',
-      name: 'Coastal Crustacean & Wine',
-      date: 'Feb 20-21, 2027',
-      location: 'Miami, FL'
-    },
-    {
-      id: 'whiskey-bbq',
-      name: 'Whiskey & BBQ Fest',
-      date: 'Apr 10-11, 2027',
-      location: 'Miami, FL'
-    }
-  ],
-  pastEvents: [
-    {
-      id: 'las-vegas-food-arts',
-      name: 'Las Vegas Food, Arts & Street Market Festival',
-      date: 'Aug 28, 2026',
-      location: 'Las Vegas, NV'
-    },
-    {
-      id: 'houston-festival',
-      name: 'Houston Food, Shopping & Entertainment Festival',
-      date: 'Aug 21-23, 2026',
-      location: 'Houston, TX'
-    },
-    {
-      id: 'taste-shop-usa',
-      name: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
-      date: 'Aug 21-23, 2026',
-      location: 'Atlanta, GA'
-    },
-    {
-      id: 'street-eats',
-      name: 'USA Street Eats & Craft Drinks Festival',
-      date: 'Aug 21-23, 2026',
-      location: 'Las Vegas, NV'
-    },
-    {
-      id: 'taco-tequila',
-      name: 'Taco & Tequila Street Fiesta',
-      date: 'Aug 16, 2026',
-      location: 'Las Vegas, NV'
-    },
-    {
-      id: 'miami-summer',
-      name: 'Miami Summer Vendor Market & Food Truck Festival',
-      date: 'Jul 25-26, 2026',
-      location: 'Miami, FL'
-    },
-    {
-      id: 'hot-sauce-expo',
-      name: 'American Hot Sauce & Spicy Food Expo',
-      date: 'Jul 11, 2026',
-      location: 'Austin, TX'
-    }
-  ],
+  get upcomingEvents(): UpcomingVendorEvent[] {
+    return ALL_VENDOR_EVENTS
+      .filter(e => !isEventDatePast(e.date))
+      .sort((a, b) => getEventStartDate(a.date).getTime() - getEventStartDate(b.date).getTime());
+  },
+
+  get pastEvents(): UpcomingVendorEvent[] {
+    return ALL_VENDOR_EVENTS
+      .filter(e => isEventDatePast(e.date))
+      .sort((a, b) => getEventStartDate(b.date).getTime() - getEventStartDate(a.date).getTime());
+  },
   /* 
     Confirmed Vendors List
     Populate with real, confirmed vendor names (and optionally logo paths) before going live.

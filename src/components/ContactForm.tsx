@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle2, RefreshCw, CalendarDays } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EVENTS_DATA } from '../data';
+import { sortUpcomingEvents, sortPastEvents } from '../utils/eventDateUtils';
 
 // Initialize EmailJS immediately so it is configured before any send call
 emailjs.init('dUpRmObSvyywLE_u_');
@@ -234,14 +235,14 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
             >
               <option value="" className="text-charcoal/45">Select an event or general inquiry...</option>
               <optgroup label="Upcoming Events & Festivals (2026–2027)">
-                {EVENTS_DATA.filter(evt => !evt.isPast).map((evt) => (
+                {sortUpcomingEvents(EVENTS_DATA.filter(evt => !evt.isPast)).map((evt) => (
                   <option key={evt.id} value={`${evt.title} (${evt.date} • ${evt.location})`}>
                     {evt.title} — {evt.date} ({evt.tag || evt.location})
                   </option>
                 ))}
               </optgroup>
               <optgroup label="Past Exhibitions (Concluded)">
-                {EVENTS_DATA.filter(evt => evt.isPast).map((evt) => (
+                {sortPastEvents(EVENTS_DATA.filter(evt => evt.isPast)).map((evt) => (
                   <option key={evt.id} value={`${evt.title} (${evt.date} • ${evt.location})`}>
                     [Concluded] {evt.title} — {evt.date} ({evt.tag || evt.location})
                   </option>

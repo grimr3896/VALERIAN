@@ -584,7 +584,7 @@ export default function App() {
                           : 'text-charcoal/60 hover:text-charcoal'
                       }`}
                     >
-                      Upcoming Lineup ({EVENTS_DATA.filter(e => !e.isPast).length})
+                      Upcoming Lineup ({EVENTS_DATA.filter(e => !isEventPast(e)).length})
                     </button>
                     <button
                       onClick={() => { setTimeFilter('past'); setActiveFilter('All'); }}
@@ -595,12 +595,12 @@ export default function App() {
                           : 'text-charcoal/60 hover:text-charcoal'
                       }`}
                     >
-                      Past Showcase ({EVENTS_DATA.filter(e => e.isPast).length})
+                      Past Showcase ({EVENTS_DATA.filter(e => isEventPast(e)).length})
                     </button>
                   </div>
 
                   <div className="text-xs text-charcoal/40 font-mono tracking-wider">
-                    SHOWING {filteredEvents.length} OF {EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !e.isPast : !!e.isPast).length} {timeFilter === 'upcoming' ? 'ACTIVE' : 'PAST'} EXHIBITIONS
+                    SHOWING {filteredEvents.length} OF {EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e)).length} {timeFilter === 'upcoming' ? 'ACTIVE' : 'PAST'} EXHIBITIONS
                   </div>
                 </div>
 
