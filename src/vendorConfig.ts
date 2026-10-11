@@ -98,6 +98,12 @@ export const ALL_VENDOR_EVENTS: UpcomingVendorEvent[] = [
     location: 'Centennial Hall at Fair Park, Dallas, TX'
   },
   {
+    id: 'haunted-bites-tampa',
+    name: 'Haunted Bites: Tampa Food Truck & Vendor Festival 2026',
+    date: 'Oct 30 - Nov 1, 2026',
+    location: 'Curtis Hixon Waterfront Park, Tampa, FL'
+  },
+  {
     id: 'smoke-oak',
     name: 'Smoke & Oak Spirits Fest',
     date: 'Nov 02, 2026',

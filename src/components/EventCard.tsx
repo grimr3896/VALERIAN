@@ -26,6 +26,7 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
       case 'Raleigh': return '$400 / weekend';
       case 'Dallas': return '$400 / weekend';
       case 'Salt Lake City': return '$400 / weekend';
+      case 'Tampa': return '$400 / weekend';
       case 'New York City': return '$500 / weekend';
       default: return '$350 - $450 / weekend';
     }

@@ -18,6 +18,8 @@ import bigDLaunchpadImg from './assets/images/big_d_launchpad_creator_market.jpg
 import leGrandMarcheImg from './assets/images/le_grand_marche.jpg';
 // @ts-ignore
 import tasteOfAmericaFestivalImg from './assets/images/taste_of_america_festival_1789978197588.jpg';
+// @ts-ignore
+import hauntedBitesTampaImg from './assets/images/haunted_bites_tampa_1791753435355.jpg';
 
 const RAW_EVENTS_DATA: Event[] = [
   // ==========================================
@@ -114,6 +116,26 @@ const RAW_EVENTS_DATA: Event[] = [
     ticketLink: 'https://www.eventbrite.com/e/big-d-launchpad-creator-market-tickets-2001336406065',
     hours: '10:00 AM – 7:00 PM Daily',
     hostContact: 'alexsilver3986@gmail.com',
+    isPast: false
+  },
+  {
+    id: 'ev-42',
+    slug: 'haunted-bites-tampa-food-truck-vendor-festival-2026',
+    title: 'Haunted Bites: Tampa Food Truck & Vendor Festival 2026',
+    date: 'Oct 30 - Nov 1, 2026',
+    location: 'Curtis Hixon Waterfront Park, 600 N Ashley Dr, Tampa, FL 33602',
+    image: hauntedBitesTampaImg,
+    spotsLeft: 36,
+    totalSpots: 85,
+    tag: 'Tampa',
+    category: 'Halloween Food Truck & Vendor Festival',
+    description: "CREEPY EATS & KILLER VIBES — A THREE-DAY WATERFRONT HALLOWEEN CELEBRATION!\n\nJoin us for Haunted Bites: Tampa Food Truck & Vendor Festival 2026 at Curtis Hixon Waterfront Park along the scenic Tampa Riverwalk! Taking place October 30 – November 1, 2026 (10:00 AM – 8:00 PM Daily).\n\nPresented by Emily Bites and Flavours, Haunted Bites is a high-energy Halloween weekend filled with delicious eats, local shopping, live entertainment, costume contests, and spooky family fun for all ages:\n\n• Friday, October 30 — Halloween Kickoff: The festivities begin! Enjoy rotating food trucks, specialty autumn treats, artisan shopping, spooky music, and festival decorations under the palms.\n• Saturday, October 31 — The Main Halloween Celebration: Full festival and marketplace experience! Indulge in savory street food, sweet dessert concoctions, live entertainment, trick-or-treating for kids, and our grand Halloween costume contest.\n• Sunday, November 1 — Festival Finale: Wrap up Halloween weekend with one final day of mouthwatering eats, unique maker shopping, autumn photo-ops, and waterfront fun.\n\n🍴 FOOD TRUCKS & SAVORY EATS:\nDiscover gourmet food trucks and specialty food vendors serving up everything from artisanal burgers, smoky BBQ, spooky street tacos, and loaded fries to Asian fusion, Latin street bites, craft coffees, and decadent baked treats.\n\n🛍️ LOCAL ARTISAN MARKETPLACE:\nShop dozens of independent Florida small businesses, crafters, apparel boutiques, handmade jewelry, Halloween decor, and seasonal creations.\n\n🎶 ENTERTAINMENT & FAMILY FUN:\nLive DJs and music, costume contests, trick-or-treating stations, interactive lawn games, spooky photo backdrops, and giveaways.\n\n🏪 VENDORS & FOOD TRUCKS WELCOME:\nLimited vendor booths and mobile food spaces available. For official vendor registration and guidelines, contact kristinahernandez841@gmail.com.",
+    cost: 'Free Admission / Vendor Spaces Available',
+    attendance: '20,000+ expected',
+    highlight: '3-day waterfront Halloween food truck rally & marketplace at Curtis Hixon Waterfront Park featuring spooky eats, costume contests, artisan shopping, trick-or-treating, and live entertainment.',
+    ticketLink: 'https://www.eventbrite.com/e/haunted-bites-tampa-food-truck-vendor-festival-2026-tickets-2002507716486?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=wsa&aff=ebdsshwebmobile',
+    hours: '10:00 AM – 8:00 PM Daily',
+    hostContact: 'kristinahernandez841@gmail.com',
     isPast: false
   },
   {

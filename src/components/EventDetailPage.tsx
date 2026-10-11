@@ -54,6 +54,7 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
       case 'Raleigh': return { standard: '$300', corner: '$550', foodTruck: '$500' };
       case 'Dallas': return { standard: '$300', corner: '$550', foodTruck: '$500' };
       case 'Salt Lake City': return { standard: '$300', corner: '$550', foodTruck: '$500' };
+      case 'Tampa': return { standard: '$300', corner: '$550', foodTruck: '$500' };
       case 'New York City': return { standard: '$300', corner: '$650', foodTruck: '$600' };
       default: return { standard: '$300', corner: '$500', foodTruck: '$450' };
     }
