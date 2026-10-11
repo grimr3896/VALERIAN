@@ -55,6 +55,7 @@ export const AUTHORIZED_VENDOR_IDS = [
 // Custom fee mapping per Vendor ID; defaults to $300 unless specified
 export const VENDOR_ID_CUSTOM_FEES: Record<string, number> = {
   'PLC-559': 15,
+  'MUZ-225': 450,
 };
 
 interface VendorPaymentPageProps {
