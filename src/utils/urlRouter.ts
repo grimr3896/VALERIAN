@@ -78,7 +78,7 @@ export function parseInitialUrlState(events: Event[]): {
   page: PageType;
   selectedEventId: string | null;
   searchQuery: string;
-  activeFilter?: 'All' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas' | 'Atlanta' | 'Houston' | 'Raleigh' | 'Dallas' | 'Salt Lake City' | 'Tampa';
+  activeFilter?: string;
 } {
   try {
     const searchParams = new URLSearchParams(window.location.search);
@@ -176,17 +176,16 @@ export function parseInitialUrlState(events: Event[]): {
       };
     }
 
-    // Check for city filter param: ?city=Miami or ?tag=Las Vegas
+    // Check for city filter param: ?city=Las Vegas or ?tag=Las Vegas
     const cityParam = searchParams.get('city') || searchParams.get('tag');
     if (cityParam) {
-      const validCities = ['Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas', 'Atlanta', 'Houston', 'Raleigh', 'Dallas', 'Salt Lake City', 'Tampa'] as const;
-      const matchedCity = validCities.find(c => c.toLowerCase() === cityParam.toLowerCase());
-      if (matchedCity) {
+      const matchedEvent = events.find(e => e.tag.toLowerCase() === cityParam.toLowerCase() || e.location.toLowerCase().includes(cityParam.toLowerCase()));
+      if (matchedEvent) {
         return {
           page: 'events',
           selectedEventId: null,
           searchQuery: '',
-          activeFilter: matchedCity
+          activeFilter: matchedEvent.tag
         };
       }
     }

@@ -24,6 +24,12 @@ import {
 } from 'lucide-react';
 import { FOUNDER_DATA } from '../data';
 import { getEventSlug, getEventShareUrl } from '../utils/urlRouter';
+import {
+  getEventPricingBreakdown,
+  getLocationHoursLabel,
+  getLocationTimetable,
+  isFoodOrFestivalEvent,
+} from '../utils/eventLocationUtils';
 
 interface EventDetailPageProps {
   event: Event;
@@ -39,28 +45,13 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
   const spotsSecured = event.totalSpots - event.spotsLeft;
   const percentFull = Math.round((spotsSecured / event.totalSpots) * 100);
 
-  const isNightMarket = event.id === 'ev-32';
+  const isNightMarket = false;
   const eventSlug = getEventSlug(event);
   const shareUrl = getEventShareUrl(event);
-
-  const getCityPricing = (cityTag: string) => {
-    switch (cityTag) {
-      case 'Las Vegas': return { standard: '$300', corner: '$500', foodTruck: '$450' };
-      case 'Miami': return { standard: '$300', corner: '$600', foodTruck: '$550' };
-      case 'Los Angeles': return { standard: '$300', corner: '$600', foodTruck: '$550' };
-      case 'Austin': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'Houston': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'Atlanta': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'Raleigh': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'Dallas': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'Salt Lake City': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'Tampa': return { standard: '$300', corner: '$550', foodTruck: '$500' };
-      case 'New York City': return { standard: '$300', corner: '$650', foodTruck: '$600' };
-      default: return { standard: '$300', corner: '$500', foodTruck: '$450' };
-    }
-  };
-
-  const pricing = getCityPricing(event.tag);
+  const pricing = getEventPricingBreakdown(event);
+  const hoursLabel = getLocationHoursLabel(event);
+  const timetable = getLocationTimetable(event);
+  const isFestivalFormat = isFoodOrFestivalEvent(event);
 
   const handleCopyLink = async () => {
     try {
@@ -201,17 +192,17 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
               <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Event Hours</span>
               <div className="flex items-center space-x-1.5">
                 <Clock className="h-3.5 w-3.5 text-gold shrink-0" />
-                <span className="text-xs sm:text-sm font-bold truncate">{event.hours || '11 AM – 8 PM'}</span>
+                <span className="text-xs sm:text-sm font-bold truncate" title={hoursLabel}>{hoursLabel}</span>
               </div>
             </div>
 
             <div className={`p-4 rounded-2xl shadow-sm space-y-1 ${
               isNightMarket ? 'bg-white/5 border border-gold/25 text-cream' : 'bg-white border border-gold/15 text-forest'
             }`}>
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Venue City</span>
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-gold font-sans">Venue Location</span>
               <div className="flex items-center space-x-1.5">
                 <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
-                <span className="text-xs sm:text-sm font-bold truncate">{event.location}</span>
+                <span className="text-xs sm:text-sm font-bold truncate" title={event.location}>{event.location}</span>
               </div>
             </div>
           </div>
@@ -230,33 +221,33 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
 
           {/* Booth Fee Structure Breakdown */}
           <div className="p-8 rounded-2xl bg-white border border-gold/20 space-y-5 shadow-sm">
-            <div className="flex items-center justify-between border-b border-gold/15 pb-3">
+            <div className="flex items-center justify-between gap-3 border-b border-gold/15 pb-3">
               <div>
                 <span className="text-[10px] font-mono text-gold font-bold uppercase tracking-wider block">Transparent Pricing</span>
-                <h3 className="font-serif text-xl font-bold text-forest uppercase">Booth Fee Breakdown for {event.tag}</h3>
+                <h3 className="font-serif text-xl font-bold text-forest uppercase">Booth Fee Breakdown — {event.location}</h3>
               </div>
-              <span className="text-xs font-mono px-3 py-1 bg-forest/5 text-forest font-bold rounded-full border border-gold/20">
+              <span className="text-xs font-mono px-3 py-1 bg-forest/5 text-forest font-bold rounded-full border border-gold/20 shrink-0">
                 100% Sales Kept (0% Cut)
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 space-y-2">
-                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">Standard 10'×10' Booth</span>
+                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">{pricing.standardLabel}</span>
                 <span className="text-2xl font-serif font-bold text-forest">{pricing.standard}</span>
-                <span className="text-[10px] text-charcoal/60 block">Includes 1 table, 2 chairs, 110V power & 2-car parking</span>
+                <span className="text-[10px] text-charcoal/60 block">{pricing.standardNote}</span>
               </div>
 
               <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 space-y-2">
-                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">Premium Corner Space</span>
+                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">{pricing.cornerLabel}</span>
                 <span className="text-2xl font-serif font-bold text-forest">{pricing.corner}</span>
-                <span className="text-[10px] text-charcoal/60 block">Double aisle exposure, 10'×20' canopy footprint</span>
+                <span className="text-[10px] text-charcoal/60 block">{pricing.cornerNote}</span>
               </div>
 
               <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 space-y-2">
-                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">Food Truck / Mobile Rig</span>
-                <span className="text-2xl font-serif font-bold text-forest">{pricing.foodTruck}</span>
-                <span className="text-[10px] text-charcoal/60 block">Dedicated 30A/50A electric & greywater access</span>
+                <span className="text-[10px] font-mono text-forest/70 font-bold uppercase block">{pricing.thirdTierLabel}</span>
+                <span className="text-2xl font-serif font-bold text-forest">{pricing.thirdTier}</span>
+                <span className="text-[10px] text-charcoal/60 block">{pricing.thirdTierNote}</span>
               </div>
             </div>
           </div>
@@ -266,14 +257,18 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
             <div className="flex items-center space-x-3 text-forest">
               <Sparkles className="h-5 w-5 text-gold" />
               <h3 className="font-serif text-lg font-bold uppercase tracking-wider text-forest">
-                What's Included With Every Vendor Space
+                What's Included With Every {isFestivalFormat ? 'Vendor Space' : 'Exhibitor Booth'}
               </h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-charcoal/80">
               <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span><strong>Heavy-Duty Canopy & Table Setup:</strong> Commercial 10x10 canopy, 6-foot draped table, and 2 chairs.</span>
+                <span>
+                  {isFestivalFormat
+                    ? <><strong>Canopy & Table Setup:</strong> Commercial 10×10 space with 6-foot draped table and 2 chairs.</>
+                    : <><strong>Turnkey Booth Buildout:</strong> Standard 10×10 pipe-and-drape footprint, draped table, and 2 chairs.</>}
+                </span>
               </div>
               <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
@@ -281,7 +276,7 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
               </div>
               <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span><strong>Free Parking:</strong> Guaranteed complimentary parking passes for up to 2 merchant vehicles/trailers.</span>
+                <span><strong>Load-In & Parking Access:</strong> Dedicated venue marshaling credentials and exhibitor parking in {event.location}.</span>
               </div>
               <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
@@ -289,11 +284,19 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
               </div>
               <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span><strong>Waste & Overnight Security:</strong> On-site grease disposal, greywater dumps, and 24-hour guarded security.</span>
+                <span>
+                  {isFestivalFormat
+                    ? <><strong>Waste & Overnight Security:</strong> On-site grease disposal, greywater access, and 24-hour guarded security.</>
+                    : <><strong>Drayage & Floorplan Concierge:</strong> Coordinated loading dock access, floorplan placement, and 24-hour venue security.</>}
+                </span>
               </div>
               <div className="flex items-start space-x-2.5">
                 <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span><strong>Marketing Promotion:</strong> Direct inclusion in pre-event foodie newsletters (12k+ list) & social reels.</span>
+                <span>
+                  {isFestivalFormat
+                    ? <><strong>Local Marketing Promotion:</strong> Inclusion in {event.tag} event guides, local newsletters & social spotlights.</>
+                    : <><strong>Exhibitor Directory Spotlight:</strong> Placement in the official {event.title} digital guide and buyer outreach.</>}
+                </span>
               </div>
             </div>
           </div>
@@ -342,18 +345,20 @@ export default function EventDetailPage({ event, onApply, onBack, onPayAlreadyAp
 
             {/* Setup & Logistics Times */}
             <div className="p-4 rounded-xl bg-cream/40 border border-gold/20 text-xs space-y-2">
-              <span className="font-bold text-forest uppercase tracking-wider text-[10px] block">Event Timetable</span>
-              <div className="flex justify-between">
+              <span className="font-bold text-forest uppercase tracking-wider text-[10px] block">
+                Event Timetable ({event.location})
+              </span>
+              <div className="flex justify-between gap-2">
                 <span className="text-charcoal/70">Vendor Setup:</span>
-                <span className="font-semibold text-forest">7:00 AM – 10:30 AM</span>
+                <span className="font-semibold text-forest text-right">{timetable.setupWindow}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <span className="text-charcoal/70">Doors Open:</span>
-                <span className="font-semibold text-forest">11:00 AM</span>
+                <span className="font-semibold text-forest text-right">{timetable.doorsOpen}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-charcoal/70">Festival Closes:</span>
-                <span className="font-semibold text-forest">8:00 PM</span>
+              <div className="flex justify-between gap-2">
+                <span className="text-charcoal/70">{isFestivalFormat ? 'Festival Closes:' : 'Floor Closes:'}</span>
+                <span className="font-semibold text-forest text-right">{timetable.closesAt}</span>
               </div>
             </div>
 

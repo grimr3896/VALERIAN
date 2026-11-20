@@ -52,7 +52,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
     category: '',
     tier: 'starter-booth', // default to starter-booth
     paymentPlan: 'pay-in-full', // default to pay-in-full
-    event: 'artisanal-heritage', // default to upcoming event
+    event: VENDOR_CONFIG.upcomingEvents[0]?.id || 'general', // default to soonest upcoming event
     message: '',
   });
 
@@ -200,7 +200,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         category: '',
         tier: 'starter-booth',
         paymentPlan: 'pay-in-full',
-        event: 'las-vegas-food-arts',
+        event: VENDOR_CONFIG.upcomingEvents[0]?.id || 'general',
         message: '',
       });
     } catch (error) {
@@ -562,101 +562,110 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
         </div>
       </section>
 
-      {/* Featured Event Focus: Le Grand Marché Salt Lake City Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-[#11241E] border border-gold/30 p-8 md:p-12 text-cream shadow-xl">
-          <div className="absolute inset-0 pointer-events-none opacity-20">
-            <div className="absolute top-0 left-1/4 w-80 h-80 rounded-full bg-gold/20 blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-forest/30 blur-3xl"></div>
-          </div>
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Details Left */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span className="text-[10px] font-mono font-bold tracking-widest uppercase">UPCOMING HIGH-TRAFFIC SHOWCASE</span>
+      {/* Featured Event Focus: Next Upcoming Showcase */}
+      {(() => {
+        const featuredEvent = VENDOR_CONFIG.upcomingEvents[0];
+        if (!featuredEvent) return null;
+        const isHolidayKickoff = featuredEvent.id === 'holiday-kickoff-food-vendor-festival-2026';
+        return (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative overflow-hidden rounded-3xl bg-[#11241E] border border-gold/30 p-8 md:p-12 text-cream shadow-xl">
+              <div className="absolute inset-0 pointer-events-none opacity-20">
+                <div className="absolute top-0 left-1/4 w-80 h-80 rounded-full bg-gold/20 blur-3xl"></div>
+                <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-forest/30 blur-3xl"></div>
               </div>
-              
-              <div className="space-y-3">
-                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-cream tracking-tight uppercase leading-tight">
-                  Le Grand Marché <br />
-                  <span className="text-gold">Salt Lake City Food & Creator Festival</span>
-                </h2>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-cream/80">
-                  <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
-                    📍 Salt Palace Convention Center, SLC, UT
-                  </span>
-                  <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
-                    🗓️ October 16–18, 2026 (10 AM – 7 PM Daily)
-                  </span>
-                  <span className="flex items-center gap-1.5 bg-gold/15 text-gold px-2.5 py-1 rounded border border-gold/20 font-bold">
-                    🎟️ 42 SPOTS LEFT • OPEN FOR REGISTRATION
-                  </span>
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* Details Left */}
+                <div className="lg:col-span-7 space-y-6 text-left">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    <span className="text-[10px] font-mono font-bold tracking-widest uppercase">UPCOMING HIGH-TRAFFIC SHOWCASE</span>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <h2 className="font-serif text-3xl sm:text-4xl font-bold text-cream tracking-tight uppercase leading-tight">
+                      {featuredEvent.name} <br />
+                      <span className="text-gold">{featuredEvent.location}</span>
+                    </h2>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-cream/80">
+                      <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
+                        📍 {isHolidayKickoff ? 'Water Works Park — 1701 North Highland Avenue, Tampa, FL 33602' : featuredEvent.location}
+                      </span>
+                      <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded border border-white/10">
+                        🗓️ {featuredEvent.date}{isHolidayKickoff ? ' (10 AM – 8 PM Daily EST)' : ''}
+                      </span>
+                      <span className="flex items-center gap-1.5 bg-gold/15 text-gold px-2.5 py-1 rounded border border-gold/20 font-bold">
+                        🎟️ OPEN FOR REGISTRATION
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-cream/80 text-xs sm:text-sm font-light leading-relaxed max-w-2xl">
+                    {isHolidayKickoff
+                      ? 'Kick off the holiday season in Tampa Heights along the Hillsborough Riverwalk! Uniting gourmet food trucks, independent holiday makers, boutique brands, and live waterfront entertainment with transparent per-day booth rates ($80–$150/day).'
+                      : `Join curated exhibitors, merchants, and partners at ${featuredEvent.name} in ${featuredEvent.location} with turnkey booth infrastructure and direct audience access.`}
+                  </p>
+
+                  <div className="border-t border-white/10 pt-5 space-y-3">
+                    <span className="block text-[10px] font-mono font-bold text-gold tracking-widest uppercase">OPPORTUNITY LEVELS ACCEPTING APPLICATIONS:</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs text-cream/90">
+                      <div className="flex items-start space-x-2">
+                        <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                        <span><strong className="font-semibold text-cream">Marketplace & Crafters</strong> (10'×10' to 10'×20' Corners)</span>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                        <span><strong className="font-semibold text-cream">Food Vendors & Food Trucks</strong> (Dedicated power & greywater)</span>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                        <span><strong className="font-semibold text-cream">Commercial Business Exhibitors</strong> (Lead generation & demos)</span>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                        <span><strong className="font-semibold text-cream">Brand Activations & Sponsors</strong> (Sampling & VIP presence)</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <p className="text-cream/80 text-xs sm:text-sm font-light leading-relaxed max-w-2xl">
-                Le Grand Marché brings together 100+ local food artisans, fashion brands, crafters, tech innovators, and creators at the Salt Palace Convention Center. Features the Grand Food Hall, Creator Studio, Business Networking Day, and live cultural showcases with complete utility support.
-              </p>
-
-              <div className="border-t border-white/10 pt-5 space-y-3">
-                <span className="block text-[10px] font-mono font-bold text-gold tracking-widest uppercase">OPPORTUNITY LEVELS ACCEPTING APPLICATIONS:</span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs text-cream/90">
-                  <div className="flex items-start space-x-2">
-                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
-                    <span><strong className="font-semibold text-cream">Marketplace & Crafters</strong> (10'×10' to 10'×20' Corners)</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
-                    <span><strong className="font-semibold text-cream">Food Vendors & Food Trucks</strong> (Dedicated power & greywater)</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
-                    <span><strong className="font-semibold text-cream">Commercial Business Exhibitors</strong> (Lead generation & demos)</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <Check className="h-4 w-4 text-gold mt-0.5 shrink-0" />
-                    <span><strong className="font-semibold text-cream">Brand Activations & Sponsors</strong> (Sampling & VIP presence)</span>
-                  </div>
+                {/* Application Right Card */}
+                <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 text-center space-y-6">
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-gold uppercase block">Exhibitor Guarantee</span>
+                  <ul className="space-y-4 text-xs text-left text-cream/80">
+                    <li className="flex items-center space-x-3">
+                      <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
+                        <Users className="h-4 w-4" />
+                      </div>
+                      <span>High-intent local shopper & festival attendee audience</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
+                        <Sparkles className="h-4 w-4" />
+                      </div>
+                      <span>Strict product category quotas to prevent over-duplication</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
+                        <Layers className="h-4 w-4" />
+                      </div>
+                      <span>Full utility backing (power, water, parking, waste)</span>
+                    </li>
+                  </ul>
+                  
+                  <button
+                    onClick={() => handleSelectEvent(featuredEvent.id)}
+                    className="w-full py-3.5 bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase rounded-xl transition-all shadow-md cursor-pointer"
+                  >
+                    Apply for {featuredEvent.name}
+                  </button>
                 </div>
               </div>
             </div>
-
-            {/* Application Right Card */}
-            <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 text-center space-y-6">
-              <span className="text-[10px] font-mono font-bold tracking-widest text-gold uppercase block">Exhibitor Guarantee</span>
-              <ul className="space-y-4 text-xs text-left text-cream/80">
-                <li className="flex items-center space-x-3">
-                  <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
-                    <Users className="h-4 w-4" />
-                  </div>
-                  <span>High-intent food connoisseur & shopper audience</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
-                    <Sparkles className="h-4 w-4" />
-                  </div>
-                  <span>Strict product category quotas to prevent over-duplication</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="p-1 bg-gold/15 text-gold rounded border border-gold/25">
-                    <Layers className="h-4 w-4" />
-                  </div>
-                  <span>Full utility backing (power, water, parking, waste)</span>
-                </li>
-              </ul>
-              
-              <button
-                onClick={() => handleSelectEvent('le-grand-marche')}
-                className="w-full py-3.5 bg-gold hover:bg-gold/90 text-forest font-sans text-xs font-bold tracking-widest uppercase rounded-xl transition-all shadow-md cursor-pointer"
-              >
-                Apply for Le Grand Marché
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        );
+      })()}
 
       {/* How We Attract Attendees Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10" id="how-we-attract-attendees">

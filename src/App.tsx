@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { PageType, Event } from './types';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -15,7 +15,7 @@ import VendorPaymentPage from './components/VendorPaymentPage';
 import Accordion from './components/Accordion';
 import ContactForm from './components/ContactForm';
 // @ts-ignore
-import regeneratedTacosImage from './assets/images/regenerated_image_1784153031598.jpg';
+import foodTruckFestivalImg from './assets/images/food_truck_vendor_festival.jpg';
 import { EVENTS_DATA, VENDOR_CATEGORIES, FAQS_DATA, FOUNDER_DATA } from './data';
 import { 
   parseInitialUrlState, 
@@ -51,7 +51,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [selectedEventForApplication, setSelectedEventForApplication] = useState<string>('');
-  const [activeFilter, setActiveFilter] = useState<'All' | 'Atlanta' | 'Dallas' | 'Salt Lake City' | 'Tampa' | 'Raleigh' | 'Houston' | 'Los Angeles' | 'New York City' | 'Miami' | 'Austin' | 'Las Vegas'>('All');
+  const [activeFilter, setActiveFilter] = useState<string>('All');
   const [timeFilter, setTimeFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
@@ -148,6 +148,7 @@ export default function App() {
       const slug = getEventSlug(event);
       const matchesTitle = event.title.toLowerCase().includes(q);
       const matchesLocation = event.location.toLowerCase().includes(q);
+      const matchesTag = event.tag.toLowerCase().includes(q);
       const matchesCategory = event.category.toLowerCase().includes(q);
       const matchesDescription = event.description.toLowerCase().includes(q);
       const matchesSlug = slug.includes(q);
@@ -157,6 +158,7 @@ export default function App() {
       return (
         matchesTitle || 
         matchesLocation || 
+        matchesTag ||
         matchesCategory || 
         matchesDescription || 
         matchesSlug || 
@@ -173,21 +175,45 @@ export default function App() {
     ? sortUpcomingEvents(rawFilteredEvents)
     : sortPastEvents(rawFilteredEvents);
 
-  // Filter Counts
-  const filterCounts = {
-    All: EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e)).length,
-    'Los Angeles': EVENTS_DATA.filter(e => e.tag === 'Los Angeles' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    'New York City': EVENTS_DATA.filter(e => e.tag === 'New York City' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Miami: EVENTS_DATA.filter(e => e.tag === 'Miami' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Austin: EVENTS_DATA.filter(e => e.tag === 'Austin' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    'Las Vegas': EVENTS_DATA.filter(e => e.tag === 'Las Vegas' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Atlanta: EVENTS_DATA.filter(e => e.tag === 'Atlanta' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Tampa: EVENTS_DATA.filter(e => e.tag === 'Tampa' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    'Salt Lake City': EVENTS_DATA.filter(e => e.tag === 'Salt Lake City' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Raleigh: EVENTS_DATA.filter(e => e.tag === 'Raleigh' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Dallas: EVENTS_DATA.filter(e => e.tag === 'Dallas' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-    Houston: EVENTS_DATA.filter(e => e.tag === 'Houston' && (timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e))).length,
-  };
+  // Top soonest upcoming events for the homepage showcase
+  const soonComingEvents = useMemo(() => {
+    return sortUpcomingEvents(EVENTS_DATA.filter(e => !isEventPast(e))).slice(0, 3);
+  }, []);
+
+  // Derive dynamic list of cities that have events for the current time filter
+  const cityFilterList = useMemo(() => {
+    const counts: Record<string, number> = {};
+    EVENTS_DATA.forEach(e => {
+      const isTarget = timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e);
+      if (isTarget && e.tag) {
+        counts[e.tag] = (counts[e.tag] || 0) + 1;
+      }
+    });
+    // Sort by count descending, then alphabetically
+    const sortedCities = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
+    return ['All', ...sortedCities];
+  }, [timeFilter]);
+
+  // Dynamic Filter Counts
+  const filterCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      All: EVENTS_DATA.filter(e => timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e)).length,
+    };
+    EVENTS_DATA.forEach(e => {
+      const isTarget = timeFilter === 'upcoming' ? !isEventPast(e) : isEventPast(e);
+      if (isTarget && e.tag) {
+        counts[e.tag] = (counts[e.tag] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [timeFilter]);
+
+  // Reset activeFilter if selected city has no events in the current time filter
+  useEffect(() => {
+    if (activeFilter !== 'All' && (!filterCounts[activeFilter] || filterCounts[activeFilter] === 0)) {
+      setActiveFilter('All');
+    }
+  }, [timeFilter, filterCounts, activeFilter]);
 
   return (
     <div className="min-h-screen bg-cream text-charcoal flex flex-col font-sans selection:bg-gold selection:text-forest">
@@ -246,7 +272,7 @@ export default function App() {
                 <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-forest/15 border border-gold/40 text-forest backdrop-blur-xs">
                   <Sparkles className="h-4 w-4 text-gold" />
                   <span className="text-[11px] md:text-xs font-bold tracking-widest uppercase font-mono">
-                    Debut Season 2026 – 5 Cities | Apply by May 15, 2026
+                    2026–2027 National Schedule – 45+ Locations
                   </span>
                 </div>
                 
@@ -256,7 +282,7 @@ export default function App() {
                 </h1>
 
                 <p className="text-cream/90 text-sm md:text-base font-light max-w-2xl text-left drop-shadow-xs leading-relaxed">
-                  Curating America's top food, creator, and artisanal marketplaces in Tampa, Salt Lake City, Dallas, Miami, Atlanta, Raleigh, Los Angeles, Austin, and beyond. Keep 100% of your retail sales with transparent flat booth fees and guaranteed power infrastructure.
+                  Curating America's top trade shows, major industry expos, creator conventions, and artisanal festivals in Las Vegas, New York, Orlando, Atlanta, Anaheim, Chicago, and across the nation. Transparent exhibitor registration, verified booth infrastructure, and comprehensive attendee guides.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-2">
@@ -285,19 +311,19 @@ export default function App() {
 
               {/* Decorative side margins indicators */}
               <div className="absolute bottom-6 left-6 right-6 hidden md:flex items-center justify-between text-[10px] text-forest/70 font-mono tracking-widest uppercase">
-                <span>[ 5 MAJOR METROS · 100% SALES KEPT ]</span>
+                <span>[ NATIONWIDE METROS · 100% SALES KEPT ]</span>
                 <span>FLAT BOOTH FEE · COI VERIFICATION INCLUDED</span>
               </div>
             </section>
 
-            {/* Curated Culinary Experiences Section */}
+            {/* Soon Coming Events Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12" id="curated-experiences">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-2">
-                  <span className="text-xs font-bold text-gold uppercase tracking-widest font-sans">Craft Curation</span>
-                  <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-forest">Curated Gastronomy Pillars</h2>
+                  <span className="text-xs font-bold text-gold uppercase tracking-widest font-sans">Upcoming Lineup</span>
+                  <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-forest">Soon Coming Events & Expos</h2>
                   <p className="text-charcoal/65 text-sm font-light max-w-xl">
-                    Every valerianevents festival centers on highly distinct culinary concepts, drawing visitors who seek authentic regional profiles.
+                    Discover upcoming trade shows, major industry conventions, and premier cultural festivals opening soon across the country.
                   </p>
                 </div>
                 <button
@@ -305,120 +331,138 @@ export default function App() {
                     setCurrentPage('events');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="inline-flex items-center space-x-2 text-sm font-bold text-forest hover:text-gold transition-colors duration-200 uppercase tracking-wider"
+                  className="inline-flex items-center space-x-2 text-sm font-bold text-forest hover:text-gold transition-colors duration-200 uppercase tracking-wider cursor-pointer"
                 >
                   <span>Browse All Events</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Grid of 3 highlighted concept cards */}
+              {/* Grid of soon coming event cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Card 1: Tacos & Tequila */}
-                <div 
-                  onClick={() => handleViewDetails('ev-07')}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleViewDetails('ev-07');
-                    }
-                  }}
-                  className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/50"
-                  id="pillar-card-tacos"
-                >
-                  <div className="h-48 overflow-hidden relative bg-neutral-100">
-                    <img
-                      src={regeneratedTacosImage}
-                      alt="Tacos & Tequila Street Fiesta"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
-                  </div>
-                  <div className="p-6 space-y-3">
-                    <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-sans">LAS VEGAS</span>
-                    <h3 className="font-serif text-lg font-bold text-forest group-hover:text-gold transition-colors">Tacos & Tequila Street Fiesta</h3>
-                    <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-                      Highlighting gourmet street taco concepts, local artisanal salsa makers, mezcal masters, and high-energy music.
-                    </p>
-                    <div className="pt-2 flex items-center text-xs font-bold text-forest group-hover:text-gold transition-colors space-x-1">
-                      <span>Explore Event Details</span>
-                      <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                {soonComingEvents.map((evt) => (
+                  <div 
+                    key={evt.id}
+                    onClick={() => handleViewDetails(evt.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleViewDetails(evt.id);
+                      }
+                    }}
+                    className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-gold/50 flex flex-col h-full"
+                    id={`soon-card-${evt.id}`}
+                  >
+                    <div className="h-52 overflow-hidden relative bg-neutral-100 shrink-0">
+                      <img
+                        src={evt.image}
+                        alt={evt.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-charcoal/15 to-transparent"></div>
+                      <div className="absolute top-3.5 left-3.5">
+                        <span className="px-3 py-1 text-[10px] font-bold tracking-widest uppercase rounded-full bg-gold text-forest shadow-sm">
+                          {evt.category}
+                        </span>
+                      </div>
+                      <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-center justify-between text-white text-xs">
+                        <div className="flex items-center space-x-1.5 font-bold">
+                          <Calendar className="h-3.5 w-3.5 text-gold shrink-0" />
+                          <span>{evt.date}</span>
+                        </div>
+                        <div className="flex items-center space-x-1 text-white/90 text-[11px]">
+                          <MapPin className="h-3 w-3 text-gold shrink-0" />
+                          <span className="truncate max-w-[130px]">{evt.location}</span>
+                        </div>
+                      </div>
                     </div>
+                    <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-sans block">
+                          {evt.location}
+                        </span>
+                        <h3 className="font-serif text-lg font-bold text-forest group-hover:text-gold transition-colors line-clamp-2">
+                          {evt.title}
+                        </h3>
+                        <p className="text-xs text-charcoal/70 font-light leading-relaxed line-clamp-3">
+                          {evt.highlight || evt.description}
+                        </p>
+                      </div>
+                      <div className="pt-3 border-t border-gold/15 flex items-center justify-between text-xs font-bold text-forest group-hover:text-gold transition-colors">
+                        <span className="text-[11px] font-mono text-forest/70">{evt.cost}</span>
+                        <div className="flex items-center space-x-1">
+                          <span>Explore Event Details</span>
+                          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Festival Atmosphere & Marketplace Showcase */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="festival-atmosphere-showcase">
+              <div className="rounded-3xl bg-white border border-gold/25 overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 items-stretch">
+                <div className="lg:col-span-7 relative min-h-[280px] sm:min-h-[360px] bg-neutral-100 overflow-hidden">
+                  <img
+                    src={foodTruckFestivalImg}
+                    alt="Outdoor food truck rally and artisan vendor marketplace crowd"
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/35 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4">
+                    <span className="px-3.5 py-1.5 text-[10px] font-mono font-bold tracking-widest uppercase rounded-full bg-forest/90 text-gold border border-gold/30 backdrop-blur-xs">
+                      Live Marketplace Atmosphere
+                    </span>
                   </div>
                 </div>
-
-                {/* Card 2: Whiskey & BBQ */}
-                <div 
-                  onClick={() => handleViewDetails('ev-02')}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleViewDetails('ev-02');
-                    }
-                  }}
-                  className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/50"
-                  id="pillar-card-whiskey"
-                >
-                  <div className="h-48 overflow-hidden relative bg-neutral-100">
-                    <img
-                      src="https://i.pinimg.com/1200x/90/7e/7d/907e7d060e7408ed7dcce2c4eab50699.jpg"
-                      alt="Whiskey & BBQ Fest"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
-                  </div>
-                  <div className="p-6 space-y-3">
-                    <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-sans">MIAMI & NEW YORK CITY</span>
-                    <h3 className="font-serif text-lg font-bold text-forest group-hover:text-gold transition-colors">Smoke & Oak Spirits Fest</h3>
-                    <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-                      Mouthwatering low-and-slow barbecue pitmasters paired with elite single-barrel whiskey distillers under glowing lights.
+                <div className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-center space-y-5 bg-cream/30">
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold text-gold uppercase tracking-widest font-sans block">
+                      Food Trucks & Vendor Festivals
+                    </span>
+                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-forest leading-tight">
+                      High-Traffic Outdoor Rallies & Artisan Markets
+                    </h2>
+                    <p className="text-xs sm:text-sm text-charcoal/75 font-light leading-relaxed">
+                      From bustling waterfront food truck lineups to curated maker pavilions, our outdoor and indoor showcases unite thousands of enthusiastic attendees with independent culinary rigs and retail merchants.
                     </p>
-                    <div className="pt-2 flex items-center text-xs font-bold text-forest group-hover:text-gold transition-colors space-x-1">
-                      <span>Explore Event Details</span>
-                      <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 pt-1 text-xs">
+                    <div className="p-3 rounded-xl bg-white border border-gold/20">
+                      <span className="block font-serif font-bold text-forest text-lg">15K–50K+</span>
+                      <span className="text-[11px] text-charcoal/65 font-light">Weekend Foot Traffic</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white border border-gold/20">
+                      <span className="block font-serif font-bold text-forest text-lg">0% Cut</span>
+                      <span className="text-[11px] text-charcoal/65 font-light">Keep All Vendor Sales</span>
                     </div>
                   </div>
-                </div>
-
-                {/* Card 3: Hot Sauce & Spicy Food */}
-                <div 
-                  onClick={() => handleViewDetails('ev-09')}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleViewDetails('ev-09');
-                    }
-                  }}
-                  className="group rounded-2xl bg-white border border-gold/20 overflow-hidden hover:border-gold hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/50"
-                  id="pillar-card-hotsauce"
-                >
-                  <div className="h-48 overflow-hidden relative bg-neutral-100">
-                    <img
-                      src="https://i.pinimg.com/736x/d5/09/8c/d5098c3328cb6a33ba5ce88b5522d308.jpg"
-                      alt="Hot Sauce & Spicy Food Expo"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
-                  </div>
-                  <div className="p-6 space-y-3">
-                    <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-sans">AUSTIN & LOS ANGELES</span>
-                    <h3 className="font-serif text-lg font-bold text-forest group-hover:text-gold transition-colors">Hot Sauce & Spicy Food Expo</h3>
-                    <p className="text-xs text-charcoal/70 font-light leading-relaxed">
-                      Celebrating small-batch hot sauce innovators, high-heat street gastronomy, and specialty heirloom pepper growers.
-                    </p>
-                    <div className="pt-2 flex items-center text-xs font-bold text-forest group-hover:text-gold transition-colors space-x-1">
-                      <span>Explore Event Details</span>
-                      <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </div>
+                  <div className="pt-2 flex flex-wrap gap-3">
+                    <button
+                      onClick={() => {
+                        setCurrentPage('events');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="px-5 py-3 rounded-xl bg-forest hover:bg-forest/95 text-cream font-sans text-xs font-bold tracking-widest uppercase transition-all cursor-pointer inline-flex items-center space-x-2"
+                    >
+                      <span>Explore Lineup</span>
+                      <ArrowRight className="h-3.5 w-3.5 text-gold" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCurrentPage('vendors');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="px-5 py-3 rounded-xl border border-gold/40 bg-white hover:bg-gold/10 text-forest font-sans text-xs font-bold tracking-widest uppercase transition-all cursor-pointer"
+                    >
+                      Book A Space
+                    </button>
                   </div>
                 </div>
               </div>
@@ -607,8 +651,10 @@ export default function App() {
 
                 {/* City Filters */}
                 <div className="flex flex-wrap gap-2" id="city-filters">
-                  {(['All', 'Atlanta', 'Dallas', 'Salt Lake City', 'Tampa', 'Raleigh', 'Houston', 'Los Angeles', 'New York City', 'Miami', 'Austin', 'Las Vegas'] as const).map((city) => {
+                  {cityFilterList.map((city) => {
                     const isActive = activeFilter === city;
+                    const count = filterCounts[city] ?? 0;
+                    if (city !== 'All' && count === 0) return null;
                     return (
                       <button
                         key={city}
@@ -620,7 +666,7 @@ export default function App() {
                             : 'bg-white border border-gold/30 text-charcoal/80 hover:text-forest hover:border-gold'
                         }`}
                       >
-                        {city} ({filterCounts[city]})
+                        {city} ({count})
                       </button>
                     );
                   })}

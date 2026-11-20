@@ -10,20 +10,36 @@ const MONTH_MAP: Record<string, number> = {
  * into a start Date object.
  */
 export function getEventStartDate(dateStr: string): Date {
-  // Cross month format: "Oct 30 - Nov 1, 2026" or "Oct 30 – Nov 1, 2026"
-  const crossMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)\s*[-–]\s*([A-Za-z]{3})\s+(\d+),\s*(\d{4})/);
+  const cleanStr = dateStr.trim();
+
+  // Cross month format: "Oct 30 - Nov 1, 2026" or "Jan 9–Feb 14, 2027"
+  const crossMatch = cleanStr.match(/([A-Za-z]{3,9})\s+(\d+)\s*[-–—]\s*([A-Za-z]{3,9})\s+(\d+),\s*(\d{4})/);
   if (crossMatch) {
     const [, startM, startD, , , y] = crossMatch;
-    const month = MONTH_MAP[startM] ?? 0;
+    const month = MONTH_MAP[startM.slice(0, 3)] ?? 0;
     return new Date(parseInt(y, 10), month, parseInt(startD, 10), 0, 0, 0);
   }
 
-  // Single month range or single day: "Sep 18-20, 2026" or "Aug 28, 2026"
-  const singleMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)(?:\s*[-–]\s*(\d+))?,\s*(\d{4})/);
+  // Single month range or single day: "Sep 18-20, 2026" or "Aug 28, 2026" or "Nov 3–6, 2026"
+  const singleMatch = cleanStr.match(/([A-Za-z]{3,9})\s+(\d+)(?:\s*[-–—]\s*(\d+))?,\s*(\d{4})/);
   if (singleMatch) {
     const [, monthName, startDay, , year] = singleMatch;
-    const month = MONTH_MAP[monthName] ?? 0;
+    const month = MONTH_MAP[monthName.slice(0, 3)] ?? 0;
     return new Date(parseInt(year, 10), month, parseInt(startDay, 10), 0, 0, 0);
+  }
+
+  // Month + Year only: "Mar 2027", "Jan 2027", "Apr 2027"
+  const monthYearMatch = cleanStr.match(/([A-Za-z]{3,9})\s+(\d{4})/);
+  if (monthYearMatch) {
+    const [, monthName, year] = monthYearMatch;
+    const month = MONTH_MAP[monthName.slice(0, 3)] ?? 0;
+    return new Date(parseInt(year, 10), month, 1, 0, 0, 0);
+  }
+
+  // Year only: "2027" or "2027 dates to be confirmed"
+  const yearMatch = cleanStr.match(/\b(20\d\d)\b/);
+  if (yearMatch) {
+    return new Date(parseInt(yearMatch[1], 10), 0, 1, 0, 0, 0);
   }
 
   return new Date(0);
@@ -33,21 +49,38 @@ export function getEventStartDate(dateStr: string): Date {
  * Parses an event date string into an end Date object.
  */
 export function getEventEndDate(dateStr: string): Date {
-  // Cross month format: "Oct 30 - Nov 1, 2026" or "Oct 30 – Nov 1, 2026"
-  const crossMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)\s*[-–]\s*([A-Za-z]{3})\s+(\d+),\s*(\d{4})/);
+  const cleanStr = dateStr.trim();
+
+  // Cross month format: "Oct 30 - Nov 1, 2026" or "Jan 9–Feb 14, 2027"
+  const crossMatch = cleanStr.match(/([A-Za-z]{3,9})\s+(\d+)\s*[-–—]\s*([A-Za-z]{3,9})\s+(\d+),\s*(\d{4})/);
   if (crossMatch) {
     const [, , , endM, endD, y] = crossMatch;
-    const month = MONTH_MAP[endM] ?? 0;
+    const month = MONTH_MAP[endM.slice(0, 3)] ?? 0;
     return new Date(parseInt(y, 10), month, parseInt(endD, 10), 23, 59, 59);
   }
 
-  // Single month range or single day: "Sep 18-20, 2026" or "Aug 28, 2026"
-  const singleMatch = dateStr.match(/([A-Za-z]{3})\s+(\d+)(?:\s*[-–]\s*(\d+))?,\s*(\d{4})/);
+  // Single month range or single day: "Sep 18-20, 2026" or "Nov 3–6, 2026"
+  const singleMatch = cleanStr.match(/([A-Za-z]{3,9})\s+(\d+)(?:\s*[-–—]\s*(\d+))?,\s*(\d{4})/);
   if (singleMatch) {
     const [, monthName, startDay, endDay, year] = singleMatch;
-    const month = MONTH_MAP[monthName] ?? 0;
+    const month = MONTH_MAP[monthName.slice(0, 3)] ?? 0;
     const day = endDay ? parseInt(endDay, 10) : parseInt(startDay, 10);
     return new Date(parseInt(year, 10), month, day, 23, 59, 59);
+  }
+
+  // Month + Year only: "Mar 2027", "Jan 2027", "Apr 2027"
+  const monthYearMatch = cleanStr.match(/([A-Za-z]{3,9})\s+(\d{4})/);
+  if (monthYearMatch) {
+    const [, monthName, year] = monthYearMatch;
+    const month = MONTH_MAP[monthName.slice(0, 3)] ?? 0;
+    // Last day of month
+    return new Date(parseInt(year, 10), month + 1, 0, 23, 59, 59);
+  }
+
+  // Year only: "2027" or "2027 dates to be confirmed"
+  const yearMatch = cleanStr.match(/\b(20\d\d)\b/);
+  if (yearMatch) {
+    return new Date(parseInt(yearMatch[1], 10), 11, 31, 23, 59, 59);
   }
 
   return new Date(0);

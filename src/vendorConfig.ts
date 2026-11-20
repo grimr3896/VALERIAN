@@ -68,136 +68,520 @@ export interface VendorConfig {
 
 export const ALL_VENDOR_EVENTS: UpcomingVendorEvent[] = [
   {
-    id: 'artisanal-heritage',
-    name: 'Artisanal Heritage Market',
-    date: 'Oct 14-15, 2026',
-    location: 'Los Angeles, CA'
+    "id": "ces-2027",
+    "name": "CES 2027",
+    "date": "Jan 6–9, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'le-grand-marche',
-    name: 'Le Grand Marché (Salt Lake City Food, Culture & Creator Festival)',
-    date: 'Oct 16-18, 2026',
-    location: 'Salt Palace Convention Center, Salt Lake City, UT'
+    "id": "nrf-retails-big-show",
+    "name": "NRF Retail's Big Show",
+    "date": "Jan 10–12, 2027",
+    "location": "New York, NY"
   },
   {
-    id: 'taste-of-america-food-culture',
-    name: 'Taste of America Food & Culture Festival 2026',
-    date: 'Oct 16-18, 2026',
-    location: 'Downtown Las Vegas, Las Vegas, NV'
+    "id": "atlanta-market",
+    "name": "Atlanta Market",
+    "date": "Jan 12–18, 2027",
+    "location": "Atlanta, GA"
   },
   {
-    id: 'triangle-harvest-night-market',
-    name: 'The Triangle Harvest & Night Market',
-    date: 'Oct 17-20, 2026',
-    location: 'Raleigh, NC'
+    "id": "vmx-veterinary-expo",
+    "name": "VMX Veterinary Expo",
+    "date": "Jan 16–20, 2027",
+    "location": "Orlando, FL"
   },
   {
-    id: 'big-d-launchpad-creator-market',
-    name: 'Big D Launchpad & Creator Market',
-    date: 'Oct 30 - Nov 1, 2026',
-    location: 'Centennial Hall at Fair Park, Dallas, TX'
+    "id": "world-of-concrete",
+    "name": "World of Concrete",
+    "date": "Jan 19–21, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'haunted-bites-tampa',
-    name: 'Haunted Bites: Tampa Food Truck & Vendor Festival 2026',
-    date: 'Oct 30 - Nov 1, 2026',
-    location: 'Curtis Hixon Waterfront Park, Tampa, FL'
+    "id": "shot-show",
+    "name": "SHOT Show",
+    "date": "Jan 19–22, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'smoke-oak',
-    name: 'Smoke & Oak Spirits Fest',
-    date: 'Nov 02, 2026',
-    location: 'Miami, FL'
+    "id": "the-namm-show",
+    "name": "The NAMM Show",
+    "date": "Jan 26–30, 2027",
+    "location": "Anaheim, CA"
   },
   {
-    id: 'ember-spice',
-    name: 'Ember & Spice Street Fair',
-    date: 'Nov 22, 2026',
-    location: 'Austin, TX'
+    "id": "ippe",
+    "name": "IPPE",
+    "date": "Jan 26–28, 2027",
+    "location": "Atlanta, GA"
   },
   {
-    id: 'harvest-gala',
-    name: 'Harvest Gala & Market',
-    date: 'Dec 05-06, 2026',
-    location: 'New York City, NY'
+    "id": "pga-show",
+    "name": "PGA Show",
+    "date": "Jan 26–29, 2027",
+    "location": "Orlando, FL"
   },
   {
-    id: 'butchers-block',
-    name: "The Butcher's Block",
-    date: 'Jan 12, 2027',
-    location: 'Austin, TX'
+    "id": "international-builders-show",
+    "name": "International Builders' Show",
+    "date": "Feb 2–4, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'coastal-crustacean',
-    name: 'Coastal Crustacean & Wine',
-    date: 'Feb 20-21, 2027',
-    location: 'Miami, FL'
+    "id": "kbis",
+    "name": "KBIS",
+    "date": "Feb 2–4, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'whiskey-bbq',
-    name: 'Whiskey & BBQ Fest',
-    date: 'Apr 10-11, 2027',
-    location: 'Miami, FL'
+    "id": "mdm-west",
+    "name": "MD&M West",
+    "date": "Feb 2–4, 2027",
+    "location": "Anaheim, CA"
   },
   {
-    id: 'atlanta-food-music-culture-fest',
-    name: "Atlanta's Food, Music & Culture Festival (ATL Summer Nights)",
-    date: 'Sep 18-20, 2026',
-    location: 'Piedmont Park, Atlanta, GA'
+    "id": "magic-las-vegas",
+    "name": "MAGIC Las Vegas",
+    "date": "Feb 8–10, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'miami-end-summer-fest',
-    name: "Sabor de Verano: Miami's End of Summer Family, Food, Music & Vendor Festival",
-    date: 'Sep 4-6, 2026',
-    location: 'Bayfront Park, Miami, FL'
+    "id": "world-ag-expo",
+    "name": "World Ag Expo",
+    "date": "Feb 9–11, 2027",
+    "location": "Tulare, CA"
   },
   {
-    id: 'late-night-bites',
-    name: 'Late Night Bites & Spirits Market',
-    date: 'Sep 4, 2026',
-    location: 'North Miami, FL'
+    "id": "natural-products-expo-west",
+    "name": "Natural Products Expo West",
+    "date": "Mar 2–5, 2027",
+    "location": "Anaheim, CA"
   },
   {
-    id: 'las-vegas-food-arts',
-    name: 'Las Vegas Food, Arts & Street Market Festival',
-    date: 'Aug 28, 2026',
-    location: 'Las Vegas, NV'
+    "id": "seafood-expo-north-america",
+    "name": "Seafood Expo North America",
+    "date": "Mar 2027",
+    "location": "Boston, MA"
   },
   {
-    id: 'houston-festival',
-    name: 'Houston Food, Shopping & Entertainment Festival',
-    date: 'Aug 21-23, 2026',
-    location: 'Houston, TX'
+    "id": "promat",
+    "name": "ProMat",
+    "date": "Mar 15–18, 2027",
+    "location": "Chicago, IL"
   },
   {
-    id: 'taste-shop-usa',
-    name: 'Taste & Shop USA: The Ultimate Food & Shopping Festival',
-    date: 'Aug 21-23, 2026',
-    location: 'Atlanta, GA'
+    "id": "nab-show",
+    "name": "NAB Show",
+    "date": "Apr 18–21, 2027",
+    "location": "Las Vegas, NV"
   },
   {
-    id: 'street-eats',
-    name: 'USA Street Eats & Craft Drinks Festival',
-    date: 'Aug 21-23, 2026',
-    location: 'Las Vegas, NV'
+    "id": "npe-the-plastics-show",
+    "name": "NPE: The Plastics Show",
+    "date": "May 3–7, 2027",
+    "location": "Orlando, FL"
   },
   {
-    id: 'taco-tequila',
-    name: 'Taco & Tequila Street Fiesta',
-    date: 'Aug 16, 2026',
-    location: 'Las Vegas, NV'
+    "id": "national-restaurant-association-show",
+    "name": "National Restaurant Association Show",
+    "date": "May 15–18, 2027",
+    "location": "Chicago, IL"
   },
   {
-    id: 'miami-summer',
-    name: 'Miami Summer Vendor Market & Food Truck Festival',
-    date: 'Jul 25-26, 2026',
-    location: 'Miami, FL'
+    "id": "art-basel-miami-beach",
+    "name": "Art Basel Miami Beach",
+    "date": "Dec 4–6, 2026",
+    "location": "Miami Beach, FL"
   },
   {
-    id: 'hot-sauce-expo',
-    name: 'American Hot Sauce & Spicy Food Expo',
-    date: 'Jul 11, 2026',
-    location: 'Austin, TX'
+    "id": "shopfest-punta-gorda",
+    "name": "Shopfest Punta Gorda",
+    "date": "Dec 4–6, 2026",
+    "location": "Punta Gorda, FL"
+  },
+  {
+    "id": "art-under-the-oaks",
+    "name": "Art Under the Oaks",
+    "date": "Jan 16, 2027",
+    "location": "Tavernier, FL"
+  },
+  {
+    "id": "sun-shores-art-festival",
+    "name": "Sun & Shores Art Festival",
+    "date": "Feb 13–14, 2027",
+    "location": "Daytona Beach Shores, FL"
+  },
+  {
+    "id": "sanibel-island-rotary-arts-crafts-festival",
+    "name": "Sanibel Island Rotary Arts & Crafts Festival",
+    "date": "Feb 13–14, 2027",
+    "location": "Sanibel, FL"
+  },
+  {
+    "id": "american-craft-made-baltimore",
+    "name": "American Craft Made Baltimore",
+    "date": "Feb 19–21, 2027",
+    "location": "Baltimore, MD"
+  },
+  {
+    "id": "art-fiesta",
+    "name": "Art Fiesta",
+    "date": "Feb 27–28, 2027",
+    "location": "New Smyrna Beach, FL"
+  },
+  {
+    "id": "uptown-art-expo",
+    "name": "Uptown Art Expo",
+    "date": "Mar 13–14, 2027",
+    "location": "Altamonte Springs, FL"
+  },
+  {
+    "id": "sxsw",
+    "name": "SXSW",
+    "date": "Mar 12–18, 2027",
+    "location": "Austin, TX"
+  },
+  {
+    "id": "washington-state-apple-blossom-festival",
+    "name": "Washington State Apple Blossom Festival",
+    "date": "Apr 22–May 2, 2027",
+    "location": "Wenatchee, WA"
+  },
+  {
+    "id": "one-of-a-kind-spring-show",
+    "name": "One of a Kind Spring Show",
+    "date": "Apr 30–May 2, 2027",
+    "location": "Chicago, IL"
+  },
+  {
+    "id": "treasure-coast-renaissance-festival",
+    "name": "Treasure Coast Renaissance Festival",
+    "date": "Jan 9–Feb 14, 2027",
+    "location": "Florida"
+  },
+  {
+    "id": "gulf-coast-renaissance-faire",
+    "name": "Gulf Coast Renaissance Faire",
+    "date": "Feb 27–Mar 7, 2027",
+    "location": "Florida"
+  },
+  {
+    "id": "st-petersburg-renaissance-faire",
+    "name": "St. Petersburg Renaissance Faire",
+    "date": "Apr 3–25, 2027",
+    "location": "St. Petersburg, FL"
+  },
+  {
+    "id": "georgia-renaissance-festival",
+    "name": "Georgia Renaissance Festival",
+    "date": "Apr 10–May 31, 2027",
+    "location": "Fairburn, GA"
+  },
+  {
+    "id": "scarborough-renaissance-festival",
+    "name": "Scarborough Renaissance Festival",
+    "date": "Apr 10–May 31, 2027",
+    "location": "Waxahachie, TX"
+  },
+  {
+    "id": "spring-haven-renaissance-festival",
+    "name": "Spring Haven Renaissance Festival",
+    "date": "May 1–2, 2027",
+    "location": "North Carolina"
+  },
+  {
+    "id": "whidbey-ren-faire",
+    "name": "Whidbey Ren Faire",
+    "date": "May 22–30, 2027",
+    "location": "Washington"
+  },
+  {
+    "id": "new-jersey-renaissance-faire",
+    "name": "New Jersey Renaissance Faire",
+    "date": "2027 dates to be confirmed",
+    "location": "New Jersey"
+  },
+  {
+    "id": "hr-black-food-fest",
+    "name": "HR Black Food Fest",
+    "date": "Jun 26–27, 2027",
+    "location": "Virginia Beach, VA"
+  },
+  {
+    "id": "powergen-international",
+    "name": "POWERGEN International",
+    "date": "Jan 2027",
+    "location": "New Orleans, LA"
+  },
+  {
+    "id": "specialty-food-las-vegas",
+    "name": "Specialty Food Las Vegas",
+    "date": "Jan 17–19, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "las-vegas-market-winter",
+    "name": "Las Vegas Market Winter",
+    "date": "Jan 24–28, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "the-international-surface-event",
+    "name": "The International Surface Event",
+    "date": "Jan 26–28, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "affiliate-summit-west",
+    "name": "Affiliate Summit West",
+    "date": "Feb 1–3, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "geo-week",
+    "name": "Geo Week",
+    "date": "Feb 8–10, 2027",
+    "location": "Denver, CO"
+  },
+  {
+    "id": "nrb-convention",
+    "name": "NRB Convention",
+    "date": "Feb 16–19, 2027",
+    "location": "Nashville, TN"
+  },
+  {
+    "id": "champs-trade-show",
+    "name": "CHAMPS Trade Show",
+    "date": "Feb 17–20, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "vive-digital-health",
+    "name": "ViVE Digital Health",
+    "date": "Feb 21–24, 2027",
+    "location": "Nashville, TN"
+  },
+  {
+    "id": "minexchange",
+    "name": "MINEXCHANGE",
+    "date": "Feb 21–24, 2027",
+    "location": "Denver, CO"
+  },
+  {
+    "id": "nga-show",
+    "name": "NGA Show",
+    "date": "Feb 28–Mar 2, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "asd-market-week",
+    "name": "ASD Market Week",
+    "date": "Mar 7–10, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "murtec",
+    "name": "MURTEC",
+    "date": "Mar 8–10, 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "gdc-festival-of-gaming",
+    "name": "GDC Festival of Gaming",
+    "date": "Mar 15–19, 2027",
+    "location": "San Francisco, CA"
+  },
+  {
+    "id": "satellite-conference",
+    "name": "SATELLITE Conference",
+    "date": "Mar 2027",
+    "location": "Washington, DC"
+  },
+  {
+    "id": "vision-expo",
+    "name": "Vision Expo",
+    "date": "2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "seafood-expo-north-america-spring-edition",
+    "name": "Seafood Expo North America (Spring Edition)",
+    "date": "Mar 2027",
+    "location": "Boston, MA"
+  },
+  {
+    "id": "work-truck-week",
+    "name": "Work Truck Week",
+    "date": "Mar 2027",
+    "location": "Indianapolis, IN"
+  },
+  {
+    "id": "pack-expo-southeast",
+    "name": "PACK EXPO Southeast",
+    "date": "Apr 2027",
+    "location": "Atlanta, GA"
+  },
+  {
+    "id": "rapid-tct",
+    "name": "RAPID + TCT",
+    "date": "Apr 2027",
+    "location": "Detroit, MI"
+  },
+  {
+    "id": "interphex",
+    "name": "INTERPHEX",
+    "date": "Apr 2027",
+    "location": "New York, NY"
+  },
+  {
+    "id": "automate",
+    "name": "Automate",
+    "date": "May 2027",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "sweets-snacks-expo",
+    "name": "Sweets & Snacks Expo",
+    "date": "May 2027",
+    "location": "Indianapolis, IN"
+  },
+  {
+    "id": "premiere-orlando",
+    "name": "Premiere Orlando",
+    "date": "May 29–31, 2027",
+    "location": "Orlando, FL"
+  },
+  {
+    "id": "neocon",
+    "name": "NeoCon",
+    "date": "Jun 14–16, 2027",
+    "location": "Chicago, IL"
+  },
+  {
+    "id": "vidcon-anaheim",
+    "name": "VidCon Anaheim",
+    "date": "Jun 24–27, 2027",
+    "location": "Anaheim, CA"
+  },
+  {
+    "id": "darknesscon-reno",
+    "name": "DarknessCon Reno",
+    "date": "Apr 30–May 1, 2027",
+    "location": "Reno, NV"
+  },
+  {
+    "id": "darknesscon-boise",
+    "name": "DarknessCon Boise",
+    "date": "Jun 18–19, 2027",
+    "location": "Caldwell, ID"
+  },
+  {
+    "id": "darknesscon-albuquerque",
+    "name": "DarknessCon Albuquerque",
+    "date": "Aug 6–7, 2027",
+    "location": "Albuquerque, NM"
+  },
+  {
+    "id": "darknesscon-denver",
+    "name": "DarknessCon Denver",
+    "date": "Oct 30, 2027",
+    "location": "Thornton, CO"
+  },
+  {
+    "id": "sema-show-2026",
+    "name": "SEMA Show 2026",
+    "date": "Nov 3–6, 2026",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "devlearn-conference-expo",
+    "name": "DevLearn Conference & Expo",
+    "date": "Nov 4–6, 2026",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "sema-fest",
+    "name": "SEMA Fest",
+    "date": "Nov 6, 2026",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "denver-christmas-show",
+    "name": "Denver Christmas Show",
+    "date": "Nov 6–8, 2026",
+    "location": "Denver, CO"
+  },
+  {
+    "id": "new-england-christmas-festival",
+    "name": "New England Christmas Festival",
+    "date": "Nov 6–8, 2026",
+    "location": "Uncasville, CT"
+  },
+  {
+    "id": "northern-virginia-christmas-market",
+    "name": "Northern Virginia Christmas Market",
+    "date": "Nov 6–8, 2026",
+    "location": "Sterling, VA"
+  },
+  {
+    "id": "portland-holiday-market",
+    "name": "Portland Holiday Market",
+    "date": "Nov 6–8, 2026",
+    "location": "Portland, OR"
+  },
+  {
+    "id": "christmas-market-at-trinity-by-the-cove",
+    "name": "Christmas Market at Trinity-by-the-Cove",
+    "date": "Nov 6–7, 2026",
+    "location": "Naples, FL"
+  },
+  {
+    "id": "winter-art-fair-off-the-square",
+    "name": "Winter Art Fair Off the Square",
+    "date": "Nov 7–8, 2026",
+    "location": "Madison, WI"
+  },
+  {
+    "id": "holiday-show-in-the-capital-city",
+    "name": "Holiday Show in the Capital City",
+    "date": "Nov 7–8, 2026",
+    "location": "Concord, NH"
+  },
+  {
+    "id": "madison-bouckville-antiques-show",
+    "name": "Madison-Bouckville Antiques Show",
+    "date": "Nov 6–8, 2026",
+    "location": "Bouckville, NY"
+  },
+  {
+    "id": "q108-vintage-fair-holiday-marketplace",
+    "name": "Q108 Vintage Fair Holiday Marketplace",
+    "date": "Nov 7, 2026",
+    "location": "Clarksville, TN"
+  },
+  {
+    "id": "rocky-river-fall-avant-garde-art-craft-show",
+    "name": "Rocky River Fall Avant-Garde Art & Craft Show",
+    "date": "Nov 7, 2026",
+    "location": "Rocky River, OH"
+  },
+  {
+    "id": "jam-room-music-festival",
+    "name": "Jam Room Music Festival",
+    "date": "Nov 14, 2026",
+    "location": "Columbia, SC"
+  },
+  {
+    "id": "afp-annual-conference",
+    "name": "AFP Annual Conference",
+    "date": "Nov 8–11, 2026",
+    "location": "Las Vegas, NV"
+  },
+  {
+    "id": "holiday-kickoff-food-vendor-festival-2026",
+    "name": "Holiday Kickoff Food & Vendor Festival 2026",
+    "date": "Nov 27–29, 2026",
+    "location": "1701 North Highland Avenue - Tampa, FL 33602"
   }
 ];
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Event } from '../types';
 import { Calendar, MapPin, Users, Clock, DollarSign, ChevronDown, ChevronUp, ShieldCheck, Check, ArrowRight } from 'lucide-react';
+import { getEventPricingBreakdown, getLocationHoursLabel, getLocationTimetable } from '../utils/eventLocationUtils';
 
 interface EventCardProps {
   key?: React.Key;
@@ -14,23 +15,9 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
   const isSoldOut = event.spotsLeft === 0;
   const isAlmostFull = event.spotsLeft > 0 && event.spotsLeft <= 5;
 
-  // Derive city booth cost estimate based on tag/city
-  const getBoothFee = (cityTag: string) => {
-    switch (cityTag) {
-      case 'Las Vegas': return '$350 / weekend';
-      case 'Miami': return '$450 / weekend';
-      case 'Los Angeles': return '$450 / weekend';
-      case 'Austin': return '$400 / weekend';
-      case 'Houston': return '$400 / weekend';
-      case 'Atlanta': return '$400 / weekend';
-      case 'Raleigh': return '$400 / weekend';
-      case 'Dallas': return '$400 / weekend';
-      case 'Salt Lake City': return '$400 / weekend';
-      case 'Tampa': return '$400 / weekend';
-      case 'New York City': return '$500 / weekend';
-      default: return '$350 - $450 / weekend';
-    }
-  };
+  const pricing = getEventPricingBreakdown(event);
+  const hoursLabel = getLocationHoursLabel(event);
+  const timetable = getLocationTimetable(event);
 
   return (
     <div
@@ -79,7 +66,7 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
 
         <div className="absolute bottom-3 left-3.5 right-3.5 flex justify-between items-center text-[11px] text-white/90 font-mono">
           <span className="bg-charcoal/60 px-2 py-0.5 rounded backdrop-blur-xs">
-            Fee: {getBoothFee(event.tag)}
+            Fee: {pricing.cardBadgeFee}
           </span>
           <span className="bg-charcoal/60 px-2 py-0.5 rounded backdrop-blur-xs">
             0% Commission
@@ -125,17 +112,17 @@ export default function EventCard({ event, onApply, onViewDetails }: EventCardPr
 
           {isExpanded && (
             <div className="mt-2.5 p-3 rounded-xl bg-cream/40 border border-gold/20 text-xs space-y-2 fade-in">
-              <div className="flex justify-between items-center text-[11px]">
-                <span className="text-charcoal/60">Event Hours:</span>
-                <span className="font-semibold text-forest">{event.hours || '11:00 AM – 8:00 PM'}</span>
+              <div className="flex justify-between items-center text-[11px] gap-2">
+                <span className="text-charcoal/60 shrink-0">Event Hours:</span>
+                <span className="font-semibold text-forest text-right">{hoursLabel}</span>
               </div>
-              <div className="flex justify-between items-center text-[11px]">
-                <span className="text-charcoal/60">Vendor Setup:</span>
-                <span className="font-semibold text-forest">7:00 AM – 10:30 AM</span>
+              <div className="flex justify-between items-center text-[11px] gap-2">
+                <span className="text-charcoal/60 shrink-0">Vendor Setup:</span>
+                <span className="font-semibold text-forest text-right">{timetable.setupWindow}</span>
               </div>
-              <div className="flex justify-between items-center text-[11px]">
-                <span className="text-charcoal/60">Standard Booth:</span>
-                <span className="font-bold text-forest">{getBoothFee(event.tag)}</span>
+              <div className="flex justify-between items-center text-[11px] gap-2">
+                <span className="text-charcoal/60 shrink-0">Standard Booth:</span>
+                <span className="font-bold text-forest text-right">{pricing.cardStandardFee}</span>
               </div>
               <div className="flex justify-between items-center text-[11px]">
                 <span className="text-charcoal/60">Application Deadline:</span>
