@@ -7,10 +7,12 @@ import { AuthUser } from '../types';
 interface ContactFormProps {
   prefilledEventName?: string;
   currentUser?: AuthUser | null;
+  authToken?: string | null;
+  onOpenAuth: (mode: 'signin' | 'signup') => void;
   onSuccess?: () => void;
 }
 
-export default function ContactForm({ prefilledEventName, currentUser, onSuccess }: ContactFormProps) {
+export default function ContactForm({ prefilledEventName, currentUser, authToken, onOpenAuth, onSuccess }: ContactFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -74,7 +76,7 @@ export default function ContactForm({ prefilledEventName, currentUser, onSuccess
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
         body: JSON.stringify({
           name: formData.name,
           businessName: formData.business,
@@ -118,6 +120,20 @@ export default function ContactForm({ prefilledEventName, currentUser, onSuccess
     });
     setSubmitted(false);
   };
+
+  if (!currentUser) {
+    return (
+      <div className="p-8 md:p-10 bg-white border border-gold/20 rounded-2xl shadow-xl shadow-forest/5 text-center space-y-5" id="contact-auth-required">
+        <div className="mx-auto inline-flex rounded-full bg-forest/10 p-4"><CheckCircle2 className="h-8 w-8 text-gold" /></div>
+        <h3 className="font-serif text-xl font-bold text-forest">Account Required</h3>
+        <p className="mx-auto max-w-md text-sm leading-relaxed text-charcoal/70">You must create a Valerian Events account or sign in before submitting an application or inquiry through this form.</p>
+        <div className="flex flex-col sm:flex-row justify-center gap-3">
+          <button type="button" onClick={() => onOpenAuth('signup')} className="rounded-xl bg-forest px-7 py-3 text-xs font-bold uppercase tracking-widest text-cream hover:bg-forest/90">Create Account</button>
+          <button type="button" onClick={() => onOpenAuth('signin')} className="rounded-xl border border-gold/40 bg-white px-7 py-3 text-xs font-bold uppercase tracking-widest text-forest hover:bg-gold/10">Sign In</button>
+        </div>
+      </div>
+    );
+  }
 
   if (submitted) {
     return (
