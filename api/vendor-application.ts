@@ -1,4 +1,4 @@
-import { escapeHtml, insertRow, jsonError, sendTransactionalEmail, validEmail } from '../server/services';
+import { escapeHtml, insertRow, jsonError, sendTransactionalEmail, validEmail } from '../server/services.js';
 
 const pillars = ['marketplace', 'food', 'exhibitor', 'activation', 'sponsorship'];
 
