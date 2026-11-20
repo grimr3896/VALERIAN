@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle2, RefreshCw, CalendarDays } from 'lucide-react';
-import emailjs from '@emailjs/browser';
 import { EVENTS_DATA } from '../data';
 import { sortUpcomingEvents, sortPastEvents } from '../utils/eventDateUtils';
 import { AuthUser } from '../types';
-
-// Initialize EmailJS immediately so it is configured before any send call
-emailjs.init('dUpRmObSvyywLE_u_');
 
 interface ContactFormProps {
   prefilledEventName?: string;
@@ -75,22 +71,21 @@ export default function ContactForm({ prefilledEventName, currentUser, onSuccess
 
     setLoading(true);
 
-    const templateParams = {
-      from_name: formData.name,
-      business_name: formData.business,
-      from_email: formData.email,
-      phone: formData.phone,
-      event: formData.event,
-      message: formData.message
-    };
-
     try {
-      await emailjs.send(
-        'service_a6hnip8',
-        'template_uwd0or8',
-        templateParams,
-        'dUpRmObSvyywLE_u_'
-      );
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          businessName: formData.business,
+          email: formData.email,
+          phone: formData.phone,
+          eventInterest: formData.event,
+          message: formData.message,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Unable to submit your message.');
       setLoading(false);
       setSubmitted(true);
       if (onSuccess) {
@@ -107,8 +102,8 @@ export default function ContactForm({ prefilledEventName, currentUser, onSuccess
       });
     } catch (error) {
       setLoading(false);
-      console.error('EmailJS error:', error);
-      setError('Something went wrong. Please email us at alex@valerianevents.com');
+      console.error('Contact form error:', error);
+      setError(error instanceof Error ? error.message : 'Something went wrong. Please email info@valerianevents.com');
     }
   };
 
