@@ -3,16 +3,18 @@ import { Send, CheckCircle2, RefreshCw, CalendarDays } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EVENTS_DATA } from '../data';
 import { sortUpcomingEvents, sortPastEvents } from '../utils/eventDateUtils';
+import { AuthUser } from '../types';
 
 // Initialize EmailJS immediately so it is configured before any send call
 emailjs.init('dUpRmObSvyywLE_u_');
 
 interface ContactFormProps {
   prefilledEventName?: string;
+  currentUser?: AuthUser | null;
   onSuccess?: () => void;
 }
 
-export default function ContactForm({ prefilledEventName, onSuccess }: ContactFormProps) {
+export default function ContactForm({ prefilledEventName, currentUser, onSuccess }: ContactFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -44,6 +46,17 @@ export default function ContactForm({ prefilledEventName, onSuccess }: ContactFo
       }
     }
   }, [prefilledEventName]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || currentUser.name,
+        email: prev.email || currentUser.email,
+        business: prev.business || currentUser.businessName || '',
+      }));
+    }
+  }, [currentUser]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

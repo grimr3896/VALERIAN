@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { PageType, Event } from './types';
+import { PageType, Event, AuthUser } from './types';
 import Navbar from './components/Navbar';
+import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
 import EventCard from './components/EventCard';
 import EventDetailPage from './components/EventDetailPage';
@@ -55,6 +56,11 @@ export default function App() {
   const [timeFilter, setTimeFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
+  // In-memory Auth Session State (Bearer token held strictly in memory)
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup' | null>(null);
+
   // Custom Toast State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<'success' | 'info'>('success');
@@ -65,6 +71,33 @@ export default function App() {
     setTimeout(() => {
       setToastMessage(null);
     }, 4000);
+  };
+
+  const handleAuthSuccess = (user: AuthUser, token: string, mode: 'signin' | 'signup') => {
+    setAuthUser(user);
+    setAuthToken(token);
+    setAuthModalMode(null);
+    triggerToast(
+      mode === 'signup' ? `Account created! Welcome, ${user.name}.` : `Welcome back, ${user.name}.`,
+      'success'
+    );
+  };
+
+  const handleLogout = async () => {
+    const tokenToRevoke = authToken;
+    setAuthUser(null);
+    setAuthToken(null);
+    if (tokenToRevoke) {
+      try {
+        await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${tokenToRevoke}` },
+        });
+      } catch {
+        // Ignore network errors on logout; client state is cleared
+      }
+    }
+    triggerToast('You have been logged out.', 'info');
   };
 
   // URL state synchronization on mount & browser back/forward buttons
@@ -243,7 +276,21 @@ export default function App() {
       )}
 
       {/* Navigation */}
-      <Navbar currentPage={currentPage} onPageChange={handlePageChange} />
+      <Navbar
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        currentUser={authUser}
+        onOpenAuth={(mode) => setAuthModalMode(mode)}
+        onLogout={handleLogout}
+      />
+
+      {/* Sign In / Sign Up Modal */}
+      <AuthModal
+        isOpen={authModalMode !== null}
+        initialMode={authModalMode || 'signin'}
+        onClose={() => setAuthModalMode(null)}
+        onSuccess={handleAuthSuccess}
+      />
 
       {/* Main Page Routing */}
       <main className="flex-grow">
@@ -961,6 +1008,7 @@ export default function App() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             prefilledEventName={selectedEventForApplication}
+            currentUser={authUser}
           />
         )}
 
@@ -1037,6 +1085,7 @@ export default function App() {
               <div className="lg:col-span-7">
                 <ContactForm
                   prefilledEventName={selectedEventForApplication}
+                  currentUser={authUser}
                   onSuccess={() => {
                     triggerToast("Your application has been securely transmitted!", "success");
                   }}

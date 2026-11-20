@@ -41,3 +41,11 @@ export interface ContactSubmission {
   eventInterest: string;
   message: string;
 }
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  businessName?: string;
+  createdAt: string;
+}

@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { VENDOR_CONFIG, VendorPillar, VendorTier } from '../vendorConfig';
+import { AuthUser } from '../types';
 
 // Initialize EmailJS immediately for this module
 emailjs.init('dUpRmObSvyywLE_u_');
@@ -37,9 +38,10 @@ interface VendorsPageProps {
   onBack: () => void;
   onPageChange: (page: string) => void;
   prefilledEventName?: string;
+  currentUser?: AuthUser | null;
 }
 
-export default function VendorsPage({ onBack, onPageChange, prefilledEventName }: VendorsPageProps) {
+export default function VendorsPage({ onBack, onPageChange, prefilledEventName, currentUser }: VendorsPageProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [activePillarFilter, setActivePillarFilter] = useState<'all' | VendorPillar>('all');
   
@@ -80,6 +82,17 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName }
       return () => clearTimeout(timer);
     }
   }, [prefilledEventName]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || currentUser.name,
+        email: prev.email || currentUser.email,
+        business: prev.business || currentUser.businessName || '',
+      }));
+    }
+  }, [currentUser]);
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
