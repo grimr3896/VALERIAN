@@ -32,9 +32,11 @@ interface VendorsPageProps {
   onPageChange: (page: string) => void;
   prefilledEventName?: string;
   currentUser?: AuthUser | null;
+  authToken?: string | null;
+  onOpenAuth: (mode: 'signin' | 'signup') => void;
 }
 
-export default function VendorsPage({ onBack, onPageChange, prefilledEventName, currentUser }: VendorsPageProps) {
+export default function VendorsPage({ onBack, onPageChange, prefilledEventName, currentUser, authToken, onOpenAuth }: VendorsPageProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [activePillarFilter, setActivePillarFilter] = useState<'all' | VendorPillar>('all');
   
@@ -154,7 +156,7 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName, 
     try {
       const response = await fetch('/api/vendor-application', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
         body: JSON.stringify({
           name: formData.name,
           businessName: formData.business,
@@ -758,18 +760,20 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName, 
             <p className="text-xs text-charcoal/65 mt-1 font-light">
               Submit your brand profile and select your preferred opportunity level to receive priority placement review.
             </p>
-            <div className="mt-4 flex items-start gap-3 rounded-xl border border-gold/30 bg-cream/60 p-4 text-left">
-              <ShieldCheck className="h-5 w-5 shrink-0 text-forest mt-0.5" />
-              <div>
-                <p className="text-xs font-bold text-forest">No account required to apply</p>
-                <p className="mt-1 text-xs leading-relaxed text-charcoal/70">
-                  You can submit your application as a guest. Just complete the form below — you do not need to sign up or sign in first. You can create an account later if you want to.
-                </p>
-              </div>
-            </div>
+            <p className="text-xs text-charcoal/65 mt-1 font-light">You must create a Valerian Events account or sign in before submitting an application.</p>
           </div>
 
-          {submitted ? (
+          {!currentUser ? (
+            <div className="rounded-2xl border border-gold/25 bg-cream/50 p-7 md:p-9 text-center space-y-5" id="application-auth-required">
+              <div className="mx-auto inline-flex rounded-full bg-forest/10 p-4 text-forest"><ShieldCheck className="h-8 w-8 text-gold" /></div>
+              <h4 className="font-serif text-xl font-bold text-forest">Account Required to Apply</h4>
+              <p className="mx-auto max-w-xl text-sm leading-relaxed text-charcoal/70">To protect applicant information and let you track your applications, you must have a Valerian Events account before submitting. Create an account if you are new, or sign in to continue.</p>
+              <div className="flex flex-col sm:flex-row justify-center gap-3">
+                <button type="button" onClick={() => onOpenAuth('signup')} className="rounded-xl bg-forest px-7 py-3 text-xs font-bold uppercase tracking-widest text-cream hover:bg-forest/90">Create Account</button>
+                <button type="button" onClick={() => onOpenAuth('signin')} className="rounded-xl border border-gold/40 bg-white px-7 py-3 text-xs font-bold uppercase tracking-widest text-forest hover:bg-gold/10">Sign In</button>
+              </div>
+            </div>
+          ) : submitted ? (
             submittedPillar === 'sponsorship' ? (
               <div className="p-8 text-center space-y-6 fade-in" id="vendor-form-success">
                 <div className="inline-flex p-4 bg-forest/10 text-forest rounded-full border border-forest/20 shadow-[0_0_20px_rgba(27,77,62,0.1)]">
