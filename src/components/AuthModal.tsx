@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AuthUser } from '../types';
 import { X, Mail, Lock, User, Building, Eye, EyeOff, Loader2, AlertCircle, ShieldCheck } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export default function AuthModal({ isOpen, initialMode, onClose, onSuccess }: A
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -182,6 +184,31 @@ export default function AuthModal({ isOpen, initialMode, onClose, onSuccess }: A
               Sign Up
             </button>
           </div>
+        </div>
+
+        {/* Google OAuth */}
+        <div className="px-6 pt-5">
+          <button
+            type="button"
+            disabled={googleLoading}
+            onClick={async () => {
+              setError(null);
+              setGoogleLoading(true);
+              const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin, queryParams: { prompt: 'select_account' } },
+              });
+              if (error) {
+                setGoogleLoading(false);
+                setError(error.message || 'Google sign-in is unavailable. Please try again.');
+              }
+            }}
+            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-charcoal/15 bg-white hover:bg-cream/60 text-charcoal text-sm font-semibold transition-colors disabled:opacity-60"
+          >
+            {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <svg aria-hidden="true" viewBox="0 0 48 48" className="h-5 w-5"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 3.1 13.22l7.98 6.19C13.01 13.72 18.01 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.9c-.58 2.96-2.26 5.48-4.76 7.18l7.73 6C44.38 37.95 46.98 31.9 46.98 24.55z"/><path fill="#FBBC05" d="M11.08 28.59A14.4 14.4 0 0 1 10.3 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.52 2.58 10.78l8.5-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.9-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.17 2.3-5.99 0-11.07-4.04-12.88-9.49l-8.5 6.19C6.03 43.48 14.34 48 24 48z"/></svg>}
+            <span>{googleLoading ? 'Connecting to Google…' : 'Continue with Google'}</span>
+          </button>
+          <div className="flex items-center gap-3 mt-4"><div className="h-px flex-1 bg-charcoal/10" /><span className="text-[10px] uppercase tracking-widest text-charcoal/40">or continue with email</span><div className="h-px flex-1 bg-charcoal/10" /></div>
         </div>
 
         {/* Form */}
