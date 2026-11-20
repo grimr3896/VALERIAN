@@ -1009,6 +1009,8 @@ export default function App() {
             }}
             prefilledEventName={selectedEventForApplication}
             currentUser={authUser}
+            authToken={authToken}
+            onOpenAuth={(mode) => setAuthModalMode(mode)}
           />
         )}
 
@@ -1086,6 +1088,8 @@ export default function App() {
                 <ContactForm
                   prefilledEventName={selectedEventForApplication}
                   currentUser={authUser}
+                  authToken={authToken}
+                  onOpenAuth={(mode) => setAuthModalMode(mode)}
                   onSuccess={() => {
                     triggerToast("Your application has been securely transmitted!", "success");
                   }}
