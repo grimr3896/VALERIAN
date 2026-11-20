@@ -1,9 +1,21 @@
+import { createClient } from '@supabase/supabase-js';
 import { escapeHtml, insertRow, jsonError, sendTransactionalEmail, validEmail } from '../server/services.js';
 
 const pillars = ['marketplace', 'food', 'exhibitor', 'activation', 'sponsorship'];
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.setHeader('Allow', 'POST'), jsonError(res, 405, 'Method not allowed.');
+  const authorization = typeof req.headers?.authorization === 'string' ? req.headers.authorization : '';
+  const accessToken = authorization.startsWith('Bearer ') ? authorization.slice(7).trim() : '';
+  if (!accessToken) return jsonError(res, 401, 'Please create an account or sign in before submitting an application.');
+  const supabase = createClient(
+    process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '',
+    process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || '',
+    { auth: { persistSession: false, autoRefreshToken: false } }
+  );
+  const { data: authData, error: authError } = await supabase.auth.getUser(accessToken);
+  if (authError || !authData.user) return jsonError(res, 401, 'Your session is invalid or expired. Please sign in again.');
+
   const body = req.body || {};
   const name = typeof body.name === 'string' ? body.name.trim() : '';
   const business = typeof body.businessName === 'string' ? body.businessName.trim() : '';
