@@ -758,6 +758,15 @@ export default function VendorsPage({ onBack, onPageChange, prefilledEventName, 
             <p className="text-xs text-charcoal/65 mt-1 font-light">
               Submit your brand profile and select your preferred opportunity level to receive priority placement review.
             </p>
+            <div className="mt-4 flex items-start gap-3 rounded-xl border border-gold/30 bg-cream/60 p-4 text-left">
+              <ShieldCheck className="h-5 w-5 shrink-0 text-forest mt-0.5" />
+              <div>
+                <p className="text-xs font-bold text-forest">No account required to apply</p>
+                <p className="mt-1 text-xs leading-relaxed text-charcoal/70">
+                  You can submit your application as a guest. Just complete the form below — you do not need to sign up or sign in first. You can create an account later if you want to.
+                </p>
+              </div>
+            </div>
           </div>
 
           {submitted ? (
