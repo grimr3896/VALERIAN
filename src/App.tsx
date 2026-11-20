@@ -15,6 +15,7 @@ import RefundPolicyPage from './components/RefundPolicyPage';
 import VendorPaymentPage from './components/VendorPaymentPage';
 import Accordion from './components/Accordion';
 import ContactForm from './components/ContactForm';
+import { supabase } from './lib/supabase';
 // @ts-ignore
 import foodTruckFestivalImg from './assets/images/food_truck_vendor_festival.jpg';
 import { EVENTS_DATA, VENDOR_CATEGORIES, FAQS_DATA, FOUNDER_DATA } from './data';
@@ -99,6 +100,22 @@ export default function App() {
     }
     triggerToast('You have been logged out.', 'info');
   };
+
+  // Restore OAuth sessions after Google redirects back to the site.
+  useEffect(() => {
+    let mounted = true;
+    const applySession = (session: any) => {
+      if (!mounted || !session?.access_token || !session?.user) return;
+      const profile = session.user.user_metadata || {};
+      const name = String(profile.full_name || profile.name || session.user.email?.split('@')[0] || 'Exhibitor');
+      setAuthUser({ id: session.user.id, name, email: session.user.email || '', businessName: String(profile.business_name || ''), createdAt: session.user.created_at || new Date().toISOString() });
+      setAuthToken(session.access_token);
+      setAuthModalMode(null);
+    };
+    supabase.auth.getSession().then(({ data }) => applySession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => applySession(session));
+    return () => { mounted = false; listener.subscription.unsubscribe(); };
+  }, []);
 
   // URL state synchronization on mount & browser back/forward buttons
   useEffect(() => {
